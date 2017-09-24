@@ -2,7 +2,15 @@ import React, { Component } from 'react';
 
 export default class Login extends Component{
 
-    render(){
-        return <h1>Login</h1>
+    constructor() {
+        super();
+    }
+
+    render() {
+        return(
+            <div class="login_logo">
+                <img src="https://i.imgur.com/WawaXKU.png" alt="FRISS"/>
+            </div>
+        )
     }
 }
