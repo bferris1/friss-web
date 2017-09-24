@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import {Row, Col, Label} from 'reactstrap';
-import {AvForm, AvInput, AvGroup} from 'availity-reactstrap-validation';
-import {PasswordInput, LabeledInput} from './form'
+import {Row, Col} from 'reactstrap';
+import {AvForm} from 'availity-reactstrap-validation';
+import {PasswordInput, LabeledInput, EmailInput} from './form'
 
 export default class Account extends Component{
 
@@ -35,10 +35,7 @@ export default class Account extends Component{
                     </Row>
                     <Row>
                         <Col sm={12}>
-                            <AvGroup>
-                                <Label for="email">Email Address</Label>
-                                <AvInput name="email" id="email" onChange={this.handleChange} value={this.state.email} validate={{email:true}} placeholder="Email"/>
-                            </AvGroup>
+                            <EmailInput value={this.state.email} onChange={this.handleChange}/>
                         </Col>
                     </Row>
                     <Row>
