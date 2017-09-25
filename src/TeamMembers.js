@@ -14,11 +14,13 @@ export default class TeamMembers extends Component{
         });
       }
         return (
-          <table className='table'>
+          <table className='table' style={{marginTop:'30px'}}>
             <thead>
               <tr>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Scouter</th>
+                <th>Data Analizer</th>
               </tr>
             </thead>
             <tbody>

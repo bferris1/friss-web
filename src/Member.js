@@ -10,6 +10,8 @@ export default class TeamMembers extends Component{
             <tr>
               <td>{this.props.member.name}</td>
               <td>{this.props.member.email}</td>
+              <td>{this.props.member.scouter}</td>
+              <td>{this.props.member.dataAnalizer}</td>
             </tr>
         )
     }
