@@ -9,7 +9,7 @@ export default class AddMember extends Component{
   }
 
   handleSubmit(e){
-
+    // input validation
     if(this.refs.name.value === ''){
       alert('Name is required');
     }
@@ -24,6 +24,8 @@ export default class AddMember extends Component{
         dataAnalizer: this.refs.dataAnalizer.checked
       }}, function(){
         //console.log(this.state);
+        // pass state to TeamManagement Component
+        
         this.props.addMember(this.state.newMember);
       });
     e.preventDefault();

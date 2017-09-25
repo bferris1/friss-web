@@ -12,6 +12,7 @@ export default class TeamManagement extends Component{
     }
 
     componentWillMount(){
+      // this is where we will call API for team member population
       this.setState({members: [
         {
           name: 'John Doe',
@@ -29,10 +30,12 @@ export default class TeamManagement extends Component{
     }
 
     handleAddMember(member){
-      //console.log(member);
+      // adding new member to state.
+      // take a newMember form AddMember component
       let members = this.state.members;
       members.push(member);
       this.setState({members:members});
+      // TODO: save in local data for refresh
     }
 
     render(){

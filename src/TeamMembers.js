@@ -8,6 +8,7 @@ export default class TeamMembers extends Component{
       if(this.props.members){
         teamMembers = this.props.members.map(member => {
           //console.log(member);
+          // return a Member compinent to the tbody
           return (
             <Member key={member.email} member={member} />
           );
