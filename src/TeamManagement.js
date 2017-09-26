@@ -8,6 +8,7 @@ export default class TeamManagement extends Component{
     constructor(){
       super();
       this.state = {
+        addForm: false,
         members: []
       }
     }
@@ -38,6 +39,10 @@ export default class TeamManagement extends Component{
       let members = this.state.members;
       members.push(member);
       this.setState({members:members});
+
+      // remove the add member form
+      let addForm = this.state.addForm;
+      this.setState({addForm: false});
       // TODO: save in local data for refresh
     }
 
@@ -52,6 +57,7 @@ export default class TeamManagement extends Component{
       let members = this.state.members;
       let index = members.findIndex(x => x.id === id);
       members[index].scouter = !members[index].scouter;
+      console.log('Scout Permissions Changed: ' + members[index].name + ' ' + members[index].scouter.toString());
       this.setState({members:members});
     }
 
@@ -59,14 +65,32 @@ export default class TeamManagement extends Component{
       let members = this.state.members;
       let index = members.findIndex(x => x.id === id);
       members[index].dataAnalyzer = !members[index].dataAnalyzer;
+      console.log('dataAnalyzer Permissions Changed: ' + members[index].name + ' ' + members[index].dataAnalyzer.toString());
       this.setState({members:members});
     }
 
+    addNewForm(){
+      let addForm = this.state.addForm;
+      this.setState({addForm: true});
+    }
+
+
     render(){
+
+        // Show a link to create new form or a new form but not both.
+        let newForm = null;
+        let newFormLink = <button type='button' className='btn btn-link' onClick={this.addNewForm.bind(this)}>Add Team Member</button>
+        if(this.state.addForm){
+          console.log('adding a new form');
+          newForm = <AddMember addMember={this.handleAddMember.bind(this)} />
+          newFormLink = null;
+        }
+
         return (
           <div className='TeamManagement'>
             <h1>Scouting Team Member Management</h1>
-            <AddMember addMember={this.handleAddMember.bind(this)} />
+            {newFormLink}
+            {newForm}
             <TeamMembers members={this.state.members}
                          onDelete={this.handleDeleteMember.bind(this)}
                          onSetScout={this.handleSetScoutPriv.bind(this)}

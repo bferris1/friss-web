@@ -2,7 +2,16 @@ import React, { Component } from 'react';
 
 export default class TeamMembers extends Component{
   deleteMember(id){
-    this.props.onDelete(id);
+    //alert("this is working");
+    //eslint-disable-next-line
+    let del = confirm("Are you sure you want to remove this team member?");
+    if(del){
+      this.props.onDelete(id);
+    } else {
+      //do nothing
+    }
+    //this.props.onDelete(id);
+
   }
 
   setScoutPriv(id){
@@ -13,25 +22,27 @@ export default class TeamMembers extends Component{
     this.props.onSetDataAna(id);
   }
 
+  //TODO:
+  // style={{//text-align: 'center'}}
+  // {() => {if(confirm('Delete the item?')) {this.deleteMember.bind(this, this.props.member.id)};}}
     render(){
         return (
-          /*<li className='Member'>
-            {this.props.member.name} -- {this.props.member.email}
-          </li>*/
             <tr>
               <td>{this.props.member.name}</td>
               <td>{this.props.member.email}</td>
-              <td><input type='checkbox' value='true' ref='scouterTable'
-                      checked={this.props.member.scouter === true}
+              <td>
+                <input type='checkbox' value='true' ref='scouterTable'
+                      defaultChecked={this.props.member.scouter === true}
                       onClick={this.setScoutPriv.bind(this, this.props.member.id)}
                   />
               </td>
-              <td><input type='checkbox' value='true' ref='dataAnalyzerTable'
-                      checked={this.props.member.dataAnalyzer === true}
+              <td>
+                <input type='checkbox' value='true' ref='dataAnalyzerTable'
+                      defaultChecked={this.props.member.dataAnalyzer === true}
                       onClick={this.setDataAnaPriv.bind(this, this.props.member.id)}
-                  />
+                />
               </td>
-              <td><button type="button" class="btn btn-danger" onClick={this.deleteMember.bind(this, this.props.member.id)}>Remove</button></td>
+              <td><button type='button' className='btn btn-danger' onClick={this.deleteMember.bind(this, this.props.member.id)}>Remove</button></td>
             </tr>
         )
     }
