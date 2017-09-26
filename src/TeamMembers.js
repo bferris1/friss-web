@@ -2,9 +2,18 @@ import React, { Component } from 'react';
 import Member from './Member'
 
 export default class TeamMembers extends Component{
-  deleteMember(id){
-    this.props.onDelete(id);
-  }
+    deleteMember(id){
+      this.props.onDelete(id);
+    }
+
+    setScoutPriv(id){
+      this.props.onSetScout(id);
+    }
+
+    setDataAnaPriv(id){
+      this.props.onSetDataAna(id);
+    }
+
 
     render(){
       let teamMembers;
@@ -13,7 +22,12 @@ export default class TeamMembers extends Component{
           //console.log(member);
           // return a Member compinent to the tbody
           return (
-            <Member onDelete={this.deleteMember.bind(this)} key={member.email} member={member} />
+            <Member onDelete={this.deleteMember.bind(this)}
+                    onSetScout={this.setScoutPriv.bind(this)}
+                    onSetDataAna={this.setDataAnaPriv.bind(this)}
+                    key={member.email}
+                    member={member}
+            />
           );
         });
       }
