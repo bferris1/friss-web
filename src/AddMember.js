@@ -21,11 +21,11 @@ export default class AddMember extends Component{
         name: this.refs.name.value,
         email: this.refs.email.value,
         scouter: this.refs.scouter.checked,
-        dataAnalizer: this.refs.dataAnalizer.checked
+        dataAnalyzer: this.refs.dataAnalyzer.checked
       }}, function(){
         //console.log(this.state);
         // pass state to TeamManagement Component
-        
+
         this.props.addMember(this.state.newMember);
       });
     e.preventDefault();
@@ -34,7 +34,7 @@ export default class AddMember extends Component{
 
     render(){
         return (
-          <div>
+          <div style={{marginTop:'30px'}}>
             <h3>Add Member to Team</h3>
              <form onSubmit={this.handleSubmit.bind(this)}>
               <div className='form-group'>
@@ -55,7 +55,7 @@ export default class AddMember extends Component{
               </div>
               <div className='checkbox'>
                 <label>
-                  <input type='checkbox' value='true' ref='dataAnalizer' /> Data Analizer
+                  <input type='checkbox' value='true' ref='dataAnalyzer' /> Data Analyzer
                 </label>
               </div>
               <input type='submit' className='btn btn-info' value='Submit' />
