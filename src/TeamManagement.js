@@ -10,7 +10,12 @@ export default class TeamManagement extends Component{
       this.state = {
         addForm: false,
         members: []
-      }
+      };
+      this.addNewForm = this.addNewForm.bind(this);
+      this.handleAddMember = this.handleAddMember.bind(this);
+      this.handleDeleteMember = this.handleDeleteMember.bind(this);
+      this.handleSetScoutPriv = this.handleSetScoutPriv.bind(this);
+      this.handleSetDataAnaPriv = this.handleSetDataAnaPriv.bind(this);
     }
 
     componentWillMount(){
@@ -79,10 +84,10 @@ export default class TeamManagement extends Component{
 
         // Show a link to create new form or a new form but not both.
         let newForm = null;
-        let newFormLink = <button type='button' className='btn btn-link' onClick={this.addNewForm.bind(this)}>Add Team Member</button>
+        let newFormLink = <button type='button' className='btn btn-link' onClick={this.addNewForm}>Add Team Member</button>
         if(this.state.addForm){
           console.log('adding a new form');
-          newForm = <AddMember addMember={this.handleAddMember.bind(this)} />
+          newForm = <AddMember addMember={this.handleAddMember} />
           newFormLink = null;
         }
 
@@ -92,9 +97,9 @@ export default class TeamManagement extends Component{
             {newFormLink}
             {newForm}
             <TeamMembers members={this.state.members}
-                         onDelete={this.handleDeleteMember.bind(this)}
-                         onSetScout={this.handleSetScoutPriv.bind(this)}
-                         onSetDataAna={this.handleSetDataAnaPriv.bind(this)}
+                         onDelete={this.handleDeleteMember}
+                         onSetScout={this.handleSetScoutPriv}
+                         onSetDataAna={this.handleSetDataAnaPriv}
             />
           </div>
         );
