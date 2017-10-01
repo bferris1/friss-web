@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import {Row, Col} from 'react-bootstrap';
+import {Row, Col} from 'reactstrap';
 import {Route, NavLink} from 'react-router-dom';
 import Account from './Account'
 import Team from './Team'
