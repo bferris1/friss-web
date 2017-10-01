@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import uuid from 'uuid';
 
-import TeamMembers from './TeamMembers'
+import TeamMembers from './TemMemberTable'
 import AddMember from './AddMember';
 
 export default class TeamManagement extends Component{
