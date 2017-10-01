@@ -3,13 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "bootstrap": "4.0.0-beta",
+    "availity-reactstrap-validation": "^1.4.3",
+    "bootstrap": "4.0.0-alpha.6",
     "material-ui": "^0.19.2",
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.3",
     "react-dom": "^15.6.1",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.0.13"
+    "react-scripts": "1.0.13",
+    "reactstrap": "^4.8.0"
   },
   "scripts": {
     "start": "react-scripts start",

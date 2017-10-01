@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import {Row, Col} from 'react-bootstrap';
+import {Row, Col} from 'reactstrap';
 import {Route, NavLink} from 'react-router-dom';
 import Account from './Account'
 import Team from './Team';
@@ -16,7 +16,7 @@ export default class Layout extends Component{
                         <ul className="nav flex-column nav-fill nav-pills">
                             <NavLink className="nav-link" exact to="/" activeClassName="active">Home</NavLink>
                             <NavLink className="nav-link" to="/team" activeClassName="active">Team</NavLink>
-                                <NavLink className="nav-link" to="/account" activeClassName="active">Account</NavLink>
+                            <NavLink className="nav-link" to="/account" activeClassName="active">Account</NavLink>
                         </ul>
                     </Col>
 
