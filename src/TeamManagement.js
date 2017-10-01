@@ -46,7 +46,6 @@ export default class TeamManagement extends Component{
       this.setState({members:members});
 
       // remove the add member form
-      let addForm = this.state.addForm;
       this.setState({addForm: false});
       // TODO: save in local data for refresh
     }
@@ -75,7 +74,6 @@ export default class TeamManagement extends Component{
     }
 
     addNewForm(){
-      let addForm = this.state.addForm;
       this.setState({addForm: true});
     }
 
