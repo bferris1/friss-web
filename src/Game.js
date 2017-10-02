@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import uuid from 'uuid';
 import {Button} from 'reactstrap';
 
-import NewGameForm from './NewGameForm';
+import NewGameForm from './NewGameForm'
+import GameCardGrid from './GameCardGrid'
 
 export default class Game extends Component{
 
@@ -23,8 +25,10 @@ export default class Game extends Component{
 
     handleAddGame(game){
       let games = this.state.games;
+      game.id = uuid.v4();
       games.push(game);
       this.setState({games:games});
+      this.setState({addForm:false});
       console.log(game);
     }
 
@@ -44,6 +48,7 @@ export default class Game extends Component{
             <h1>Create Games</h1>
             {newFormLink}
             {newForm}
+            <GameCardGrid games={this.state.games} />
           </div>
         )
     }
