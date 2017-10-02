@@ -3,8 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import {Row, Col} from 'reactstrap';
 import {Route, NavLink} from 'react-router-dom';
 import Account from './Account'
-import Team from './Team'
-import TeamManagement from './TeamManagement';
+import Team from './Team/Team'
+import TeamManagement from './Team/TeamManagement';
 
 
 export default class Layout extends Component{
