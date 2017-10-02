@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Member from './TeamMemberRow'
 
-export default class TeamMembers extends Component{
+export default class TeamMembersTable extends Component{
 
     render(){
         let teamMembers;

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import uuid from 'uuid';
 
 import TeamMembers from './TeamMemberTable'
-import AddMember from './AddMember';
+import AddMemberForm from './AddMemberForm';
 
 export default class TeamManagement extends Component{
     constructor(){
@@ -39,8 +39,9 @@ export default class TeamManagement extends Component{
 
     handleAddMember(member){
         // adding new member to state.
-        // take a newMember form AddMember component
+        // take a newMember from AddMemberForm component
         let members = this.state.members;
+        member.id = uuid.v4();
         members.push(member);
         this.setState({members:members});
 
@@ -80,7 +81,7 @@ export default class TeamManagement extends Component{
         let newFormLink = <button type='button' className='btn btn-link' onClick={this.addNewForm}>Add Team Member</button>
         if(this.state.addForm){
             console.log('adding a new form');
-            newForm = <AddMember addMember={this.handleAddMember} />
+            newForm = <AddMemberForm addMember={this.handleAddMember} />
             newFormLink = null;
         }
 
