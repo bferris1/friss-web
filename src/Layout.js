@@ -5,6 +5,7 @@ import {Route, NavLink} from 'react-router-dom';
 import Account from './Account'
 import Game from './Game'
 import Team from './Team';
+import GameDetails from "./GameDetails";
 
 
 export default class Layout extends Component{
@@ -24,7 +25,8 @@ export default class Layout extends Component{
 
                     <Col sm={8}>
                         <Route path={"/account"} component={Account}/>
-                        <Route path={"/game"} component={Game}/>
+                        <Route exact path={"/game"} component={Game}/>
+                        <Route path={"/game/:gameId"} component={GameDetails}/>
                         <Route path={"/team"} component={Team}/>
                     </Col>
                 </Row>

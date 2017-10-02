@@ -1,5 +1,6 @@
 import React from 'react';
 import {Col, Card, CardBlock, CardTitle, CardText, Button} from 'reactstrap'
+import {Link} from 'react-router-dom';
 
 export const LabeledCard = (props) => {
   return (
@@ -8,7 +9,8 @@ export const LabeledCard = (props) => {
         <CardBlock>
           <CardTitle>{props.title}</CardTitle>
           <CardText>{props.description}</CardText>
-          <Button color="primary" onClick={props.onClick}>{props.buttonText}</Button>
+            <Link className={"btn btn-block btn-primary"} to={props.link}>{props.buttonText}</Link>
+          {/*<Button color="primary" onClick={props.onClick}>{props.buttonText}</Button>*/}
         </CardBlock>
       </Card>
     </Col>
