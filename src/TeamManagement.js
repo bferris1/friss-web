@@ -81,7 +81,7 @@ export default class TeamManagement extends Component{
         let newFormLink = <button type='button' className='btn btn-link' onClick={this.addNewForm}>Add Team Member</button>
         if(this.state.addForm){
             console.log('adding a new form');
-            newForm = <AddMemberForm addMember={this.handleAddMember} />
+            newForm = <AddMemberForm addMember={this.handleAddMember} />;
             newFormLink = null;
         }
 

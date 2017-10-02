@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Member from './TeamMemberRow'
+import {TeamMemberRow as Member} from './TeamMemberRow'
 
 export default class TeamMembersTable extends Component{
 
