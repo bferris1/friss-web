@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Row, Col, Button} from 'reactstrap';
 import {AvForm} from 'availity-reactstrap-validation';
+import {Link} from 'react-router-dom';
 import {EmailInput, PasswordInput, LabeledInput} from "./form";
 
 export default class Signup extends Component{
@@ -48,6 +49,7 @@ export default class Signup extends Component{
                             </Col>
                         </Row>
                     </AvForm>
+                    <Link to={"/login"}>Log In</Link>
                 </Col>
             </Row>
         )
