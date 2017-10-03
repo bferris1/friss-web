@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import './Login.css';
 import {Row, Col, Button} from 'reactstrap';
 import {Link} from 'react-router-dom';
 import {EmailInput, PasswordInput} from './form';
@@ -32,7 +31,7 @@ export default class Login extends Component {
                         <PasswordInput value={this.state.password} onChange={this.handleChange}/>
                         <Button type={"submit"} block={true} color="primary">Log In</Button>
                         <div className="links-container">
-                            <Link to="/signup">Sign Up</Link>
+                            <Link to="/signup">Sign Up</Link><br/>
                             <Link to="/forgot">Forgot Password?</Link>
                         </div>
                     </AvForm>
