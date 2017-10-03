@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './Login.css';
 import {Row, Col, Button} from 'reactstrap';
+import {Link} from 'react-router-dom';
 import {EmailInput, PasswordInput} from './form';
 import {AvForm} from 'availity-reactstrap-validation';
 export default class Login extends Component {
@@ -31,8 +32,8 @@ export default class Login extends Component {
                         <PasswordInput value={this.state.password} onChange={this.handleChange}/>
                         <Button type={"submit"} block={true} color="primary">Log In</Button>
                         <div className="links-container">
-                            <a href="/signup">Sign Up</a>
-                            <a href="/forgot">Forgot Password?</a>
+                            <Link to="/signup">Sign Up</Link>
+                            <Link to="/forgot">Forgot Password?</Link>
                         </div>
                     </AvForm>
                 </Col>
