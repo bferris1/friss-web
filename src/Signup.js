@@ -17,6 +17,18 @@ export default class Signup extends Component{
     }
     handleSubmit(e){
         console.log(this.state);
+
+        let headers = new Headers();
+        headers.append("Content-Type", "application/json");
+
+        fetch("/api/auth/register",
+            {
+                method: "POST",
+                headers:headers,
+                body: JSON.stringify(this.state)
+            })
+            .then((response)=>{return response.json()})
+            .then(console.log)
     }
 
     render(){
