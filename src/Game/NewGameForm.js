@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import uuid from 'uuid';
 import {Form, Button} from 'reactstrap';
 
-import {LabeledInput} from './form';
+import {LabeledInput} from '../form';
 
 export default class AddMember extends Component{
   constructor(){

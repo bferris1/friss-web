@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Row, Col} from 'reactstrap';
 
-import {LabeledCard} from './Card'
+import {LabeledCard} from '../Card'
 
 export default class GameCardGrid extends Component{
 

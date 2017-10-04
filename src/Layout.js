@@ -3,9 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import {Row, Col} from 'reactstrap';
 import {Route, NavLink} from 'react-router-dom';
 import Account from './Account'
-import Game from './Game'
+import Game from './Game/Game'
 import Team from './Team';
-import GameDetails from "./GameDetails";
+import GameDetails from "./Game/GameDetails";
 import TeamDetails from "./TeamDetails";
 
 
