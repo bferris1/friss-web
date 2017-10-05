@@ -8,9 +8,12 @@ export default class GameDetails extends Component {
     constructor() {
         super();
 
+        // TODO: Remove sample metric.
+        // Sample metric.
         const metric1 = {name: "Test", type: "String", category: "Autonomous"};
 
         this.state = {
+            newMetric: {},
             modal: false,
             showsAddMetricForm: false,
             metrics: [metric1] // TODO: Connect to backend.
@@ -20,7 +23,17 @@ export default class GameDetails extends Component {
         this.toggle = this.toggle.bind(this);
     }
 
-    toggle() {
+    toggle(metric) {
+        // TODO: Add metric to table.
+        /*
+        if (metric) {
+            let metrics = this.state.metrics;
+            metrics.append(metric);
+            this.setState({
+                metrics: metrics
+            });
+        }*/
+
         this.setState({
             modal: !this.state.modal
         });
@@ -33,17 +46,12 @@ export default class GameDetails extends Component {
     }
 
     render() {
-
         const addMetricModal = (
             <Modal isOpen={this.state.modal} toggle={this.toggle}>
                 <ModalHeader toggle={this.toggle}>Add New Metric</ModalHeader>
                 <ModalBody>
-                    <MetricForm/>
+                    <MetricForm submitHandler={() => this.toggle}/>
                 </ModalBody>
-                <ModalFooter>
-                    <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '}
-                    <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-                </ModalFooter>
             </Modal>
         );
         const addMetricButton = <Button color="link" onClick={this.handleClick}>Add Metric</Button>;

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 export default class MetricForm extends Component {
 
@@ -7,24 +7,28 @@ export default class MetricForm extends Component {
         super(props);
 
         this.state = {
-            name: null,
-            category: null,
-            type: null,
-            isValidMetric: false
+            name: "",
+            category: "Autonomous Mode",
+            type: "Integer"
         };
 
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(e) {
+        this.setState({[e.target.id]: e.target.value});
     }
 
     render() {
         return (
-            <Form>
+            <Form onSubmit={this.props.submitHandler(this.state)}>
                 <FormGroup>
                     <Label for="name">Metric Name</Label>
-                    <Input id="name" />
+                    <Input id="name" onInput={this.handleChange}/>
                 </FormGroup>
                 <FormGroup>
                     <Label for="category">Metric Category</Label>
-                    <Input type="select" name="select" id="category">
+                    <Input type="select" id="category" onChange={this.handleChange}>
                         <option>Autonomous Mode</option>
                         <option>Tele-operated Mode</option>
                         <option>Add New Category</option>
@@ -32,12 +36,13 @@ export default class MetricForm extends Component {
                 </FormGroup>
                 <FormGroup>
                     <Label for="type">Metric Category</Label>
-                    <Input type="select" name="select" id="type">
+                    <Input type="select" id="type" onChange={this.handleChange}>
                         <option>Integer</option>
                         <option>Double</option>
                         <option>String</option>
                     </Input>
                 </FormGroup>
+                <Input type="submit"/>
             </Form>
         )
     }
