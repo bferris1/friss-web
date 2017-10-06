@@ -79,7 +79,7 @@ export default class MetricForm extends Component {
         <FormGroup>
           <Label for="options">options</Label>
           {this.state.options.map((option, idx) => (
-            <div className="checkboxList">
+            <div key={idx} className="checkboxList">
               <input
                 type="text"
                 placeholder={`Checkbox #${idx + 1} label`}
