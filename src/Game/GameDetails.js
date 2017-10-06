@@ -5,8 +5,8 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 export default class GameDetails extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         // TODO: Remove sample metric.
         // Sample metric.
@@ -15,34 +15,38 @@ export default class GameDetails extends Component {
         this.state = {
             newMetric: {},
             modal: false,
-            showsAddMetricForm: false,
+            // showsAddMetricForm: false,
             metrics: [metric1] // TODO: Connect to backend.
         };
 
         this.handleClick = this.handleClick.bind(this);
+        this.handleAddMetric = this.handleAddMetric.bind(this);
         this.toggle = this.toggle.bind(this);
     }
 
-    toggle(metric) {
-        // TODO: Add metric to table.
-        /*
-        if (metric) {
-            let metrics = this.state.metrics;
-            metrics.append(metric);
-            this.setState({
-                metrics: metrics
-            });
-        }*/
+    toggle() {
 
         this.setState({
             modal: !this.state.modal
         });
     }
 
+    handleAddMetric(metric){
+
+        if (metric) {
+            let metrics = this.state.metrics;
+            metrics.push(metric);
+            this.setState({
+                metrics: metrics
+            });
+        }
+        this.toggle();
+    }
+
     handleClick(e) {
         e.preventDefault();
-        this.setState({ showsAddMetricForm: true });
-        this.toggle()
+        // this.setState({ showsAddMetricForm: true });
+        this.toggle();
     }
 
     render() {
@@ -50,13 +54,13 @@ export default class GameDetails extends Component {
             <Modal isOpen={this.state.modal} toggle={this.toggle}>
                 <ModalHeader toggle={this.toggle}>Add New Metric</ModalHeader>
                 <ModalBody>
-                    <MetricForm submitHandler={() => this.toggle}/>
+                    <MetricForm onSubmit={this.handleAddMetric}/>
                 </ModalBody>
             </Modal>
         );
         const addMetricButton = <Button color="link" onClick={this.handleClick}>Add Metric</Button>;
-        const metricRows = this.state.metrics.map((metric) =>
-            <tr>
+        const metricRows = this.state.metrics.map((metric, index) =>
+            <tr key={index}>
                 <td>
                     {metric.name}
                 </td>

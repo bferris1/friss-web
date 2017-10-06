@@ -19,9 +19,14 @@ export default class MetricForm extends Component {
         this.setState({[e.target.id]: e.target.value});
     }
 
+    handleSubmit(e){
+        e.preventDefault();
+        this.props.onSubmit(this.state);
+    }
+
     render() {
         return (
-            <Form onSubmit={this.props.submitHandler(this.state)}>
+            <Form onSubmit={(e)=>{e.preventDefault(); this.props.onSubmit(this.state)}}>
                 <FormGroup>
                     <Label for="name">Metric Name</Label>
                     <Input id="name" onInput={this.handleChange}/>
