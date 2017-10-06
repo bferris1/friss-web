@@ -1,22 +1,18 @@
 import React, {Component} from 'react';
 import {Table, Button} from 'reactstrap';
 import MetricForm from './MetricForm';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 
 export default class GameDetails extends Component {
 
     constructor(props) {
         super(props);
 
-        // TODO: Remove sample metric.
-        // Sample metric.
-        const metric1 = {name: "Test", type: "String", category: "Autonomous"};
-
         this.state = {
-            newMetric: {},
+            metric: {name: "", category: "Autonomous Mode", type: "Integer"},
+            selectedIndex: -1,
             modal: false,
-            // showsAddMetricForm: false,
-            metrics: [metric1] // TODO: Connect to backend.
+            metrics: [] // TODO: Connect to backend.
         };
 
         this.handleClick = this.handleClick.bind(this);
@@ -26,25 +22,33 @@ export default class GameDetails extends Component {
     }
 
     toggle() {
-
         this.setState({
             modal: !this.state.modal
         });
     }
 
-    handleAddMetric(metric){
-
-        if (metric) {
+    handleAddMetric(metric) {
+        // Handle Add.
+        if (this.state.selectedIndex === -1) {
             let metrics = this.state.metrics;
             metrics.push(metric);
             this.setState({
                 metrics: metrics
             });
         }
+        // Handle Edit.
+        else {
+            let metrics = this.state.metrics;
+            metrics[this.state.selectedIndex] = metric;
+            this.setState({
+                metrics: metrics,
+                selectedIndex: -1
+            });
+        }
         this.toggle();
     }
 
-    handleDeleteMetric(metric){
+    handleDeleteMetric(metric) {
         // eslint-disable-next-line
         let del = confirm("Are you sure you want to remove the metric \"" + metric.name + "\" from the game?");
         if(!del){
@@ -54,27 +58,26 @@ export default class GameDetails extends Component {
             return candidate !== metric;
         });
         this.setState({metrics:metrics});
-        //this.toggle();
     }
-
 
     handleClick(e) {
         e.preventDefault();
-        // this.setState({ showsAddMetricForm: true });
+        this.setState({
+            metric: {name: "", category: "Autonomous Mode", type: "Integer"}
+        });
         this.toggle();
     }
-
-    handleDeleteMetric
 
     render() {
         const addMetricModal = (
             <Modal isOpen={this.state.modal} toggle={this.toggle}>
-                <ModalHeader toggle={this.toggle}>Add New Metric</ModalHeader>
+                <ModalHeader toggle={this.toggle}>Add/Edit Metric</ModalHeader>
                 <ModalBody>
-                    <MetricForm onSubmit={this.handleAddMetric}/>
+                    <MetricForm onSubmit={this.handleAddMetric} metric={this.state.metric}/>
                 </ModalBody>
             </Modal>
         );
+
         const addMetricButton = <Button color="link" onClick={this.handleClick}>Add Metric</Button>;
         const metricRows = this.state.metrics.map((metric, index) =>
             <tr key={index}>
@@ -88,6 +91,7 @@ export default class GameDetails extends Component {
                     {metric.type}
                 </td>
                 <td>
+                    <Button onClick={()=>{this.toggle(); this.setState({metric:this.state.metrics[index], selectedIndex: index})}}>Edit</Button>
                     <Button color="danger" onClick={()=>{this.handleDeleteMetric(metric)}}>Delete</Button>
                 </td>
             </tr>
@@ -102,7 +106,7 @@ export default class GameDetails extends Component {
                             <th>Metric Name</th>
                             <th>Metric Category</th>
                             <th>Metric Type</th>
-                            <th>Delete Metric</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
