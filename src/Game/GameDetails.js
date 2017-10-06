@@ -21,6 +21,7 @@ export default class GameDetails extends Component {
 
         this.handleClick = this.handleClick.bind(this);
         this.handleAddMetric = this.handleAddMetric.bind(this);
+        this.handleDeleteMetric = this.handleDeleteMetric.bind(this);
         this.toggle = this.toggle.bind(this);
     }
 
@@ -43,11 +44,27 @@ export default class GameDetails extends Component {
         this.toggle();
     }
 
+    handleDeleteMetric(metric){
+        // eslint-disable-next-line
+        let del = confirm("Are you sure you want to remove the metric \"" + metric.name + "\" from the game?");
+        if(!del){
+            return;
+        }
+        let metrics = this.state.metrics.filter(function (candidate) {
+            return candidate !== metric;
+        });
+        this.setState({metrics:metrics});
+        //this.toggle();
+    }
+
+
     handleClick(e) {
         e.preventDefault();
         // this.setState({ showsAddMetricForm: true });
         this.toggle();
     }
+
+    handleDeleteMetric
 
     render() {
         const addMetricModal = (
@@ -70,6 +87,9 @@ export default class GameDetails extends Component {
                 <td>
                     {metric.type}
                 </td>
+                <td>
+                    <Button color="danger" onClick={()=>{this.handleDeleteMetric(metric)}}>Delete</Button>
+                </td>
             </tr>
         );
         return (
@@ -82,6 +102,7 @@ export default class GameDetails extends Component {
                             <th>Metric Name</th>
                             <th>Metric Category</th>
                             <th>Metric Type</th>
+                            <th>Delete Metric</th>
                         </tr>
                     </thead>
                     <tbody>
