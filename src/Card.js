@@ -1,5 +1,5 @@
 import React from 'react';
-import {Col, Card, CardBlock, CardTitle, CardText, Button} from 'reactstrap'
+import {Col, Card, CardBlock, CardTitle, CardText} from 'reactstrap'
 import {Link} from 'react-router-dom';
 
 export const LabeledCard = (props) => {

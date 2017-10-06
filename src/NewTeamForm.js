@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import uuid from 'uuid';
 import {Form, Button} from 'reactstrap';
 
 import {LabeledInput} from './form';
