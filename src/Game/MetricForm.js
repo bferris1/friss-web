@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
-import {LabeledInput} from '../form'
+import {LabeledInput,UnlabeledInput} from '../form'
 
 export default class MetricForm extends Component {
 
@@ -10,19 +10,49 @@ export default class MetricForm extends Component {
         this.state = {
             name: "",
             category: "Autonomous Mode",
-            type: "Integer"
+            type: "Integer",
+            options: [{ name: '' }],
         };
 
         this.handleChange = this.handleChange.bind(this);
+        this.resetOptions = this.resetOptions.bind(this);
     }
 
     handleChange(e) {
         this.setState({[e.target.id]: e.target.value});
+        this.resetOptions();
     }
 
     handleSubmit(e){
         e.preventDefault();
         this.props.onSubmit(this.state);
+    }
+
+    handleOptionNameChange = (idx) => (evt) => {
+      const newOptions = this.state.options.map((option, sidx) => {
+        if (idx !== sidx) return option;
+        return { ...option, name: evt.target.value };
+      });
+
+      this.setState({ options: newOptions });
+    }
+
+    handleAddOption = () => {
+      this.setState({
+        options: this.state.options.concat([{ name: '' }])
+      });
+    }
+
+    handleRemoveOption = (idx) => () => {
+      this.setState({
+        options: this.state.options.filter((s, sidx) => idx !== sidx)
+      });
+    }
+
+    resetOptions(){
+      this.setState({
+        options: [{ name: '' }]
+      });
     }
 
     render() {
@@ -39,6 +69,30 @@ export default class MetricForm extends Component {
           <LabeledInput label={"Text Area Placeholder"} name={"placeholder"} id={"placeholder"} type={"text"} />
         </div>
       );
+      const stopwatchForm = (
+        <div>
+          <LabeledInput label={"Max Time (blank for no limit)"} name={"maxTime"} id={"maxTime"} type={"time"} />
+        </div>
+      );
+      let checkBoxListForm = (
+        <FormGroup>
+          <Label for="options">options</Label>
+          {this.state.options.map((option, idx) => (
+            <div className="checkboxList">
+              <input
+                type="text"
+                placeholder={`Checkbox #${idx + 1} label`}
+                value={option.name}
+                onChange={this.handleOptionNameChange(idx)}
+              />
+              <button type="button" onClick={this.handleRemoveOption(idx)} className="small">-</button>
+            </div>
+          ))}
+            <button type="button" onClick={this.handleAddOption} className="small">Add Checkbox</button>
+        </FormGroup>
+      )
+
+
 
       if(this.state.type === "Integer" || this.state.type === "Double"){
         extraForm = numberForm;
@@ -46,6 +100,13 @@ export default class MetricForm extends Component {
       else if(this.state.type === "String"){
         extraForm = stringForm;
       }
+      else if(this.state.type === "Stopwatch"){
+        extraForm = stopwatchForm;
+      }
+      else if(this.state.type === "Checkbox"){
+        extraForm = checkBoxListForm;
+      }
+
         return (
             <Form onSubmit={(e)=>{e.preventDefault(); this.props.onSubmit(this.state)}}>
                 <FormGroup>
@@ -67,7 +128,7 @@ export default class MetricForm extends Component {
                         <option>Double</option>
                         <option>String</option>
                         <option>Stopwatch</option>
-                        <option>CheckBox</option>
+                        <option>Checkbox</option>
 
                     </Input>
                 </FormGroup>
