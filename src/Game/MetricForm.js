@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import {LabeledInput} from '../form'
 
 export default class MetricForm extends Component {
 
@@ -25,6 +26,26 @@ export default class MetricForm extends Component {
     }
 
     render() {
+      let extraForm = null;
+      const numberForm = (
+        <div>
+          <LabeledInput label={"Default value"} name={"defVal"} id={"defVal"} type={"number"} />
+          <LabeledInput label={"Minium value"} name={"minVal"} id={"minVal"} type={"number"} />
+          <LabeledInput label={"Maxuim value"} name={"maxVal"} id={"maxVal"} type={"number"} />
+        </div>
+      );
+      const stringForm = (
+        <div>
+          <LabeledInput label={"Text Area Placeholder"} name={"placeholder"} id={"placeholder"} type={"text"} />
+        </div>
+      );
+
+      if(this.state.type === "Integer" || this.state.type === "Double"){
+        extraForm = numberForm;
+      }
+      else if(this.state.type === "String"){
+        extraForm = stringForm;
+      }
         return (
             <Form onSubmit={(e)=>{e.preventDefault(); this.props.onSubmit(this.state)}}>
                 <FormGroup>
@@ -45,8 +66,12 @@ export default class MetricForm extends Component {
                         <option>Integer</option>
                         <option>Double</option>
                         <option>String</option>
+                        <option>Stopwatch</option>
+                        <option>CheckBox</option>
+
                     </Input>
                 </FormGroup>
+                {extraForm}
                 <Input type="submit"/>
             </Form>
         )
