@@ -26,6 +26,7 @@ export default class Layout extends Component{
                         <Route path={"/account"} component={Account}/>
                         <Route path={"/team-management"} component={TeamManagement}/>
                         <Route path={"/team"} component={Team}/>
+                        <Route path={"/team/:teamId"} component={TeamDetails}/>
                     </Col>
                 </Row>
             </div>
