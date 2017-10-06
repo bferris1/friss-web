@@ -32,3 +32,23 @@ export const LabeledInput = (props) => {
         </FormGroup>
     )
 };
+
+export const UnlabeledInput = (props) => {
+    return (
+        <FormGroup >
+            <Input name={props.name} type={props.type} id={props.id}
+                   value={props.value} onChange={props.onChange}
+                   placeholder={props.placeholder}/>
+        </FormGroup>
+    )
+};
+
+export const LabledCheckbox = (props) => {
+    return (
+        <FormGroup >
+            <Input name={props.name} type={props.type} id={props.id}
+                   value={props.value} onChange={props.onChange}
+                   placeholder={props.placeholder}/>
+        </FormGroup>
+    )
+};
