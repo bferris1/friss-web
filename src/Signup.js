@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Row, Col, Button} from 'reactstrap';
 import {AvForm} from 'availity-reactstrap-validation';
+import {Link} from 'react-router-dom';
 import {EmailInput, PasswordInput, LabeledInput} from "./form";
 
 export default class Signup extends Component{
@@ -16,6 +17,18 @@ export default class Signup extends Component{
     }
     handleSubmit(e){
         console.log(this.state);
+
+        let headers = new Headers();
+        headers.append("Content-Type", "application/json");
+
+        fetch("/api/auth/register",
+            {
+                method: "POST",
+                headers:headers,
+                body: JSON.stringify(this.state)
+            })
+            .then((response)=>{return response.json()})
+            .then(console.log)
     }
 
     render(){
@@ -48,6 +61,7 @@ export default class Signup extends Component{
                             </Col>
                         </Row>
                     </AvForm>
+                    <Link to={"/login"}>Log In</Link>
                 </Col>
             </Row>
         )
