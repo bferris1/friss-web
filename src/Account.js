@@ -2,19 +2,24 @@ import React, { Component } from 'react';
 import {Row, Col, Button} from 'reactstrap';
 import {AvForm} from 'availity-reactstrap-validation';
 import {PasswordInput, LabeledInput, EmailInput} from './form'
+import Auth from './AuthCtrl';
 
 export default class Account extends Component{
 
     constructor(props){
         super(props);
         //dummy data
-        this.state={firstName:'First Name',lastName:'Last Name',email:'email@domain.edu', password:""};
+        this.state={firstName:'',lastName:'',email:'', password:""};
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount() {
         //fetch account information to populate form
+        Auth.get('/api/account').then((response)=>{
+            console.log(response);
+            this.setState(response.user);
+        })
     }
 
     handleChange(e){
@@ -22,7 +27,7 @@ export default class Account extends Component{
     }
 
     handleSubmit(){
-        console.log(this.state);
+        Auth.post('/api/account/profile', this.state).then(console.log);
     }
 
     render(){

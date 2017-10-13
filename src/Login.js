@@ -3,18 +3,20 @@ import {Row, Col, Button} from 'reactstrap';
 import {Link} from 'react-router-dom';
 import {EmailInput, PasswordInput} from './form';
 import {AvForm} from 'availity-reactstrap-validation';
+import Auth from './AuthCtrl';
 export default class Login extends Component {
 
     constructor(props){
         super (props);
         this.handleLogin = this.handleLogin.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.state = {};
+        this.state = {email:"", password:""};
 
     }
 
     handleLogin(){
         console.log(this.state);
+        Auth.login(this.state.email, this.state.password).then(console.log);
     }
 
     handleChange(e){
