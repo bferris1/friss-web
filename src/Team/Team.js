@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import uuid from 'uuid';
 import {Button} from 'reactstrap';
-import NewTeamForm from './NewTeamForm';
-import TeamCardGrid from './TeamCardGrid';
+import NewTeamForm from '../NewTeamForm';
+import TeamCardGrid from '../TeamCardGrid';
 
 export default class Team extends Component {
     constructor() {

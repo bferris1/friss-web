@@ -5,6 +5,7 @@ import {Route, NavLink} from 'react-router-dom';
 import Account from './Account'
 import Team from './Team/Team'
 import TeamManagement from './Team/TeamManagement';
+import TeamDetails from './TeamDetails';
 
 
 export default class Layout extends Component{
