@@ -6,6 +6,8 @@ import Account from './Account'
 import Team from './Team/Team'
 import TeamManagement from './Team/TeamManagement';
 import TeamDetails from './TeamDetails';
+import Game from './Game/Game';
+import GameDetails from './Game/GameDetails';
 
 
 export default class Layout extends Component{
@@ -20,14 +22,18 @@ export default class Layout extends Component{
                             <NavLink className="nav-link" to="/team" activeClassName="active">Team</NavLink>
                             <NavLink className="nav-link" to="/team-management" activeClassName="active">Team Management</NavLink>
                             <NavLink className="nav-link" to="/account" activeClassName="active">Account</NavLink>
+                            <NavLink className="nav-link" to="/game" activeClassName="active">Game</NavLink>
                         </ul>
                     </Col>
 
                     <Col sm={8}>
                         <Route path={"/account"} component={Account}/>
                         <Route path={"/team-management"} component={TeamManagement}/>
-                        <Route path={"/team"} component={Team}/>
+                        <Route exact path={"/team"} component={Team}/>
                         <Route path={"/team/:teamId"} component={TeamDetails}/>
+                        <Route exact path={'/game'} component={Game}/>
+                        <Route path={'/game/:gameId'} component={GameDetails}/>
+
                     </Col>
                 </Row>
             </div>
