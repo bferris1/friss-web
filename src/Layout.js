@@ -8,6 +8,7 @@ import TeamManagement from './Team/TeamManagement';
 import TeamDetails from './TeamDetails';
 import Game from './Game/Game';
 import GameDetails from './Game/GameDetails';
+import Event from './Event/Event';
 
 
 export default class Layout extends Component{
@@ -33,7 +34,7 @@ export default class Layout extends Component{
                         <Route path={"/team/:teamId"} component={TeamDetails}/>
                         <Route exact path={'/game'} component={Game}/>
                         <Route path={'/game/:gameId'} component={GameDetails}/>
-
+						<Route exact path={'/event'} component={Event}/>
                     </Col>
                 </Row>
             </div>
