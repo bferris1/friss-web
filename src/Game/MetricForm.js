@@ -67,7 +67,7 @@ export default class MetricForm extends Component {
       );
       const stringForm = (
         <div>
-          <LabeledInput label={"Text Area Placeholder"} name={"placeholder"} id={"placeholder"} type={"text"} />
+          <LabeledInput label={"Text Area Placeholder"} onChange={this.handleChange} name={"placeholder"} id={"placeholder"} type={"text"} />
         </div>
       );
       const stopwatchForm = (
@@ -110,29 +110,20 @@ export default class MetricForm extends Component {
 
         return (
             <Form onSubmit={(e)=>{e.preventDefault(); this.props.onSubmit(this.state)}}>
-                <FormGroup>
-                    <Label for="name">Metric Name</Label>
-                    <Input id="name" value={this.state.name} onInput={this.handleChange}/>
-                </FormGroup>
-                <FormGroup>
-                    <Label for="category">Metric Category</Label>
-                    <Input type="select" value={this.state.category} id="category" onChange={this.handleChange}>
-                        <option>Autonomous Mode</option>
-                        <option>Tele-operated Mode</option>
-                        <option>Add New Category</option>
-                    </Input>
-                </FormGroup>
-                <FormGroup>
-                    <Label for="type">Metric Type</Label>
-                    <Input type="select" value={this.state.type} id="type" onChange={this.handleChange}>
-                        <option>Integer</option>
-                        <option>Double</option>
-                        <option>String</option>
-                        <option>Stopwatch</option>
-                        <option>Checkbox</option>
-                    </Input>
-                </FormGroup>
-                {extraForm}
+                <LabeledInput name={"name"} id={"name"} label={"Metric Name"} type={"text"} value={this.state.name} onChange={this.handleChange}/>
+                <LabeledInput name={"category"} type={"select"} value={this.state.category} label={"Metric Category"} id={"category"} onChange={this.handleChange}>
+                    <option>Autonomous Mode</option>
+                    <option>Tele-operated Mode</option>
+                    <option>Add New Category</option>
+                </LabeledInput>
+                <LabeledInput type={"select"} label={"Metric Type"} value={this.state.type} id={"type"} onChange={this.handleChange}>
+                    <option>Integer</option>
+                    <option>Double</option>
+                    <option>String</option>
+                    <option>Stopwatch</option>
+                    <option>Checkbox</option>
+                </LabeledInput>
+                {/*{extraForm}*/}
                 <Input type="submit"/>
             </Form>
         )
