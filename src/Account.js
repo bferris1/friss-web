@@ -1,30 +1,40 @@
 import React, { Component } from 'react';
-import {Row, Col} from 'reactstrap';
+import {Row, Col, Button} from 'reactstrap';
 import {AvForm} from 'availity-reactstrap-validation';
 import {PasswordInput, LabeledInput, EmailInput} from './form'
+import Auth from './AuthCtrl';
 
 export default class Account extends Component{
 
     constructor(props){
         super(props);
         //dummy data
-        this.state={firstName:'Ben',lastName:'Ferris',email:'me@domain.edu', password:""};
+        this.state={firstName:'',lastName:'',email:'', password:""};
         this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    componentDidMount(){
-        console.log("mounted")
+    componentDidMount() {
+        //fetch account information to populate form
+        Auth.get('/api/account').then((response)=>{
+            console.log(response);
+            this.setState(response.user);
+        })
     }
 
     handleChange(e){
         this.setState({[e.target.name]:e.target.value});
     }
 
+    handleSubmit(){
+        Auth.post('/api/account/profile', this.state).then(console.log);
+    }
+
     render(){
         return (<div>
                 <h1>Your Account</h1>
                 <p>You are logged in as {this.state.firstName} {this.state.lastName}</p>
-                <AvForm>
+                <AvForm onSubmit={this.handleSubmit}>
                     <Row>
                         <Col sm={6}>
                             <LabeledInput name="firstName" label={"First Name"} value={this.state.firstName} onChange={this.handleChange}/>
@@ -43,6 +53,7 @@ export default class Account extends Component{
                             <PasswordInput value={this.state.password} onChange={this.handleChange}/>
                         </Col>
                     </Row>
+                    <Button type={"submit"} block={true} color={"primary"}>Save Changes</Button>
                 </AvForm>
             </div>
         )

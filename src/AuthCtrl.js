@@ -1,0 +1,63 @@
+export default  {
+    get(endpoint){
+        let headers = new Headers();
+        headers.append("Authorization", localStorage.getItem("token"));
+        let options = {
+            method:"GET",
+            headers:headers,
+        };
+        return fetch(endpoint, options).then((response)=>{
+            if (response.ok)
+                return response.json();
+            else
+                return response;
+        });
+    },
+
+    post(endoint, body){
+        let headers = new Headers();
+        headers.append("Authorization", localStorage.getItem("token"));
+        headers.append("Content-Type", "application/json");
+
+        let options = {
+            method:"POST",
+            headers:headers,
+            body:JSON.stringify(body)
+        };
+        return fetch(endoint, options).then((response)=>{
+            if (response.ok)
+                return response.json();
+            else
+                return response;
+        });
+    },
+
+    login(email, password){
+        let headers = new Headers();
+        headers.append("Content-Type", "application/json");
+
+        return fetch("/api/auth/login",
+            {
+                method: "POST",
+                headers:headers,
+                body: JSON.stringify({email:email,password:password})
+            })
+            .then((response)=>{
+                if (response.ok)
+                    return response.json();
+                else
+                    return response;
+        })
+            .then((response)=>{
+                if (response.token){
+                    localStorage.setItem("token", response.token);
+
+                }
+                return response;
+            })
+    },
+
+    logout(){
+        localStorage.removeItem("token");
+    }
+}

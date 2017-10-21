@@ -1,5 +1,5 @@
 import React from 'react';
-import {AvGroup, AvInput, AvFeedback} from 'availity-reactstrap-validation'
+import {AvGroup, AvInput, AvFeedback, AvForm} from 'availity-reactstrap-validation'
 import {FormGroup, Input, Label} from 'reactstrap'
 
 export const EmailInput = (props) => {
@@ -28,7 +28,42 @@ export const LabeledInput = (props) => {
             <Label>{props.label}</Label>
             <Input name={props.name} type={props.type}
                    value={props.value} onChange={props.onChange}
-                   placeholder={props.label}/>
+                   placeholder={props.label}>
+                {props.children}
+            </Input>
         </FormGroup>
     )
 };
+
+//this is experimental and likely needs some changes if we're going to use it
+export class Form extends React.Component {
+    constructor(props){
+        super(props);
+        this.renderChildren = this.renderChildren.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+
+    }
+
+    renderChildren(){
+        return React.Children.map(this.props.children, child =>{
+            return React.cloneElement(child, {onChange: this.handleChange});
+        });
+    }
+
+    handleChange(e){
+        this.setState({[e.target.name]: e.target.value});
+    }
+
+    handleSubmit(){
+        this.props.onSubmit(this.state);
+    }
+
+    render(){
+        return (
+            <AvForm onSubmit={this.handleSubmit}>
+                {this.renderChildren()}
+            </AvForm>
+        );
+    }
+}

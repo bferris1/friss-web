@@ -1,8 +1,44 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import {Row, Col, Button} from 'reactstrap';
+import {Link} from 'react-router-dom';
+import {EmailInput, PasswordInput} from './form';
+import {AvForm} from 'availity-reactstrap-validation';
+import Auth from './AuthCtrl';
+export default class Login extends Component {
 
-export default class Login extends Component{
+    constructor(props){
+        super (props);
+        this.handleLogin = this.handleLogin.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.state = {email:"", password:""};
 
-    render(){
-        return <h1>Login</h1>
+    }
+
+    handleLogin(){
+        console.log(this.state);
+        Auth.login(this.state.email, this.state.password).then(console.log);
+    }
+
+    handleChange(e){
+        this.setState({[e.target.name]:e.target.value});
+    }
+
+    render() {
+        return (
+            <Row>
+                <Col sm={{size:6, offset:3}}>
+                    <img className="img-fluid mx-auto d-block" src="https://i.imgur.com/WawaXKU.png" alt="FRISS"/>
+                    <AvForm onSubmit={this.handleLogin}>
+                        <EmailInput value={this.state.email} onChange={this.handleChange}/>
+                        <PasswordInput value={this.state.password} onChange={this.handleChange}/>
+                        <Button type={"submit"} block={true} color="primary">Log In</Button>
+                        <div className="links-container">
+                            <Link to="/signup">Sign Up</Link><br/>
+                            <Link to="/forgot">Forgot Password?</Link>
+                        </div>
+                    </AvForm>
+                </Col>
+            </Row>
+        )
     }
 }
