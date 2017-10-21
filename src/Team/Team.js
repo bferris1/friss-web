@@ -17,7 +17,20 @@ export default class Team extends Component{
         { value: 'one', label: 'One' },
         { value: 'two', label: 'Two' }
       ];
-      this.state={teamName:'Techno Kats', teamNum:45, teamWeb:'www.technokats45.com', select: ''};
+      this.state={
+        name:'Techno Kats',
+        number: 45,
+        select: '', // for testing only
+        info: {
+          webpage: 'www.technokats45.com',
+          address: {
+            country: 'United States of America',
+            stateOrProv: 'Indiana',
+            city: 'Kokomo',
+            school: 'Kokomo High School'
+          },
+        },
+      };
       this.handleChange = this.handleChange.bind(this);
   }
 
@@ -39,20 +52,25 @@ export default class Team extends Component{
       return (
         <div>
               <h1>Team Profile</h1>
-              <h3>FRC Team: {this.state.teamNum} -- {this.state.teamName}</h3>
+              <h3>FRC Team: {this.state.number} -- {this.state.name}</h3>
               <h4 style={{marginTop:'30px'}}>General Info</h4>
               <AvForm>
                   <Row>
                       <Col sm={8}>
-                          <LabeledInput name="teamName" label={"Team Name"} value={this.state.teamName} onChange={this.handleChange}/>
+                          <LabeledInput name="name" label={"Team Name"} value={this.state.name} onChange={this.handleChange}/>
                   </Col>
                       <Col sm={4}>
-                          <LabeledInput name="teamNum" label={"Team Number"} value={this.state.teamNum} onChange={this.handleChange} />
+                          <LabeledInput name="number" label={"Team Number"} value={this.state.number} onChange={this.handleChange} />
                       </Col>
                   </Row>
                   <Row>
                       <Col sm={12}>
-                        <LabeledInput name="teamWeb" label={"Web Site"} value={this.state.teamWeb} onChange={this.handleChange} />
+                        <LabeledInput name="school" label={"Team School"} value={this.state.info.address.school} onChange={this.handleChange} />
+                      </Col>
+                  </Row>
+                  <Row>
+                      <Col sm={12}>
+                        <LabeledInput name="webpage" label={"Web Site"} value={this.state.info.webpage} onChange={this.handleChange} />
                       </Col>
                   </Row>
               </AvForm>
@@ -61,7 +79,7 @@ export default class Team extends Component{
                 <Row>
                   <Col sm={9}>
                     <Label>Select Test</Label>
-                    <Select
+                    <Select style={{marginBottom:'15px'}}
                       name="select"
                       value="one"
                       options={options}
@@ -71,15 +89,15 @@ export default class Team extends Component{
                 </Row>
                 <Row>
                     <Col sm={6}>
-                        <LabeledInput name="country" label={"Country"} value={this.state.teamName} onChange={this.handleChange}/>
+                        <LabeledInput name="country" label={"Country"} value={this.state.info.address.country} onChange={this.handleChange}/>
                     </Col>
                     <Col sm={6}>
-                        <LabeledInput name="state" label={"State"} value={this.state.teamNum} onChange={this.handleChange} />
+                        <LabeledInput name="stateOrProv" label={"State"} value={this.state.info.address.stateOrProv} onChange={this.handleChange} />
                     </Col>
                 </Row>
                 <Row>
                   <Col sm={12}>
-                    <LabeledInput name="city" label={"City"} value={this.state.city} onChange={this.handleChange} />
+                    <LabeledInput name="city" label={"City"} value={this.state.info.address.city} onChange={this.handleChange} />
                   </Col>
                 </Row>
               </AvForm>
