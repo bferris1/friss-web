@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
+import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import {Row, Col, Label} from 'reactstrap';
 import {AvForm} from 'availity-reactstrap-validation';
 import {PasswordInput, LabeledInput, EmailInput} from '../form'
+import countries from '../Countries.json'
 
 
 import 'react-select/dist/react-select.css';
@@ -13,10 +15,6 @@ export default class Team extends Component{
       super(props);
       var Select = require('react-select');
       //dummy data
-      var options = [
-        { value: 'one', label: 'One' },
-        { value: 'two', label: 'Two' }
-      ];
       this.state={
         name:'Techno Kats',
         number: 45,
@@ -24,7 +22,7 @@ export default class Team extends Component{
         info: {
           webpage: 'www.technokats45.com',
           address: {
-            country: 'United States of America',
+            country: '',
             stateOrProv: 'Indiana',
             city: 'Kokomo',
             school: 'Kokomo High School'
@@ -32,6 +30,8 @@ export default class Team extends Component{
         },
       };
       this.handleChange = this.handleChange.bind(this);
+      this.handleCountryChange = this.handleCountryChange.bind(this);
+      this.handleStateChange = this.handleStateChange.bind(this);
   }
 
   componentDidMount(){
@@ -42,12 +42,37 @@ export default class Team extends Component{
       this.setState({[e.target.name]:e.target.value});
   }
 
+  handleStateChange(state){
+    this.setState({
+      info: {
+        address: {
+          stateOrProv: state
+        }
+    }});
+  }
+
+  handleCountryChange(country){
+
+    if(country === null){
+      this.setState({
+          info: {
+            address: {
+              country: ''
+            }
+        }});
+    }
+    else{
+      this.setState({
+        info: {
+          address: {
+            country: country
+          }
+      }});
+    }
+  }
+
   render(){
 
-    var options = [
-      { value: 'one', label: 'One' },
-      { value: 'two', label: 'Two' }
-    ];
 
       return (
         <div>
@@ -73,20 +98,9 @@ export default class Team extends Component{
                         <LabeledInput name="webpage" label={"Web Site"} value={this.state.info.webpage} onChange={this.handleChange} />
                       </Col>
                   </Row>
-              </AvForm>
+
               <h4 style={{marginTop:'30px'}}>Location</h4>
-              <AvForm>
-                <Row>
-                  <Col sm={9}>
-                    <Label>Select Test</Label>
-                    <Select style={{marginBottom:'15px'}}
-                      name="select"
-                      value="one"
-                      options={options}
-                      onChange={this.handleChange}
-                    />
-                  </Col>
-                </Row>
+
                 <Row>
                     <Col sm={6}>
                         <LabeledInput name="country" label={"Country"} value={this.state.info.address.country} onChange={this.handleChange}/>
@@ -94,6 +108,25 @@ export default class Team extends Component{
                     <Col sm={6}>
                         <LabeledInput name="stateOrProv" label={"State"} value={this.state.info.address.stateOrProv} onChange={this.handleChange} />
                     </Col>
+                </Row>
+                <Row>
+                  <Col sm={12}>
+                    <Label>Country</Label>
+                    <CountryDropdown
+                      classes='form-control'
+                      value={this.state.info.address.country}
+                      onChange={this.handleCountryChange} />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col sm={12} style={{marginTop:'15px', marginBottom:'15px'}}>
+                    <Label>State or Region</Label>
+                    <RegionDropdown
+                      classes='form-control'
+                      country={this.state.info.address.country}
+                      value={this.state.info.address.stateOrProv}
+                      onChange={this.handleStateChange} />
+                  </Col>
                 </Row>
                 <Row>
                   <Col sm={12}>
