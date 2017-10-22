@@ -7,7 +7,10 @@ export default  {
             headers:headers,
         };
         return fetch(endpoint, options).then((response)=>{
-            if (response.ok)
+            //todo: better error handling
+            //the backend doesn't always return JSON
+            console.log(response);
+            if (response.status !== 401)
                 return response.json();
             else
                 return response;

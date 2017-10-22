@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
-import Select from 'react-select';
-import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
-import {Row, Col, Label, Form, Button} from 'reactstrap';
-import {AvForm} from 'availity-reactstrap-validation';
-import {PasswordInput, LabeledInput, EmailInput} from '../form'
+import React, {Component} from 'react';
+import {CountryDropdown, RegionDropdown} from 'react-country-region-selector';
+import {Button, Col, Form, Label, Row} from 'reactstrap';
+import {LabeledInput} from '../form'
 import Auth from '../AuthCtrl';
 
 
@@ -13,7 +11,6 @@ export default class Team extends Component{
 
   constructor(props){
       super(props);
-      //dummy data
       this.state={
         name:'',
         number:'',
@@ -30,13 +27,10 @@ export default class Team extends Component{
       this.handleChange = this.handleChange.bind(this);
       this.handleInfoChange = this.handleInfoChange.bind(this);
       this.handleAddressChange = this.handleAddressChange.bind(this);
-      this.handleCountryChange = this.handleCountryChange.bind(this);
-      this.handleStateChange = this.handleStateChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount(){
-      console.log("mounted")
       Auth.get('/api/team').then((response)=>{
           console.log(response);
           if(response.success){
@@ -50,22 +44,25 @@ export default class Team extends Component{
       this.setState({[e.target.name]:e.target.value});
   }
 
-  handleAddressChange(e){
-    this.setState({
-      info: {
-        address: {
-          [e.target.name]:e.target.value
-        }
-    }});
-  }
+    handleAddressChange(newInput){
+        this.setState({
+            info: {
+                ...this.state.info,
+                address: {
+                    ...this.state.info.address,
+                    ...newInput
+                }
+            }});
+    }
 
-  handleInfoChange(e){
-    this.setState({
-      info: {
-        [e.target.name]:e.target.value
-      }
-    });
-  }
+    handleInfoChange(newInput){
+        this.setState({
+            info: {
+                ...this.state.info,
+                ...newInput
+            }
+        });
+    }
 
   handleSubmit(e){
     e.preventDefault();
@@ -75,34 +72,6 @@ export default class Team extends Component{
     })
   }
 
-  handleStateChange(state){
-    this.setState({
-      info: {
-        address: {
-          stateOrProv: state
-        }
-    }});
-  }
-
-  handleCountryChange(country){
-
-    if(country === null){
-      this.setState({
-          info: {
-            address: {
-              country: ''
-            }
-        }});
-    }
-    else{
-      this.setState({
-        info: {
-          address: {
-            country: country
-          }
-      }});
-    }
-  }
 
   render(){
 
@@ -115,40 +84,39 @@ export default class Team extends Component{
               <Form style={{marginBottom:'30px'}} onSubmit={this.handleSubmit}>
                   <Row>
                       <Col sm={8}>
-                          <LabeledInput name="name" label={"Team Name"} value={this.state.name} onChange={this.handleChange}/>
+                          <LabeledInput name="name" label={"Team Name"}
+                                        value={this.state.name}
+                                        onChange={this.handleChange}/>
                   </Col>
                       <Col sm={4}>
-                          <LabeledInput name="number" label={"Team Number"} value={this.state.number} onChange={this.handleChange} />
+                          <LabeledInput name="number" label={"Team Number"}
+                                        value={this.state.number}
+                                        onChange={this.handleChange} />
                       </Col>
                   </Row>
                   <Row>
                       <Col sm={12}>
-                        <LabeledInput name="school" label={"Team School"} value={this.state.info.address.school} onChange={this.handleAddressChange} />
+                        <LabeledInput name="school" label={"Team School"}
+                                      value={this.state.info.address.school}
+                                      onChange={e => {this.handleAddressChange({school:e.target.value})}} />
                       </Col>
                   </Row>
                   <Row>
                       <Col sm={12}>
-                        <LabeledInput name="webpage" label={"Web Site"} value={this.state.info.webpage} onChange={this.handleInfoChange} />
+                        <LabeledInput name="webpage" label={"Web Site"}
+                                      value={this.state.info.webpage}
+                                      onChange={e => {this.handleInfoChange({webpage:e.target.value})}} />
                       </Col>
                   </Row>
 
               <h4 style={{marginTop:'30px'}}>Location</h4>
-
-                <Row>
-                    <Col sm={6}>
-                        <LabeledInput name="country" label={"Country"} value={this.state.info.address.country} onChange={this.handleChange}/>
-                    </Col>
-                    <Col sm={6}>
-                        <LabeledInput name="stateOrProv" label={"State"} value={this.state.info.address.stateOrProv} onChange={this.handleChange} />
-                    </Col>
-                </Row>
                 <Row>
                   <Col sm={12}>
                     <Label>Country</Label>
                     <CountryDropdown
                       classes='form-control'
                       value={this.state.info.address.country}
-                      onChange={this.handleCountryChange} />
+                      onChange={country => {this.handleAddressChange({country:country})}} />
                   </Col>
                 </Row>
                 <Row>
@@ -158,12 +126,13 @@ export default class Team extends Component{
                       classes='form-control'
                       country={this.state.info.address.country}
                       value={this.state.info.address.stateOrProv}
-                      onChange={this.handleStateChange} />
+                      onChange={state => {this.handleAddressChange({stateOrProv: state})}} />
                   </Col>
                 </Row>
                 <Row>
                   <Col sm={12}>
-                    <LabeledInput name="city" label={"City"} value={this.state.info.address.city} onChange={this.handleAddressChange} />
+                    <LabeledInput name="city" label={"City"} value={this.state.info.address.city}
+                                  onChange={e => {this.handleAddressChange({city:e.target.value})}} />
                   </Col>
                 </Row>
                 <Button color="primary" type="submit">Submit</Button>
