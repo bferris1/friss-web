@@ -59,5 +59,9 @@ export default  {
 
     logout(){
         localStorage.removeItem("token");
+    },
+
+    isLoggedIn(){
+        return localStorage.getItem("token") !== null
     }
 }
