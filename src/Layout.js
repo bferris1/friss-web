@@ -8,7 +8,7 @@ import TeamManagement from './Team/TeamManagement';
 import TeamDetails from './TeamDetails';
 import Game from './Game/Game';
 import GameDetails from './Game/GameDetails';
-import Event from './Event/Event';
+import Event from './Event/EventList';
 
 
 export default class Layout extends Component{
