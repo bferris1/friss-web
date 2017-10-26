@@ -5,8 +5,9 @@ import { flag } from 'country-emoji';
 export default class EventList extends React.Component {
 
     constructor(props) {
-        super();
+        super(props);
         this.fetchEvents();
+        this.handleChange = this.handleChange.bind(this);
         this.state = {
             isLoading: true,
             eventList: []
@@ -35,12 +36,18 @@ export default class EventList extends React.Component {
         });
     }
 
+    handleChange(e) {
+        if (e.target.name === "selectEvent") {
+            this.props.addEventHandler(this.state.eventList[e.target.id]);
+        }
+    }
+
     render() {
 
         let eventRows = this.state.eventList.map((eventItem, index) => {
             return (
                 <tr>
-                    <th><Button key={index} color='link'>{eventItem['name']}</Button></th>
+                    <th><Button key={index} color='link' id={index} onClick={this.handleChange} name="selectEvent">{eventItem['name']}</Button></th>
                     <th>{eventItem['start_date']}</th>
                     <th>{eventItem['city']}</th>
                     <th>{flag(eventItem['country'])}</th>

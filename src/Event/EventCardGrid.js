@@ -7,13 +7,14 @@ export default class EventCardGrid extends Component{
 
     render() {
         let eventCards;
-        if(this.props.evesnt){
-            eventCards = this.props.events.map((event, index) => {
+        if(this.props.events){
+            eventCards = this.props.events.map((eventItem, index) => {
                 // return a Member component
+                console.log(eventItem);
                 return (
-                    <LabeledCard title={event.name} description={event.description}
+                    <LabeledCard title={eventItem["name"]} description={eventItem["city"]}
                                  buttonText={"Set Game"} col_sm={6}
-                                 key={event.id} link={"/event/"+event.id}/>
+                                 key={eventItem.id} link={"/game"} />
                 );
             });
         }

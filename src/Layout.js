@@ -8,7 +8,7 @@ import TeamManagement from './Team/TeamManagement';
 import TeamDetails from './TeamDetails';
 import Game from './Game/Game';
 import GameDetails from './Game/GameDetails';
-import Event from './Event/EventList';
+import Events from './Event/Events';
 
 
 export default class Layout extends Component{
@@ -22,6 +22,7 @@ export default class Layout extends Component{
                             <NavLink className="nav-link" exact to="/" activeClassName="active">Home</NavLink>
                             <NavLink className="nav-link" to="/team" activeClassName="active">Team</NavLink>
                             <NavLink className="nav-link" to="/team-management" activeClassName="active">Team Management</NavLink>
+                            <NavLink className="nav-link" to="/events" activeClassName="active">Events</NavLink>
                             <NavLink className="nav-link" to="/account" activeClassName="active">Account</NavLink>
                             <NavLink className="nav-link" to="/game" activeClassName="active">Game</NavLink>
                         </ul>
@@ -34,7 +35,7 @@ export default class Layout extends Component{
                         <Route path={"/team/:teamId"} component={TeamDetails}/>
                         <Route exact path={'/game'} component={Game}/>
                         <Route path={'/game/:gameId'} component={GameDetails}/>
-						<Route exact path={'/event'} component={Event}/>
+						<Route exact path={'/events'} component={Events}/>
                     </Col>
                 </Row>
             </div>
