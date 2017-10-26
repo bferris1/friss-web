@@ -47,10 +47,10 @@ export default class EventList extends React.Component {
         let eventRows = this.state.eventList.map((eventItem, index) => {
             return (
                 <tr>
-                    <th><Button key={index} color='link' id={index} onClick={this.handleChange} name="selectEvent">{eventItem['name']}</Button></th>
-                    <th>{eventItem['start_date']}</th>
-                    <th>{eventItem['city']}</th>
-                    <th>{flag(eventItem['country'])}</th>
+                    <td><Button key={index} color='link' id={index} onClick={this.handleChange} name="selectEvent">{eventItem['name']}</Button></td>
+                    <td>{eventItem['start_date']}</td>
+                    <td>{eventItem['city']}</td>
+                    <td>{flag(eventItem['country'])}</td>
                 </tr>
             );
         });
