@@ -37,6 +37,7 @@ export default class EventList extends React.Component {
     }
 
     handleChange(e) {
+        e.preventDefault();
         if (e.target.name === "selectEvent") {
             this.props.addEventHandler(this.state.eventList[e.target.id]);
         }
@@ -47,7 +48,7 @@ export default class EventList extends React.Component {
         let eventRows = this.state.eventList.map((eventItem, index) => {
             return (
                 <tr>
-                    <td><Button key={index} color='link' id={index} onClick={this.handleChange} name="selectEvent">{eventItem['name']}</Button></td>
+                    <td><a href={""} key={index} id={index} onClick={this.handleChange} name="selectEvent">{eventItem['name']}</a></td>
                     <td>{eventItem['start_date']}</td>
                     <td>{eventItem['city']}</td>
                     <td>{flag(eventItem['country'])}</td>
