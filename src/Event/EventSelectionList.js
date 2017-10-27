@@ -1,8 +1,9 @@
 import React from 'react';
 import { Button, Table } from 'reactstrap';
 import { flag } from 'country-emoji';
+import {LabeledInput} from "../form";
 
-export default class EventList extends React.Component {
+export default class EventSelectionList extends React.Component {
 
     constructor(props) {
         super(props);
@@ -10,7 +11,8 @@ export default class EventList extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.state = {
             isLoading: true,
-            eventList: []
+            eventList: [],
+            allItems:[]
         }
     }
 
@@ -31,7 +33,8 @@ export default class EventList extends React.Component {
         }).then ((json) => {
             this.setState({
                 isLoading: false,
-                eventList: json
+                eventList: json,
+                allItems: json
             });
         });
     }
@@ -40,6 +43,14 @@ export default class EventList extends React.Component {
         e.preventDefault();
         if (e.target.name === "selectEvent") {
             this.props.addEventHandler(this.state.eventList[e.target.id]);
+        } else if(e.target.name === "search"){
+            this.setState({
+                eventList: this.state.allItems.filter(event => (
+                    event.name.toLowerCase().search(e.target.value.toLowerCase()) !== -1 ||
+                        event.city.toLowerCase().search(e.target.value.toLowerCase()) !== -1
+                    )
+                )
+        });
         }
     }
 
@@ -47,8 +58,10 @@ export default class EventList extends React.Component {
 
         let eventRows = this.state.eventList.map((eventItem, index) => {
             return (
-                <tr>
-                    <td><a href={""} key={index} id={index} onClick={this.handleChange} name="selectEvent">{eventItem['name']}</a></td>
+                <tr key={index}>
+                    <td><a href={""} id={index}
+                           onClick={this.handleChange}
+                           name="selectEvent">{eventItem['name']}</a></td>
                     <td>{eventItem['start_date']}</td>
                     <td>{eventItem['city']}</td>
                     <td>{flag(eventItem['country'])}</td>
@@ -57,19 +70,24 @@ export default class EventList extends React.Component {
         });
 
         return (
-            <Table>
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Date</th>
-                    <th>City</th>
-                    <th>Country</th>
-                </tr>
-                </thead>
-                <tbody>
-                    {eventRows}
-                </tbody>
-            </Table>
+            <div>
+                <LabeledInput autofocus={true} type={"text"} name={"search"} label={"Search Events"} onChange={this.handleChange}/>
+                {this.state.isLoading ? <p>Loading Events...</p> :
+                    <Table>
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Date</th>
+                            <th>City</th>
+                            <th>Country</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {eventRows}
+                        </tbody>
+                    </Table>
+                }
+            </div>
         );
     }
 }

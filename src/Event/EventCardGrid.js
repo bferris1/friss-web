@@ -14,7 +14,7 @@ export default class EventCardGrid extends Component{
                 return (
                     <LabeledCard title={eventItem["name"]} description={eventItem["city"]}
                                  buttonText={"Set Game"} col_sm={6}
-                                 key={eventItem.id} link={"/game"} />
+                                 key={index} link={"/game"} />
                 );
             });
         }
