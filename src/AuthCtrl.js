@@ -6,11 +6,13 @@ export default  {
             method:"GET",
             headers:headers,
         };
+        //todo: better error handling
+        //ideally the API would always return JSON, but it doesn't for auth errors
         return fetch(endpoint, options).then((response)=>{
-            if (response.ok)
+            if (response.status !== 401)
                 return response.json();
             else
-                return response;
+                return {success: false, response:response};
         });
     },
 
@@ -25,10 +27,10 @@ export default  {
             body:JSON.stringify(body)
         };
         return fetch(endoint, options).then((response)=>{
-            if (response.ok)
+            if (response.status !== 401)
                 return response.json();
             else
-                return response;
+                return {success: false, response:response};
         });
     },
 
@@ -43,10 +45,10 @@ export default  {
                 body: JSON.stringify({email:email,password:password})
             })
             .then((response)=>{
-                if (response.ok)
+                if (response.status !== 401)
                     return response.json();
                 else
-                    return response;
+                    return {success: false, response:response};
         })
             .then((response)=>{
                 if (response.token){
