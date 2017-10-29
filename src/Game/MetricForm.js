@@ -36,19 +36,19 @@ export default class MetricForm extends Component {
       });
 
       this.setState({ options: newOptions });
-    }
+    };
 
     handleAddOption = () => {
       this.setState({
         options: this.state.options.concat([{ name: '' }])
       });
-    }
+    };
 
     handleRemoveOption = (idx) => () => {
       this.setState({
         options: this.state.options.filter((s, sidx) => idx !== sidx)
       });
-    }
+    };
 
     resetOptions(){
       this.setState({
@@ -91,7 +91,7 @@ export default class MetricForm extends Component {
           ))}
             <button type="button" onClick={this.handleAddOption} className="small">Add Checkbox</button>
         </FormGroup>
-      )
+      );
 
 
 
@@ -104,9 +104,6 @@ export default class MetricForm extends Component {
       else if(this.state.type === "Stopwatch"){
         extraForm = stopwatchForm;
       }
-      else if(this.state.type === "Checkbox"){
-        extraForm = checkBoxListForm;
-      }
 
         return (
             <Form onSubmit={(e)=>{e.preventDefault(); this.props.onSubmit(this.state)}}>
@@ -114,7 +111,6 @@ export default class MetricForm extends Component {
                 <LabeledInput name={"category"} type={"select"} value={this.state.category} label={"Metric Category"} id={"category"} onChange={this.handleChange}>
                     <option>Autonomous Mode</option>
                     <option>Tele-operated Mode</option>
-                    <option>Add New Category</option>
                 </LabeledInput>
                 <LabeledInput type={"select"} label={"Metric Type"} value={this.state.type} id={"type"} onChange={this.handleChange}>
                     <option>Integer</option>
@@ -123,7 +119,7 @@ export default class MetricForm extends Component {
                     <option>Stopwatch</option>
                     <option>Checkbox</option>
                 </LabeledInput>
-                {/*{extraForm}*/}
+                {extraForm}
                 <Input type="submit"/>
             </Form>
         )

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Table, Button} from 'reactstrap';
 import MetricForm from './MetricForm';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
+import Auth from '../AuthCtrl';
 
 export default class GameDetails extends Component {
 
@@ -12,7 +13,7 @@ export default class GameDetails extends Component {
             metric: {name: "", category: "Autonomous Mode", type: "Integer"},
             selectedIndex: -1,
             modal: false,
-            metrics: [] // TODO: Connect to backend.
+            metrics: []
         };
 
         this.handleClick = this.handleClick.bind(this);
@@ -25,6 +26,15 @@ export default class GameDetails extends Component {
         this.setState({
             modal: !this.state.modal
         });
+    }
+
+    componentDidMount(){
+        console.log(this.props.match.params.gameId);
+        Auth.get('/api/game/'+this.props.match.params.gameId).then(res => {
+            if (res.success){
+                this.setState(res.game);
+            }
+        })
     }
 
     handleAddMetric(metric) {
@@ -98,6 +108,8 @@ export default class GameDetails extends Component {
         );
         return (
             <div>
+                <h1>{this.state.name}</h1>
+                <h4>{this.state.description}</h4>
                 {addMetricModal}
                 {addMetricButton}
                 <Table>

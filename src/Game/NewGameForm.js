@@ -8,7 +8,7 @@ export default class AddMember extends Component{
     super();
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.state = {};
+    this.state = {name:'', description:''};
   }
 
   handleChange(e){
