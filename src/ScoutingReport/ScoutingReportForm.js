@@ -29,15 +29,12 @@ export default class ScoutingReportFrom extends Component{
           submittedBy: ''
         };
 
-        // functions
-        this.handleInc = this.handleInc.bind(this);
-        this.handleDec = this.handleDec.bind(this);
     }
 
     componentDidMount(){
       this.setState({metricData: [
         {
-          metricID: uuid.v4(),
+          metricID: "randomUUID1",
           metric: {
             name: 'Time in Zone',
             section: 'Auto Mode',
@@ -47,7 +44,7 @@ export default class ScoutingReportFrom extends Component{
           metricValue: 0
         },
         {
-          metricID: uuid.v4(),
+          metricID: "randomUUID2",
           metric: {
             name: 'High Goals',
             section: 'Tele-Op Mode',
@@ -63,11 +60,10 @@ export default class ScoutingReportFrom extends Component{
     }
 
     handleChange(index, newValue){
+      let metricData = this.state.metricData.slice();
+      metricData[index] = {...metricData[index], ...newValue};
       this.setState({
-        metricData[index] :{
-          ...this.state.metricData[index],
-          ...newValue
-        }
+          metricData
       });
     }
 
@@ -75,12 +71,13 @@ export default class ScoutingReportFrom extends Component{
 
       let reportMetrics;
       reportMetrics = this.state.metricData.map((reportMetric, index) => {
-        // return the appropiate metric Component
+        // return the appropriate metric Component
         let nextMetric;
         if(reportMetric.metric.type === 'numericStepper'){
           nextMetric = <NumericStepper min={reportMetric.metric.minimumValue}
                                        max={reportMetric.metric.maximumValue}
                                        step={reportMetric.metric.incrementStep}
+                                       value={this.state.metricData[index].metricValue}
                                        onChange={e => {this.handleChange(index, {metricValue:e})}}
                                        />
         }
@@ -88,8 +85,8 @@ export default class ScoutingReportFrom extends Component{
           nextMetric = <p>Timer not done yet</p>
         }
         else{
-          nextMetric = <p>Error: Unknow metric type.</p>
-          console.log('Error: unknow metric type was found');
+          nextMetric = <p>Error: Unknown metric type.</p>;
+          console.log('Error: unknown metric type was found');
         }
 
         // return the next metric in the array
@@ -100,7 +97,8 @@ export default class ScoutingReportFrom extends Component{
           <div>
             <h1>Scouting Report</h1>
             <NumericStepper min={0} max={100} step={1}
-              onChange={e => {this.handleChange(index, {metricValue:e})}} />
+                            value={this.state.metricData[0].metricValue}
+                            onChange={newValue => {this.handleChange(0, {metricValue:newValue})}} />
             <input type="number" min={0} max={100} step={0.1} />
         </div>
         )
