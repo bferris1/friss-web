@@ -1,4 +1,5 @@
 import React from 'react';
+import { Table } from 'reactstrap';
 import Auth from '../AuthCtrl';
 
 export default class EventsTable extends React.Component {
@@ -6,7 +7,7 @@ export default class EventsTable extends React.Component {
 		super(props);
 
 		this.state = {
-			events = [];
+			events: []
 		};
 	}
 
@@ -26,13 +27,13 @@ export default class EventsTable extends React.Component {
 
 		return (
 			<div>
-				<h3> Upcoming Events
+				<h3> Upcoming Events</h3>
 				<Table>
 					<tbody>
 						{upcomingEvents}
 					</tbody>
 				</Table>
-			</div>	
+			</div>
 		);
 	}
 }
