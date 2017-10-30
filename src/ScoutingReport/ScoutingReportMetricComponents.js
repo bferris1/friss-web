@@ -14,3 +14,12 @@ export const NumericStepper = (props) => {
 
     )
 };
+
+export const Checkbox = (props) => {
+    return (
+        <div>
+            <label>{props.name}</label>
+            <input type="checkbox" checked = {props.value} onClick = {e => {props.onChange(props.value)}}></input>
+        </div>
+    );
+};
