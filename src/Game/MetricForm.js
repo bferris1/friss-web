@@ -8,20 +8,25 @@ export default class MetricForm extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            name: props.metric.name,
-            category: props.metric.category,
-            type: props.metric.type,
-            options: [{ name: '' }],
-        };
+        if (props.metric === null){
+            this.state = {
+                name:'',
+                category:'Autonomous Mode',
+                type:'Integer',
+                maximumValue:'',
+                minimumValue:'',
+                defaultValue:'',
+                incrementStep:undefined,
+            }
+        } else {
+            this.state = props.metric;
+        }
 
         this.handleChange = this.handleChange.bind(this);
-        this.resetOptions = this.resetOptions.bind(this);
     }
 
     handleChange(e) {
         this.setState({[e.target.id]: e.target.value});
-        this.resetOptions();
     }
 
     handleSubmit(e){
@@ -29,81 +34,52 @@ export default class MetricForm extends Component {
         this.props.onSubmit(this.state);
     }
 
-    handleOptionNameChange = (idx) => (evt) => {
-      const newOptions = this.state.options.map((option, sidx) => {
-        if (idx !== sidx) return option;
-        return { ...option, name: evt.target.value };
-      });
 
-      this.setState({ options: newOptions });
-    };
-
-    handleAddOption = () => {
-      this.setState({
-        options: this.state.options.concat([{ name: '' }])
-      });
-    };
-
-    handleRemoveOption = (idx) => () => {
-      this.setState({
-        options: this.state.options.filter((s, sidx) => idx !== sidx)
-      });
-    };
-
-    resetOptions(){
-      this.setState({
-        options: [{ name: '' }]
-      });
-    }
 
     render() {
-      let extraForm = null;
-      const numberForm = (
-        <div>
-          <LabeledInput label={"Default value"} name={"defVal"} id={"defVal"} type={"number"} />
-          <LabeledInput label={"Minimum value"} name={"minVal"} id={"minVal"} type={"number"} />
-          <LabeledInput label={"Maximum value"} name={"maxVal"} id={"maxVal"} type={"number"} />
-        </div>
-      );
-      const stringForm = (
-        <div>
-          <LabeledInput label={"Text Area Placeholder"} onChange={this.handleChange} name={"placeholder"} id={"placeholder"} type={"text"} />
-        </div>
-      );
-      const stopwatchForm = (
-        <div>
-          <LabeledInput label={"Max Time (blank for no limit)"} name={"maxTime"} id={"maxTime"} type={"time"} />
-        </div>
-      );
-      let checkBoxListForm = (
-        <FormGroup>
-          <Label for="options">options</Label>
-          {this.state.options.map((option, idx) => (
-            <div key={idx} className="checkboxList">
-              <input
-                type="text"
-                placeholder={`Checkbox #${idx + 1} label`}
-                value={option.name}
-                onChange={this.handleOptionNameChange(idx)}
-              />
-              <button type="button" onClick={this.handleRemoveOption(idx)} className="small">-</button>
+        let extraForm = null;
+        const numberForm = (
+            <div>
+                <LabeledInput label={"Default value"}
+                              value={this.state.defaultValue}
+                              name={"defaultValue"}
+                              onChange={this.handleChange}
+                              id={"defaultValue"} type={"number"} />
+                <LabeledInput label={"Minimum value"}
+                              name={"minimumValue"}
+                              value={this.state.minimumValue}
+                              onChange={this.handleChange}
+                              id={"minimumValue"} type={"number"} />
+                <LabeledInput label={"Maximum value"} name={"maximumValue"}
+                              onChange={this.handleChange}
+                              value={this.state.maximumValue} id={"maximumValue"} type={"number"} />
             </div>
-          ))}
-            <button type="button" onClick={this.handleAddOption} className="small">Add Checkbox</button>
-        </FormGroup>
-      );
+        );
+        const stringForm = (
+            <div>
+                <LabeledInput label={"Text Area Placeholder"} onChange={this.handleChange}
+                              name={"defaultValue"} value={this.state.defaultValue} type={"text"} />
+            </div>
+        );
+        const stopwatchForm = (
+            <div>
+                <LabeledInput label={"Max Time in seconds (blank for no limit)"}
+                              value={this.state.maximumValue}
+                              onChange={this.handleChange}
+                              name={"maximumValue"} type={"number"} />
+            </div>
+        );
 
 
-
-      if(this.state.type === "Integer" || this.state.type === "Double"){
-        extraForm = numberForm;
-      }
-      else if(this.state.type === "String"){
-        extraForm = stringForm;
-      }
-      else if(this.state.type === "Stopwatch"){
-        extraForm = stopwatchForm;
-      }
+        if(this.state.type === "Integer" || this.state.type === "Double"){
+            extraForm = numberForm;
+        }
+        else if(this.state.type === "String"){
+            extraForm = stringForm;
+        }
+        else if(this.state.type === "Stopwatch"){
+            extraForm = stopwatchForm;
+        }
 
         return (
             <Form onSubmit={(e)=>{e.preventDefault(); this.props.onSubmit(this.state)}}>

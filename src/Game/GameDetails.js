@@ -10,7 +10,7 @@ export default class GameDetails extends Component {
         super(props);
 
         this.state = {
-            metric: {name: "", category: "Autonomous Mode", type: "Integer"},
+            metric: null,
             selectedIndex: -1,
             modal: false,
             metrics: []
@@ -73,7 +73,8 @@ export default class GameDetails extends Component {
     handleClick(e) {
         e.preventDefault();
         this.setState({
-            metric: {name: "", category: "Autonomous Mode", type: "Integer"}
+            metric:null
+            // metric: {name: "", category: "Autonomous Mode", type: "Integer"}
         });
         this.toggle();
     }
