@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {NumericStepper, Checkbox} from './ScoutingReportMetricComponents';
+import {NumericStepper, CheckboxMetric} from './ScoutingReportMetricComponents';
 import {StopwatchMetric} from './StopwatchMetric';
 
 export default class ScoutingReportFrom extends Component{
@@ -69,6 +69,24 @@ export default class ScoutingReportFrom extends Component{
             incrementStep: 1
           },
           metricValue: 0
+        },
+        {
+          metricID: "randomUUID1",
+          metric: {
+            name: 'Yellow Card',
+            section: 'Penalties',
+            type: 'boolean',
+          },
+          metricValue: false
+        },
+        {
+          metricID: "randomUUID1",
+          metric: {
+            name: 'Red Card',
+            section: 'Penalties',
+            type: 'boolean',
+          },
+          metricValue: false
         }
       ]});
     }
@@ -76,6 +94,15 @@ export default class ScoutingReportFrom extends Component{
     handleChange(index, newValue){
       console.log(newValue);
       let metricData = this.state.metricData.slice();
+      if(metricData[index].metric.type === 'boolean'){
+        if(metricData[index].metricValue === false){
+          newValue = {metricValue: true};
+        }
+        else{
+          newValue = {metricValue: false};
+        }
+
+      }
       metricData[index] = {...metricData[index], ...newValue};
       this.setState({
           metricData
@@ -117,6 +144,18 @@ export default class ScoutingReportFrom extends Component{
             </div>
 
           )
+        }
+        else if(reportMetric.metric.type === 'boolean'){
+          nextMetric = (
+            <div>
+              {newSection}
+              <CheckboxMetric name={reportMetric.metric.name}
+                value={this.state.metricData[index].metricValue}
+                onChange={e => {this.handleChange(index, {metricValue:e})}}
+              />
+            </div>
+
+          );
         }
         else{
           nextMetric = <p>Error: Unknown metric type.</p>;
