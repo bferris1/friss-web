@@ -9,6 +9,7 @@
     "material-ui": "^0.19.2",
     "react": "^15.6.1",
     "react-autosuggest": "^9.3.2",
+    "country-emoji": "^1.2.0",
     "react-bootstrap": "^0.31.3",
     "react-country-region-selector": "^1.2.2",
     "react-dom": "^15.6.1",
