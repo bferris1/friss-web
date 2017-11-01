@@ -9,7 +9,7 @@ import TeamDetails from './TeamDetails';
 import Game from './Game/Game';
 import GameDetails from './Game/GameDetails';
 import Events from './Event/Events';
-
+import Matches from './Match/Matches';
 
 export default class Layout extends Component{
     render(){
@@ -29,6 +29,7 @@ export default class Layout extends Component{
                     </Col>
 
                     <Col sm={8}>
+                        <Route path={"/match"} component={Matches}/>
                         <Route path={"/account"} component={Account}/>
                         <Route path={"/team-management"} component={TeamManagement}/>
                         <Route exact path={"/team"} component={Team}/>
