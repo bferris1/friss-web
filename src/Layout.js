@@ -10,6 +10,7 @@ import Game from './Game/Game';
 import GameDetails from './Game/GameDetails';
 import Events from './Event/Events';
 import AuthCtrl from './AuthCtrl';
+import Home from './Home';
 import Matches from './Match/Matches';
 
 export default class Layout extends Component{
@@ -47,6 +48,7 @@ export default class Layout extends Component{
 
                         <Col sm={8}>
                             <p className={"text-right"}>{this.state.user ? this.state.user.firstName + " " + this.state.user.lastName: "Not Logged In"}</p>
+                            <Route exact path={"/"} component={Home} />
                             <Route path={"/match"} component={Matches}/>
                             <Route path={"/account"} component={Account}/>
                             <Route path={"/team-management"} component={TeamManagement}/>
