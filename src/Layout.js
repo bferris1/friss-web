@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import {Row, Col} from 'reactstrap';
-import {Route, NavLink, Link, Redirect} from 'react-router-dom';
+import {Route, NavLink, Redirect} from 'react-router-dom';
 import Account from './Account'
 import Team from './Team/Team'
 import TeamManagement from './Team/TeamManagement';
@@ -24,7 +24,7 @@ export default class Layout extends Component{
             AuthCtrl.get('/api/account').then((res)=>{
                 if (res.success)
                     this.setState({user:res.user});
-                console.log(res);
+                //console.log(res);
             })
     }
 
