@@ -26,7 +26,8 @@ export default class Account extends Component{
         this.setState({[e.target.name]:e.target.value});
     }
 
-    handleSubmit(){
+    handleSubmit(e){
+        e.preventDefault();
         Auth.post('/api/account/profile', this.state).then(console.log);
     }
 
