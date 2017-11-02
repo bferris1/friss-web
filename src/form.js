@@ -26,9 +26,9 @@ export const LabeledInput = (props) => {
     return (
         <FormGroup >
             <Label>{props.label}</Label>
-            <Input name={props.name} type={props.type}
+            <Input name={props.name} type={props.type} id={props.id}
                    value={props.value} onChange={props.onChange}
-                   placeholder={props.label}>
+                   placeholder={props.label} autoFocus={props.autofocus}>
                 {props.children}
             </Input>
         </FormGroup>

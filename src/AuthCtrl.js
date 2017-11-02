@@ -11,8 +11,10 @@ export default  {
         return fetch(endpoint, options).then((response)=>{
             if (response.status !== 401)
                 return response.json();
-            else
-                return {success: false, response:response};
+            else {
+                this.logout();
+                return {success: false, response: response};
+            }
         });
     },
 
@@ -29,8 +31,10 @@ export default  {
         return fetch(endoint, options).then((response)=>{
             if (response.status !== 401)
                 return response.json();
-            else
-                return {success: false, response:response};
+            else {
+                this.logout();
+                return {success: false, response: response};
+            }
         });
     },
 
@@ -47,8 +51,10 @@ export default  {
             .then((response)=>{
                 if (response.status !== 401)
                     return response.json();
-                else
-                    return {success: false, response:response};
+                else {
+                    this.logout();
+                    return {success: false, response: response};
+                }
         })
             .then((response)=>{
                 if (response.token){
