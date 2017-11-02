@@ -14,9 +14,8 @@ export const NumericStepper = (props) => {
         <button onClick={e => {props.onChange(props.value+props.step)}}>+</button>
 
       </div>
-
-    )
-};
+    );
+}
 
 export const CheckboxMetric = (props) => {
     return (
@@ -25,4 +24,17 @@ export const CheckboxMetric = (props) => {
             <input type="checkbox" checked={props.value} onChange={props.onChange}></input>
         </div>
     );
-};
+}
+
+export const RadioOptionMetric = (props) => {
+  return (
+    <div>
+        <FormGroup check>
+          <Label check>
+            <Input type="radio" name={props.name} />{' '}
+            {props.option}
+          </Label>
+        </FormGroup>
+    </div>
+  );
+}

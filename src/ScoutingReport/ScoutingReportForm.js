@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {NumericStepper, CheckboxMetric} from './ScoutingReportMetricComponents';
+import {NumericStepper, CheckboxMetric, RadioOptionMetric} from './ScoutingReportMetricComponents';
 import {StopwatchMetric} from './StopwatchMetric';
 
 export default class ScoutingReportFrom extends Component{
@@ -41,6 +41,16 @@ export default class ScoutingReportFrom extends Component{
             section: 'Auto Mode',
             type: 'timer',
             maximumValue: 100
+          },
+          metricValue: 0
+        },
+        {
+          metricID: "randomUUID1",
+          metric: {
+            name: 'Where U B B\'in bruh?!?!',
+            section: 'Auto Mode',
+            type: 'radio',
+            radioOptions: ["here", "there", "everywhere"]
           },
           metricValue: 0
         },
@@ -156,6 +166,21 @@ export default class ScoutingReportFrom extends Component{
             </div>
 
           );
+        }
+        else if(reportMetric.metric.type === 'radio'){
+            let radioOptions = reportMetric.metric.radioOptions.map((radioOption, index) => {
+              return(
+                <RadioOptionMetric name={reportMetric.metric.name} option={radioOption} />
+              );
+            });
+
+            nextMetric = (
+              <div style={{marginTop:'15px'}}>
+                {newSection}
+                <label style={{marginBottom:'5px'},{marginRight:'5px'}}>{reportMetric.metric.name}</label>
+                {radioOptions}
+              </div>
+            );
         }
         else{
           nextMetric = <p>Error: Unknown metric type.</p>;
