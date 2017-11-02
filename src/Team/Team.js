@@ -68,7 +68,9 @@ export default class Team extends Component{
     e.preventDefault();
     Auth.post('/api/team', this.state).then((response)=>{
         console.log(response);
-        alert(response);
+        if (response.success){
+            //notify user
+        }
     })
   }
 
