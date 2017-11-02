@@ -11,12 +11,19 @@ export default class Login extends Component {
         this.handleLogin = this.handleLogin.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.state = {email:"", password:""};
+        if (Auth.isLoggedIn()){
+            this.props.history.push('/');
+        }
 
     }
 
     handleLogin(){
         console.log(this.state);
-        Auth.login(this.state.email, this.state.password).then(console.log);
+        Auth.login(this.state.email, this.state.password).then(res => {
+            if (res.success){
+                this.props.history.push('/account');
+            }
+        });
     }
 
     handleChange(e){
