@@ -64,15 +64,19 @@ export default class Team extends Component{
         });
     }
 
-  handleSubmit(e){
-    e.preventDefault();
-    Auth.post('/api/team', this.state).then((response)=>{
-        console.log(response);
-        if (response.success){
-            //notify user
-        }
-    })
-  }
+    handleSubmit(e){
+        e.preventDefault();
+        if (!this.state._id)
+            Auth.post('/api/team', this.state).then((response)=>{
+                console.log(response);
+                if (response.success){
+                    //notify user
+                }
+            });
+        else (Auth.post('/api/team/update', this.state)).then(response => {
+            console.log(response);
+        })
+    }
 
 
   render(){
