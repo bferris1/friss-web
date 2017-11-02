@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {NumericStepper, CheckboxMetric, RadioOptionMetric} from './ScoutingReportMetricComponents';
+import {NumericStepper, CheckboxMetric, RadioOptionMetric, TextboxMetric} from './ScoutingReportMetricComponents';
 import {StopwatchMetric} from './StopwatchMetric';
 
 export default class ScoutingReportFrom extends Component{
@@ -83,6 +83,16 @@ export default class ScoutingReportFrom extends Component{
         {
           metricID: "randomUUID1",
           metric: {
+            name: 'Card Direction',
+            section: 'Tele-Op Mode',
+            type: 'radio',
+            radioOptions: ["north", "south", "east", "west"]
+          },
+          metricValue: 0
+        },
+        {
+          metricID: "randomUUID1",
+          metric: {
             name: 'Yellow Card',
             section: 'Penalties',
             type: 'boolean',
@@ -97,6 +107,15 @@ export default class ScoutingReportFrom extends Component{
             type: 'boolean',
           },
           metricValue: false
+        },
+        {
+          metricID: "randomUUID1",
+          metric: {
+            name: 'Comments',
+            section: 'General Comments',
+            type: 'text',
+          },
+          metricValue: ''
         }
       ]});
     }
@@ -173,6 +192,17 @@ export default class ScoutingReportFrom extends Component{
                 {radioOptions}
               </div>
             );
+        }
+        else if(reportMetric.metric.type === 'text'){
+          nextMetric = (
+            <div style={{marginTop:'15px'}}>
+              {newSection}
+              <TextboxMetric name={reportMetric.metric.name}
+                value={this.state.metricData[index].metricValue}
+                onChange={e => {this.handleChange(index, {metricValue:e.target.value})}}
+              />
+            </div>
+          );
         }
         else{
           nextMetric = <p>Error: Unknown metric type.</p>;

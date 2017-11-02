@@ -38,3 +38,14 @@ export const RadioOptionMetric = (props) => {
     </div>
   );
 }
+
+export const TextboxMetric = (props) => {
+  return (
+    <div>
+      <LabeledInput label={props.name} name={props.name}
+        value={props.value} onChange={props.onChange}
+        type={"textarea"}
+        />
+    </div>
+  );
+}
