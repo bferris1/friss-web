@@ -20,7 +20,7 @@ export const NumericStepper = (props) => {
 export const CheckboxMetric = (props) => {
     return (
         <div>
-            <label style={{marginBottom:'5px'},{marginRight:'5px'}}>{props.name}</label>
+            <label style={{marginBottom:'5px',marginRight:'5px'}}>{props.name}</label>
             <input type="checkbox" checked={props.value} onChange={props.onChange}></input>
         </div>
     );

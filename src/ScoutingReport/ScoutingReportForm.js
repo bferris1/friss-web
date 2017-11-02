@@ -104,15 +104,7 @@ export default class ScoutingReportFrom extends Component{
     handleChange(index, newValue){
       console.log(newValue);
       let metricData = this.state.metricData.slice();
-      if(metricData[index].metric.type === 'boolean'){
-        if(metricData[index].metricValue === false){
-          newValue = {metricValue: true};
-        }
-        else{
-          newValue = {metricValue: false};
-        }
 
-      }
       metricData[index] = {...metricData[index], ...newValue};
       this.setState({
           metricData
@@ -161,7 +153,7 @@ export default class ScoutingReportFrom extends Component{
               {newSection}
               <CheckboxMetric name={reportMetric.metric.name}
                 value={this.state.metricData[index].metricValue}
-                onChange={e => {this.handleChange(index, {metricValue:e})}}
+                onChange={e => {this.handleChange(index, {metricValue:e.target.checked})}}
               />
             </div>
 
