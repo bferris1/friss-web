@@ -40,7 +40,9 @@ export default class Layout extends Component{
                                 <NavLink className="nav-link" exact to="/" activeClassName="active">Home</NavLink>
                                 <NavLink className="nav-link" to="/team" activeClassName="active">Team</NavLink>
                                 <NavLink className="nav-link" to="/team-management" activeClassName="active">Team Management</NavLink>
+                                {!(this.state.user && this.state.user.teamID) ||
                                 <NavLink className="nav-link" to="/events" activeClassName="active">Events</NavLink>
+                                }
                                 <NavLink className="nav-link" to="/account" activeClassName="active">Account</NavLink>
                                 <NavLink className="nav-link" to="/game" activeClassName="active">Game</NavLink>
                             </ul>
