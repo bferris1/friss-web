@@ -1,6 +1,5 @@
 import React from 'react';
 import {FormGroup, Input, Label} from 'reactstrap';
-import NumericInput from 'react-numeric-input';
 
 import {LabeledInput} from '../form.js';
 

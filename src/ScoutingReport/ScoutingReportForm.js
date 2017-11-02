@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {Form} from 'reactstrap';
+
 import {NumericStepper, CheckboxMetric, RadioOptionMetric, TextboxMetric} from './ScoutingReportMetricComponents';
 import {StopwatchMetric} from './StopwatchMetric';
 
@@ -76,7 +78,7 @@ export default class ScoutingReportFrom extends Component{
             defaultValue: 5,
             maximumValue: 10,
             minimumValue: 0,
-            incrementStep: 1
+            incrementStep: 0.5
           },
           metricValue: 0
         },
@@ -123,7 +125,16 @@ export default class ScoutingReportFrom extends Component{
     handleChange(index, newValue){
       console.log(newValue);
       let metricData = this.state.metricData.slice();
-
+      if(metricData[index].metric.type === 'numericStepper'){
+        let upperBound = metricData[index].metric.maximumValue;
+        let lowerBound = metricData[index].metric.minimumValue;
+        console.log(upperBound);
+        console.log(lowerBound);
+        if(newValue.metricValue > upperBound || newValue.metricValue < lowerBound){
+          console.log("Error: numeric bound reached");
+          return;
+        }
+      }
       metricData[index] = {...metricData[index], ...newValue};
       this.setState({
           metricData
@@ -216,7 +227,13 @@ export default class ScoutingReportFrom extends Component{
 
         return(
           <div>
-            {reportMetrics}
+            <h1>Scouting Report</h1>
+            <h2>Match #{this.props.matchNumber}</h2>
+            <h3>Team #{this.props.teamNumber} -- {this.props.teamNickName}</h3>
+            <hr />
+            <Form>
+              {reportMetrics}
+            </Form>
           </div>
         )
     }
