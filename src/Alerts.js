@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Row, Col, Alert} from "reactstrap";
+import React from 'react';
+import {Alert} from "reactstrap";
 
 export const Alerts = (props)=> {
 

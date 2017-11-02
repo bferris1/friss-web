@@ -35,8 +35,7 @@ export default class Matches extends React.Component {
             }
         }).then((json) => {
             var teams = this.state.teams;
-
-            json.map((matchItem, index) => {
+            for (var matchItem in json) {
                 let teamKey = matchItem['alliances'][this.state.alliance]['team_keys'][this.state.position - 1];
                 let TEAM_API_URL = 'https://www.thebluealliance.com/api/v3/team/' + teamKey;
                 fetch(TEAM_API_URL, requestOptions).then((response) => {
@@ -51,7 +50,7 @@ export default class Matches extends React.Component {
                         teams: teams
                     });
                 });
-            });
+            }
         });
     }
 

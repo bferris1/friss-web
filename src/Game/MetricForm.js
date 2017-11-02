@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Form, FormGroup, Label, Input } from 'reactstrap';
+import { Form, Input } from 'reactstrap';
 import {LabeledInput} from '../form'
 
 
