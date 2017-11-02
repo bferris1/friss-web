@@ -77,7 +77,7 @@ export default class MetricForm extends Component {
         else if(this.state.type === "String"){
             extraForm = stringForm;
         }
-        else if(this.state.type === "Stopwatch"){
+        else if(this.state.type === "Time"){
             extraForm = stopwatchForm;
         }
 
@@ -92,8 +92,8 @@ export default class MetricForm extends Component {
                     <option>Integer</option>
                     <option>Double</option>
                     <option>String</option>
-                    <option>Stopwatch</option>
-                    <option>Checkbox</option>
+                    <option>Time</option>
+                    {/*<option>Radio</option>*/}
                 </LabeledInput>
                 {extraForm}
                 <Input type="submit"/>
