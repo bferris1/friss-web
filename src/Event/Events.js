@@ -13,9 +13,11 @@ export default class Events extends React.Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleAddEvent = this.handleAddEvent.bind(this);
+        this.updateEvent = this.updateEvent.bind(this);
 
         this.state = {
             teamId: null,
+            gameIds: [],
             events: [],
             showAddEventForm: false
         }
@@ -39,6 +41,13 @@ export default class Events extends React.Component {
 
             // Iterate through event IDs..
             let events_array = json['attendedEvents'];
+
+            // Set game IDs.
+            this.setState({
+                gameIds: json['games']
+            });
+
+
             for (let i = 0; i < events_array.length; i++) {
                 let eventID = events_array[i];
 
@@ -106,6 +115,19 @@ export default class Events extends React.Component {
         });
     }
 
+    updateEvent(updatedEvent) {
+
+        var events = this.state.events;
+        for (var i = 0; i < events.length; i++) {
+            if (events[i]._id === updatedEvent._id) {
+                events[i] = updatedEvent;
+                break;
+            }
+        }
+
+        this.setState({events: events});
+    }
+
     handleChange(e) {
         if (e.target.name === 'addEvent') {
             this.setState({
@@ -130,7 +152,8 @@ export default class Events extends React.Component {
                     <Alerts alerts={this.state.alerts}/>
                     {addEventLink}
                     {eventListView}
-                    <EventCardGrid events={this.state.events}/>
+
+                    <EventCardGrid updateEvent = {this.updateEvent} events={this.state.events} gameIds={this.state.gameIds}/>
                 </div>
             </div>
         );
