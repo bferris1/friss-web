@@ -101,7 +101,7 @@ export default class EventCardGrid extends Component{
                 return (
                     <EventCard title={eventItem["name"]} description={eventItem["city"]}
                                buttonText={"Scout"} col_sm={6}
-                               key={index} link={"/game"} games={this.state.games} gameId={gameName} onChange = {(e) => {this.handleChange(index, e)}}/>
+                               key={index} link={"/event/" + eventItem._id} games={this.state.games} gameId={gameName} onChange = {(e) => {this.handleChange(index, e)}}/>
                 );
             });
         }

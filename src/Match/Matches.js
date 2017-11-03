@@ -1,5 +1,6 @@
 import React from 'react';
 import {Form, FormGroup, Input, Label, Table} from 'reactstrap';
+import Auth from '../AuthCtrl';
 
 export default class Matches extends React.Component {
 
@@ -7,51 +8,121 @@ export default class Matches extends React.Component {
         super(props);
 
         this.state = {
+            event: null,
+            eventObject: null,
             alliance: 'red',
             position: 1,
+            matchesObjects: [],
             matches: [],
-            teams: []
+            teams: [],
+            team_key_dict: {}
         };
 
         this.handleChange = this.handleChange.bind(this);
+        this.refreshTeams = this.refreshTeams.bind(this);
     }
 
-    handleChange(e) {
-        this.setState({[e.target.id]: e.target.value});
+    componentDidMount() {
+        var eventId = this.props.match.params.eventId;
 
-        let API_URL = 'https://www.thebluealliance.com/api/v3/event/2017carv/matches'; // TODO: Get selected event.
+        // Get event data from database.
+        Auth.get('/api/event/' + eventId).then((response) => {
+            if (response.success) {
+                this.setState({
+                    event: response.event
+                });
+            } else {
+                alert('Unable to fetch event data for event ID' + eventId);
+            }
+        });
+
+        // Get events from TheBlueAlliance.
+        // TODO: Don't hard code the year.
+        let EVENTS_API = 'https://www.thebluealliance.com/api/v3/events/2017/simple';
         let requestHeaders = new Headers();
         requestHeaders.append('X-TBA-Auth-Key', 'KRMfzG8uBUXabV2xdBE2NqyB5ntwAjUvr8RVL47fIdDWh2zKRr0vQjNNQfciVkm3'); // TODO: Use a secure file to store the key.
         let requestOptions = {
             method: 'GET',
             headers: requestHeaders
         };
-
-        fetch(API_URL, requestOptions).then((response) => {
+        fetch(EVENTS_API, requestOptions).then((response) => {
             if (response.ok) {
                 return response.json();
             } else {
                 alert('Unable to fetch match data form TheBlueAlliance API.');
             }
         }).then((json) => {
-            var teams = this.state.teams;
-            for (var matchItem in json) {
-                let teamKey = matchItem['alliances'][this.state.alliance]['team_keys'][this.state.position - 1];
-                let TEAM_API_URL = 'https://www.thebluealliance.com/api/v3/team/' + teamKey;
-                fetch(TEAM_API_URL, requestOptions).then((response) => {
+            json.forEach((eventObj) => {
+                if (eventObj.name === this.state.event.name) {
+                    this.setState({eventObject: eventObj});
+                }
+            });
+        }).then(() => {
+
+            /*
+             * My brain is melting.
+             */
+
+            // Get matches for event using event key.
+            let MATCHES_API = 'https://www.thebluealliance.com/api/v3/event/' + this.state.eventObject.key + '/matches';
+            fetch(MATCHES_API, requestOptions).then((response) => {
+                console.log(response);
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    alert('Unable to fetch match data form TheBlueAlliance API.');
+                }
+            }).then((json) => {
+                let team_key_dict = this.state.team_key_dict;
+                // Make a dictionary associating a team object with their key.
+                let TEAM_KEYS_API = 'https://www.thebluealliance.com/api/v3/event/' + this.state.eventObject.key + '/keys';
+                fetch(TEAM_KEYS_API, requestOptions).then((response) => {
                     if (response.ok) {
                         return response.json();
                     } else {
-                        alert('Unable to fetch match data form TheBlueAlliance API.');
+                        alert('Unable to fetch team keys.')
                     }
-                }).then((team_json) => {
-                    teams.push(team_json);
-                    this.setState({
-                        teams: teams
+                }).then((team_keys) => {
+                    team_keys.forEach((team_key) => {
+                        // Get data for each team.
+                        let TEAM_API = 'https://www.thebluealliance.com/api/v3/team/' + team_key;
+                        fetch(TEAM_API, requestOptions).then((response) => {
+                            if (response.ok) {
+                                team_key_dict[team_key] = response.json();
+                            }
+                            else {
+                                alert('Unable to fetch team data.');
+                            }
+                        });
+
+                    }).then(() => {
+                        this.setState({
+                            team_key_dict: team_key_dict
+                        });
                     });
                 });
-            }
+            });
+        }).then(() => {
+            this.refreshTeams();
         });
+    }
+
+    refreshTeams() {
+        var teams = this.state.teams;
+        this.state.matchesObjects.forEach((matchObject) => {
+            let team_key = matchObject.alliances[this.state.alliance].team_keys[this.state.position - 1];
+            teams.push(this.state.team_key_dict[team_key]);
+            this.setState({
+                teams: teams
+            });
+        });
+    }
+
+    handleChange(e) {
+
+        this.setState({[e.target.id]: e.target.value});
+
+        this.refreshTeams();
     }
 
     render() {
@@ -79,30 +150,35 @@ export default class Matches extends React.Component {
 
         var matchRows = this.state.teams.map((teamItem, index) => {
             return (
-                <tr key = {index}>
-                    <td><a href = {''} onClick = {this.handleChange} name = 'selectMatch'>{index + 1}</a></td>
-                    <td><a href = {''} onClick = {this.handleChange} name = 'selectMatch'>{teamItem['team_number']}</a></td>
-                    <td><a href = {''} onClick = {this.handleChange} name = 'selectMatch'>{teamItem['nickname']}</a></td>
+                <tr key={index}>
+                    <td><a href={''} onClick={this.handleChange} name='selectMatch'>{index + 1}</a></td>
+                    <td><a href={''} onClick={this.handleChange} name='selectMatch'>{teamItem['team_number']}</a></td>
+                    <td><a href={''} onClick={this.handleChange} name='selectMatch'>{teamItem['nickname']}</a></td>
                 </tr>
             );
         });
 
+        var header = null;
+        if (this.state.eventObject) {
+            header = (<h4>{this.state.eventObject.name}</h4>);
+        }
         return (
             <div>
+                {header}
                 <Form>
                     {allianceForm}
                     {positionForm}
                 </Form>
                 <Table>
                     <thead>
-                        <tr>
-                            <th>Match #</th>
-                            <th>Team #</th>
-                            <th>Team Nickname</th>
-                        </tr>
+                    <tr>
+                        <th>Match #</th>
+                        <th>Team #</th>
+                        <th>Team Nickname</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        {matchRows}
+                    {matchRows}
                     </tbody>
                 </Table>
             </div>
