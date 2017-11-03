@@ -9,9 +9,8 @@ export const NumericStepper = (props) => {
         <p style={{marginBottom:'5px'}}>{props.name}</p>
         <button onClick={e => {props.onChange(props.value-props.step)}}>-</button>
         <input className="num-step" type="number" min={props.min} max={props.max}
-                      step={props.step} value={props.value}/>
-        <button onClick={e => {props.onChange(props.value+props.step)}}>+</button>
-
+         step={props.step} value={props.value}/>
+        <button type="" onClick={e => {props.onChange(props.value+props.step)}}>+</button>
       </div>
     );
 }

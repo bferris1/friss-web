@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Form} from 'reactstrap';
+import {Form, Button, Row} from 'reactstrap';
 
 import {NumericStepper, CheckboxMetric, RadioOptionMetric, TextboxMetric} from './ScoutingReportMetricComponents';
 import {StopwatchMetric} from './StopwatchMetric';
@@ -31,7 +31,8 @@ export default class ScoutingReportFrom extends Component{
           }],
           submittedBy: ''
         };
-
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount(){
@@ -120,6 +121,11 @@ export default class ScoutingReportFrom extends Component{
           metricValue: ''
         }
       ]});
+    }
+
+    handleSubmit(e){
+      e.preventDefault();
+      console.log("submit");
     }
 
     handleChange(index, newValue){
@@ -226,14 +232,17 @@ export default class ScoutingReportFrom extends Component{
       });
 
         return(
-          <div>
+          <div style={{marginBottom:'30px'}}>
             <h1>Scouting Report</h1>
             <h2>Match #{this.props.matchNumber}</h2>
             <h3>Team #{this.props.teamNumber} -- {this.props.teamNickName}</h3>
             <hr />
-            <Form>
+            <Form style={{marginBottom:'30px'}} onSubmit={this.handleSubmit}>
               {reportMetrics}
+              <Button color="primary" type="submit">Submit</Button>
             </Form>
+
+
           </div>
         )
     }
