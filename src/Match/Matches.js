@@ -1,5 +1,6 @@
 import React from 'react';
 import {Form, FormGroup, Input, Label, Table} from 'reactstrap';
+import {Link} from 'react-router-dom';
 
 export default class Matches extends React.Component {
 
@@ -14,12 +15,21 @@ export default class Matches extends React.Component {
         };
 
         this.handleChange = this.handleChange.bind(this);
+        this.updateData = this.updateData.bind(this);
+    }
+
+    componentDidMount(){
+        this.updateData();
     }
 
     handleChange(e) {
         this.setState({[e.target.id]: e.target.value});
         this.setState({teams:[]});
+        this.updateData();
 
+    }
+
+    updateData(){
         let API_URL = 'https://www.thebluealliance.com/api/v3/event/2017carv/matches'; // TODO: Get selected event.
         let requestHeaders = new Headers();
         requestHeaders.append('X-TBA-Auth-Key', 'KRMfzG8uBUXabV2xdBE2NqyB5ntwAjUvr8RVL47fIdDWh2zKRr0vQjNNQfciVkm3'); // TODO: Use a secure file to store the key.
@@ -82,9 +92,9 @@ export default class Matches extends React.Component {
         var matchRows = this.state.teams.map((teamItem, index) => {
             return (
                 <tr key = {index}>
-                    <td><a href = {''} onClick = {this.handleChange} name = 'selectMatch'>{index + 1}</a></td>
-                    <td><a href = {''} onClick = {this.handleChange} name = 'selectMatch'>{teamItem['team_number']}</a></td>
-                    <td><a href = {''} onClick = {this.handleChange} name = 'selectMatch'>{teamItem['nickname']}</a></td>
+                    <td><Link to={"/test-sr"} >{index + 1}</Link></td>
+                    <td><Link to={"/test-sr"}>{teamItem['team_number']}</Link></td>
+                    <td><Link to={'test-sr'}>{teamItem['nickname']}</Link></td>
                 </tr>
             );
         });
