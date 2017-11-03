@@ -205,7 +205,7 @@ export default class ScoutingReportFrom extends Component{
             nextMetric = (
               <div style={{marginTop:'15px'}}>
                 {newSection}
-                <label style={{marginBottom:'5px'},{marginRight:'5px'}}>{reportMetric.metric.name}</label>
+                <label style={{marginBottom:'5px',marginRight:'5px'}}>{reportMetric.metric.name}</label>
                 {radioOptions}
               </div>
             );
