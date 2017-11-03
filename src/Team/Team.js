@@ -85,6 +85,12 @@ export default class Team extends Component{
                         success:'Updated Team Successfully'
                     }
                 });
+            } else {
+                this.setState({
+                    alerts:{
+                        danger: response.error
+                    }
+                });
             }
             console.log(response);
         });

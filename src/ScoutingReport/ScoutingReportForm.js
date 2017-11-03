@@ -50,10 +50,10 @@ export default class ScoutingReportFrom extends Component{
         {
           metricID: "randomUUID1",
           metric: {
-            name: 'Where U B B\'in bruh?!?!',
+            name: 'Zone At End of Auto Mode',
             section: 'Auto Mode',
             type: 'radio',
-            radioOptions: ["here", "there", "everywhere"]
+            radioOptions: ["red", "white", "blue"]
           },
           metricValue: 0
         },
@@ -234,8 +234,8 @@ export default class ScoutingReportFrom extends Component{
         return(
           <div style={{marginBottom:'30px'}}>
             <h1>Scouting Report</h1>
-            <h2>Match #{this.props.matchNumber}</h2>
-            <h3>Team #{this.props.teamNumber} -- {this.props.teamNickName}</h3>
+            <h2>Match #{this.props.match.params.matchNum}</h2>
+            {/*<h3>Team #{this.props.teamNumber} -- {this.props.teamNickName}</h3>*/}
             <hr />
             <Form style={{marginBottom:'30px'}} onSubmit={this.handleSubmit}>
               {reportMetrics}

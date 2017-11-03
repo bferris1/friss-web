@@ -92,9 +92,9 @@ export default class Matches extends React.Component {
         var matchRows = this.state.teams.map((teamItem, index) => {
             return (
                 <tr key = {index}>
-                    <td><Link to={"/test-sr"} >{index + 1}</Link></td>
-                    <td><Link to={"/test-sr"}>{teamItem['team_number']}</Link></td>
-                    <td><Link to={'/test-sr'}>{teamItem['nickname']}</Link></td>
+                    <td><Link to={"/test-sr/" + (index+1)} >{index + 1}</Link></td>
+                    <td><Link to={"/test-sr/" + (index+1)}>{teamItem['team_number']}</Link></td>
+                    <td><Link to={'/test-sr/' + (index+1)}>{teamItem['nickname']}</Link></td>
                 </tr>
             );
         });

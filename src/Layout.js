@@ -61,7 +61,7 @@ export default class Layout extends Component{
                             <Route path={'/game/:gameId'} component={GameDetails}/>
                             <Route exact path={'/events'} component={Events}/>
                             <Route path={'/event/:eventId'} component={Matches}/>
-                            <Route path={"/test-sr"} component={ScoutingReport}/>
+                            <Route path={"/test-sr/:matchNum"} component={ScoutingReport}/>
 
                         </Col>
                     </Row>
