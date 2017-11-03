@@ -3,6 +3,7 @@ import {Row, Col, Button} from 'reactstrap';
 import {AvForm} from 'availity-reactstrap-validation';
 import {Link} from 'react-router-dom';
 import {EmailInput, PasswordInput, LabeledInput} from "./form";
+import Auth from './AuthCtrl';
 
 export default class Signup extends Component{
     constructor(props){
@@ -10,6 +11,9 @@ export default class Signup extends Component{
         this.state = {firstName:"", lastName:""};
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        if (Auth.isLoggedIn()){
+            this.props.history.push('/');
+        }
     }
 
     handleChange(e){
@@ -28,7 +32,12 @@ export default class Signup extends Component{
                 body: JSON.stringify(this.state)
             })
             .then((response)=>{return response.json()})
-            .then(console.log)
+            .then(res =>{
+                if (res.success){
+                    localStorage.setItem("token", res.token);
+                    this.props.history.push('/account')
+                }
+            })
     }
 
     render(){
