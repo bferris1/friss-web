@@ -99,11 +99,12 @@ export default class Events extends React.Component {
                             events: [...this.state.events, res.event]
                         });
                     }
-                    else
-                        this.setState({alerts: {danger: res.error}});
+                    else {
+                        this.setState({alerts: {danger: response.error}});
+                        console.log(response);
+                    }
                 });
-            }
-            else
+            } else
                 this.setState({alerts: {danger: res.error}});
             setTimeout(() => {
                 this.setState({alerts: {}})
