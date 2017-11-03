@@ -3,6 +3,7 @@ import {CountryDropdown, RegionDropdown} from 'react-country-region-selector';
 import {Button, Col, Form, Label, Row} from 'reactstrap';
 import {LabeledInput} from '../form'
 import Auth from '../AuthCtrl';
+import Alerts from '../Alerts'
 
 
 import 'react-select/dist/react-select.css';
@@ -70,12 +71,27 @@ export default class Team extends Component{
             Auth.post('/api/team', this.state).then((response)=>{
                 console.log(response);
                 if (response.success){
-                    //notify user
+                    this.setState({
+                        alerts:{
+                            success:'Created Team Successfully'
+                        }
+                    });
                 }
             });
         else (Auth.post('/api/team/update', this.state)).then(response => {
+            if (response.success){
+                this.setState({
+                    alerts:{
+                        success:'Updated Team Successfully'
+                    }
+                });
+            }
             console.log(response);
-        })
+        });
+
+        setTimeout(()=>{
+            this.setState({alerts:[]});
+        }, 5000)
     }
 
 
@@ -84,9 +100,10 @@ export default class Team extends Component{
 
       return (
         <div>
-              <h1>Team Profile</h1>
-              <h3>FRC Team: {this.state.number} -- {this.state.name}</h3>
-              <h4 style={{marginTop:'30px'}}>General Info</h4>
+            <h1>Team Profile</h1>
+            <Alerts alerts={this.state.alerts}/>
+            <h3>FRC Team: {this.state.number} -- {this.state.name}</h3>
+              <h4 stylef={{marginTop:'30px'}}>General Info</h4>
               <Form style={{marginBottom:'30px'}} onSubmit={this.handleSubmit}>
                   <Row>
                       <Col sm={8}>
