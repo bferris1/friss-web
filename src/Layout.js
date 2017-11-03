@@ -12,6 +12,8 @@ import Events from './Event/Events';
 import AuthCtrl from './AuthCtrl';
 import Home from './Home';
 import Matches from './Match/Matches';
+import ScoutingReport from './ScoutingReport/ScoutingReportForm';
+
 
 export default class Layout extends Component{
 
@@ -59,9 +61,12 @@ export default class Layout extends Component{
                             <Route path={'/game/:gameId'} component={GameDetails}/>
                             <Route exact path={'/events'} component={Events}/>
                             <Route path={'/event/:eventId'} component={Matches}/>
+                            <Route path={"/test-sr"} component={ScoutingReport}/>
+
                         </Col>
                     </Row>
                 </div>
+
 
         )
     }
