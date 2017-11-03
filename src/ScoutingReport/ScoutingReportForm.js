@@ -134,8 +134,8 @@ export default class ScoutingReportFrom extends Component{
       if(metricData[index].metric.type === 'numericStepper'){
         let upperBound = metricData[index].metric.maximumValue;
         let lowerBound = metricData[index].metric.minimumValue;
-        console.log(upperBound);
-        console.log(lowerBound);
+        // console.log(upperBound);
+        // console.log(lowerBound);
         if(newValue.metricValue > upperBound || newValue.metricValue < lowerBound){
           console.log("Error: numeric bound reached");
           return;

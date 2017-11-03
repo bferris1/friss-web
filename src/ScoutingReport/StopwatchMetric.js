@@ -22,7 +22,8 @@ export class StopwatchMetric extends React.Component {
       timeElapsed: 0,
     };
   }
-  toggle() {
+  toggle(e) {
+    e.preventDefault();
     this.setState({isRunning: !this.state.isRunning}, () => {
       this.state.isRunning ? this.startTimer() : clearInterval(this.timer)
     });
@@ -34,7 +35,8 @@ export class StopwatchMetric extends React.Component {
     const {lapTimes, timeElapsed} = this.state;
     this.setState({lapTimes: lapTimes.concat(timeElapsed)});
   }
-  reset() {
+  reset(e) {
+    e.preventDefault();
     clearInterval(this.timer);
     this.setState(this.initialState);
     this.props.onStop(0);
