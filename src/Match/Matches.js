@@ -18,6 +18,7 @@ export default class Matches extends React.Component {
 
     handleChange(e) {
         this.setState({[e.target.id]: e.target.value});
+        this.setState({teams:[]});
 
         let API_URL = 'https://www.thebluealliance.com/api/v3/event/2017carv/matches'; // TODO: Get selected event.
         let requestHeaders = new Headers();
