@@ -54,7 +54,7 @@ export default class Layout extends Component{
                             <p className={"text-right"}>{this.state.user ? this.state.user.firstName + " " + this.state.user.lastName: "Not Logged In"}</p>
                             <Route exact path={"/"} component={Home} />
                             <Route path={"/account"} component={Account}/>
-                            <Route path={"/team-management"} component={TeamManagement}/>
+                            {/*<Route path={"/team-management"} component={TeamManagement}/>*/}
                             <Route exact path={"/team"} component={Team}/>
                             <Route path={"/team/:teamId"} component={TeamDetails}/>
                             <Route exact path={'/game'} component={Game}/>
