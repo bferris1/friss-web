@@ -94,7 +94,7 @@ export default class Matches extends React.Component {
                 <tr key = {index}>
                     <td><Link to={"/test-sr"} >{index + 1}</Link></td>
                     <td><Link to={"/test-sr"}>{teamItem['team_number']}</Link></td>
-                    <td><Link to={'test-sr'}>{teamItem['nickname']}</Link></td>
+                    <td><Link to={'/test-sr'}>{teamItem['nickname']}</Link></td>
                 </tr>
             );
         });
