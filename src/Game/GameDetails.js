@@ -30,7 +30,7 @@ export default class GameDetails extends Component {
 
     componentDidMount(){
         console.log(this.props.match.params.gameId);
-        Auth.get('/api/game/'+this.props.match.params.gameId).then(res => {
+        Auth.get('/api/games/'+this.props.match.params.gameId).then(res => {
             if (res.success){
                 this.setState(res.game);
             }

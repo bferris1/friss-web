@@ -39,7 +39,7 @@ export default class EventCardGrid extends Component{
                 if (gameID === null) { continue; }
 
                 // Fetch data for each game.
-                Auth.get('/api/game/' + gameID).then((response) => {
+                Auth.get('/api/games/' + gameID).then((response) => {
                     if (response.success) {
 
                         return response['game'];

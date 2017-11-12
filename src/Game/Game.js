@@ -20,47 +20,11 @@ export default class Game extends Component{
 
     componentDidMount(){
         // would fetch from API, but it doesn't currently support it
-
-        // Fetch event IDs from the current team's attended events.
-        Auth.get('/api/team').then((response) => {
-            if (response.success) {
-                return response['team'];
-            } else {
-                alert('Error fetching team event IDs.');
-            }
-        }).then((json) => {
-
-            // Set current team ID.
-            this.setState({
-                teamId: json['_id']
-            });
-
-            // Iterate through game IDs.
-            let games_array = json['games'];
-            for (let i = 0; i < games_array.length; i++) {
-                let gameID = games_array[i];
-                if (gameID === null) {
-                    continue;
-                }
-                // Fetch data for each game.
-                Auth.get('/api/game/' + gameID).then((response) => {
-                    if (response.success) {
-                        return response;
-                    } else {
-                        alert('Error fetch event data for game ID : ' + gameID);
-                    }
-                }).then((json) => {
-
-                    // Update state with team's events.
-                    var games = this.state.games;
-                    games.push(json.game);
-                    this.setState({
-                        games: games
-                    });
-
-                });
-            }
-
+        Auth.get('/api/games').then(response => {
+            if (response.success)
+                this.setState({
+                    games:response.games
+                })
         });
     }
 
@@ -70,35 +34,18 @@ export default class Game extends Component{
 
     handleAddGame(game) {
 
-        var games = this.state.games;
+        let games = this.state.games.slice();
 
         // Add game to database.
-        Auth.post('/api/game', game).then(response => {
+        Auth.post('/api/games', game).then(response => {
             if (response.success) {
                 return response['game'];
             } else {
                 alert('Error adding game to database.');
             }
         }).then((json) => {
-
             games.push(json);
-
-            const gameId = json['_id'];
-            let gameIdJson = {
-                gameId: gameId
-            };
-
-            // Add game to team.
-            Auth.post('/api/team/game', gameIdJson).then((response) => {
-                if (response.success) {
-                    console.log(response);
-                    // Add game to grid.
-                    this.setState({ games: games});
-
-                } else {
-                    alert('Error adding game to team.');
-                }
-            });
+            this.setState({games})
         });
 
         this.setState({addForm:false});
