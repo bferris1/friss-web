@@ -13,7 +13,9 @@ export default class GameCardGrid extends Component{
              return (
                  <LabeledCard title={game.name} description={game.description}
                               buttonText={"Add Metrics"} col_sm={6}
-                              key={game._id} link={"/game/"+game._id}/>
+                              key={game._id} link={"/game/"+game._id}>
+                     <button className={"btn btn-block btn-danger"} onClick={e => {this.props.onDelete(game)}}>Delete Game</button>
+                 </LabeledCard>
              );
          });
        }

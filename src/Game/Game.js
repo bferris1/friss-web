@@ -12,6 +12,8 @@ export default class Game extends Component{
         this.handleChange = this.handleChange.bind(this);
         this.handleAddGame = this.handleAddGame.bind(this);
         this.addGame = this.handleAddGame.bind(this);
+        this.fetchGames = this.fetchGames.bind(this);
+        this.handleDeleteGame = this.handleDeleteGame.bind(this);
         this.state = {
             addForm: false,
             games: []
@@ -19,7 +21,10 @@ export default class Game extends Component{
     }
 
     componentDidMount(){
-        // would fetch from API, but it doesn't currently support it
+        this.fetchGames();
+    }
+
+    fetchGames(){
         Auth.get('/api/games').then(response => {
             if (response.success)
                 this.setState({
@@ -51,6 +56,17 @@ export default class Game extends Component{
         this.setState({addForm:false});
     }
 
+    handleDeleteGame(game){
+        console.log(game);
+        Auth.delete(`/api/games/${game._id}`).then(res => {
+            if (res.success){
+                // probably show alert here
+                // if we have the API return a new list of games, we could update state here
+                this.fetchGames();
+            }
+        });
+    }
+
     render(){
 
         let newForm = null;
@@ -67,7 +83,7 @@ export default class Game extends Component{
                 <h1>Create Games</h1>
                 {newFormLink}
                 {newForm}
-                <GameCardGrid games={this.state.games} />
+                <GameCardGrid games={this.state.games} onDelete={this.handleDeleteGame} />
             </div>
         )
     }

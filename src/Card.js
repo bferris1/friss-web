@@ -11,6 +11,7 @@ export const LabeledCard = (props) => {
           <CardTitle>{props.title}</CardTitle>
           <CardText>{props.description}</CardText>
             <Link className={"btn btn-block btn-primary"} to={props.link}>{props.buttonText}</Link>
+            {props.children}
           {/*<Button color="primary" onClick={props.onClick}>{props.buttonText}</Button>*/}
         </CardBlock>
       </Card>
