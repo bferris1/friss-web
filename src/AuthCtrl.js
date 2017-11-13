@@ -13,7 +13,7 @@ export default  {
                 return response.json();
             else {
                 this.logout();
-                return {success: false, response: response};
+                return {success: false, error: response};
             }
         });
     },
@@ -33,7 +33,46 @@ export default  {
                 return response.json();
             else {
                 this.logout();
-                return {success: false, response: response};
+                return {success: false, error: response};
+            }
+        });
+    },
+
+    put(endoint, body){
+        let headers = new Headers();
+        headers.append("Authorization", localStorage.getItem("token"));
+        headers.append("Content-Type", "application/json");
+
+        let options = {
+            method:"PUT",
+            headers:headers,
+            body:JSON.stringify(body)
+        };
+        return fetch(endoint, options).then((response)=>{
+            if (response.status !== 401)
+                return response.json();
+            else {
+                this.logout();
+                return {success: false, error: response};
+            }
+        });
+    },
+
+    delete(endoint){
+        let headers = new Headers();
+        headers.append("Authorization", localStorage.getItem("token"));
+        headers.append("Content-Type", "application/json");
+
+        let options = {
+            method:"DELETE",
+            headers:headers,
+        };
+        return fetch(endoint, options).then((response)=>{
+            if (response.status !== 401)
+                return response.json();
+            else {
+                this.logout();
+                return {success: false, error: response};
             }
         });
     },
@@ -53,7 +92,7 @@ export default  {
                     return response.json();
                 else {
                     this.logout();
-                    return {success: false, response: response};
+                    return {success: false, error: response};
                 }
         })
             .then((response)=>{
