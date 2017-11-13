@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Button} from 'reactstrap';
 import Auth from '../AuthCtrl';
+import Alerts from '../Alerts'
 
 import NewGameForm from './NewGameForm'
 import GameCardGrid from './GameCardGrid'
@@ -16,7 +17,8 @@ export default class Game extends Component{
         this.handleDeleteGame = this.handleDeleteGame.bind(this);
         this.state = {
             addForm: false,
-            games: []
+            games: [],
+            alerts:{}
         }
     }
 
@@ -44,14 +46,15 @@ export default class Game extends Component{
         // Add game to database.
         Auth.post('/api/games', game).then(response => {
             if (response.success) {
-                return response['game'];
+                games.push(response.game);
+                this.setState({games});
             } else {
-                alert('Error adding game to database.');
+                this.setState({alerts:{danger:response.error}});
             }
-        }).then((json) => {
-            games.push(json);
-            this.setState({games})
         });
+        setTimeout(() => {
+            this.setState({alerts:{}});
+        }, 5000);
 
         this.setState({addForm:false});
     }
@@ -81,6 +84,7 @@ export default class Game extends Component{
         return(
             <div className='Game'>
                 <h1>Create Games</h1>
+                <Alerts alerts={this.state.alerts}/>
                 {newFormLink}
                 {newForm}
                 <GameCardGrid games={this.state.games} onDelete={this.handleDeleteGame} />
