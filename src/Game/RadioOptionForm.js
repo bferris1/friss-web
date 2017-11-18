@@ -45,7 +45,7 @@ export default class RadioOptionForm extends Component {
                            onChange={e => {this.handleChange(index, e.target.value)}}
                             >
                     </Input>
-                        <button onClick={e => {e.preventDefault(); this.handleDeleteOption(index)}} className={"align-self-center btn btn-danger"}>D</button>
+                        <button onClick={e => {e.preventDefault(); this.handleDeleteOption(index)}} className={"align-self-center btn btn-danger"}><span className="oi oi-trash"/></button>
 
                     </div>
                 </FormGroup>
