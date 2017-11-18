@@ -19,6 +19,7 @@ export default class GameDetails extends Component {
         this.handleAddMetric = this.handleAddMetric.bind(this);
         this.handleDeleteMetric = this.handleDeleteMetric.bind(this);
         this.toggle = this.toggle.bind(this);
+        this.fetchGames = this.fetchGames.bind(this)
     }
 
     toggle() {
@@ -28,7 +29,10 @@ export default class GameDetails extends Component {
     }
 
     componentDidMount(){
-        console.log(this.props.match.params.gameId);
+        this.fetchGames();
+    }
+
+    fetchGames(){
         Auth.get('/api/games/'+this.props.match.params.gameId).then(res => {
             if (res.success){
                 this.setState(res.game);
@@ -40,9 +44,7 @@ export default class GameDetails extends Component {
         // Handle Add.
         if (this.state.selectedIndex === -1) {
             console.log(metric);
-            let metrics = this.state.metrics.slice();
             Auth.post(`/api/games/${this.props.match.params.gameId}/metrics`, metric).then(res => {
-                console.log(res);
                 if (res.success){
                     this.setState({metrics:res.metrics});
                 }
@@ -51,12 +53,21 @@ export default class GameDetails extends Component {
         }
         // Handle Edit.
         else {
-            let metrics = this.state.metrics;
-            metrics[this.state.selectedIndex] = metric;
-            this.setState({
-                metrics: metrics,
-                selectedIndex: -1
+            Auth.put(`/api/games/${this.props.match.params.gameId}/metrics/${metric._id}`, metric).then(res => {
+                if (res.success){
+                    let metrics = this.state.metrics.slice();
+                    metrics[this.state.selectedIndex] = res.metric;
+                    this.setState({metrics});
+                    this.setState({
+                        selectedIndex: -1
+                    });
+                } else {
+                    this.setState({
+                        selectedIndex: -1
+                    });
+                }
             });
+
         }
         this.toggle();
     }
@@ -68,7 +79,6 @@ export default class GameDetails extends Component {
             return;
         }
         Auth.delete(`/api/games/${this.props.match.params.gameId}/metrics/${metric._id}`).then(res => {
-            console.log(res);
             if (res.success){
                 let metrics = this.state.metrics.filter(function (candidate) {
                     return candidate !== metric;
