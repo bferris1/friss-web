@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import { Form, Input } from 'reactstrap';
+import {Form, Input} from 'reactstrap';
 import {LabeledInput} from '../form'
+import RadioOptionForm from "./RadioOptionForm";
 
 
 export default class MetricForm extends Component {
@@ -11,22 +12,27 @@ export default class MetricForm extends Component {
         if (props.metric === null){
             this.state = {
                 name:'',
-                category:'Autonomous Mode',
+                section:'Autonomous Mode',
                 type:'Integer',
                 maximumValue:'',
                 minimumValue:'',
                 defaultValue:'',
                 incrementStep:undefined,
+                radioOptions: []
             }
         } else {
             this.state = props.metric;
         }
 
         this.handleChange = this.handleChange.bind(this);
+        this.handleRadioChange = this.handleRadioChange.bind(this);
     }
 
     handleChange(e) {
-        this.setState({[e.target.id]: e.target.value});
+        this.setState({[e.target.name]: e.target.value});
+    }
+    handleRadioChange(radioOptions) {
+        this.setState({radioOptions});
     }
 
     handleSubmit(e){
@@ -44,15 +50,15 @@ export default class MetricForm extends Component {
                               value={this.state.defaultValue}
                               name={"defaultValue"}
                               onChange={this.handleChange}
-                              id={"defaultValue"} type={"number"} />
+                              type={"number"} />
                 <LabeledInput label={"Minimum value"}
                               name={"minimumValue"}
                               value={this.state.minimumValue}
                               onChange={this.handleChange}
-                              id={"minimumValue"} type={"number"} />
+                              type={"number"} />
                 <LabeledInput label={"Maximum value"} name={"maximumValue"}
                               onChange={this.handleChange}
-                              value={this.state.maximumValue} id={"maximumValue"} type={"number"} />
+                              value={this.state.maximumValue} type={"number"} />
             </div>
         );
         const stringForm = (
@@ -79,23 +85,26 @@ export default class MetricForm extends Component {
         }
         else if(this.state.type === "Time"){
             extraForm = stopwatchForm;
+        } else if(this.state.type === "Radio"){
+            extraForm = <RadioOptionForm options={this.state.radioOptions} onChange={this.handleRadioChange}/>
         }
 
         return (
             <Form onSubmit={(e)=>{e.preventDefault(); this.props.onSubmit(this.state)}}>
-                <LabeledInput name={"name"} id={"name"} label={"Metric Name"} type={"text"} value={this.state.name} onChange={this.handleChange}/>
-                <LabeledInput name={"category"} type={"select"} value={this.state.category} label={"Metric Category"} id={"category"} onChange={this.handleChange}>
+                <LabeledInput name={"name"} label={"Metric Name"} type={"text"} value={this.state.name} onChange={this.handleChange}/>
+                <LabeledInput name={"section"} type={"select"} value={this.state.section} label={"Metric Category"} onChange={this.handleChange}>
                     <option>Autonomous Mode</option>
                     <option>Tele-operated Mode</option>
                 </LabeledInput>
-                <LabeledInput type={"select"} label={"Metric Type"} value={this.state.type} id={"type"} onChange={this.handleChange}>
+                <LabeledInput type={"select"} name={"type"} label={"Metric Type"} value={this.state.type} onChange={this.handleChange}>
                     <option>Integer</option>
                     <option>Double</option>
                     <option>String</option>
                     <option>Time</option>
-                    {/*<option>Radio</option>*/}
+                    <option>Radio</option>
                 </LabeledInput>
                 {extraForm}
+                <br/>
                 <Input type="submit"/>
             </Form>
         )
