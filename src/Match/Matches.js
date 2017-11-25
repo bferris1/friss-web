@@ -1,6 +1,5 @@
 import React from 'react';
 import {Form, FormGroup, Input, Label} from 'reactstrap';
-import {Link} from 'react-router-dom';
 import {LabeledInput} from "../form";
 
 export default class Matches extends React.Component {
@@ -36,9 +35,7 @@ export default class Matches extends React.Component {
             }
         }
         this.setState({[e.target.id]: e.target.value});
-        this.setState({teams:[]});
-        // this.updateData();
-        this.updateMatch(e.target.value);
+        this.setState({team:undefined}, this.updateMatch);
     }
 
     updateMatch() {
@@ -116,16 +113,6 @@ export default class Matches extends React.Component {
             <LabeledInput id={"matchNumber"} type={"number"} onChange={this.handleChange} value={this.state.matchNumber} label={"Match Number"} />
         );
 
-        const matchRows = this.state.teams.map((teamItem, index) => {
-            return (
-                <tr key = {index}>
-                    <td><Link to={"/test-sr/" + (index+1)} >{index + 1}</Link></td>
-                    <td><Link to={"/test-sr/" + (index+1)}>{teamItem['team_number']}</Link></td>
-                    <td><Link to={'/test-sr/' + (index+1)}>{teamItem['nickname']}</Link></td>
-                </tr>
-            );
-        });
-
         return (
             <div>
                 <Form>
@@ -133,7 +120,7 @@ export default class Matches extends React.Component {
                     {positionForm}
                     {MatchNumberForm}
                 </Form>
-                {this.state.team != undefined ? `You are scouting Team ${this.state.team.team_number}, ${this.state.team.nickname}`: `Loading...`}
+                {this.state.team ? `You are scouting Team ${this.state.team.team_number}, ${this.state.team.nickname} for match ${this.state.matchNumber}`: `Loading...`}
             </div>
         );
     }
