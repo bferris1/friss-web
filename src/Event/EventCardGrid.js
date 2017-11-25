@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {Row} from 'reactstrap';
 import Auth from '../AuthCtrl';
 
@@ -20,44 +20,13 @@ export default class EventCardGrid extends Component{
 
     componentDidMount() {
 
-        // Fetch event IDs from the current team's attended events.
-        Auth.get('/api/team').then((response) => {
-            if (response.success) {
-                return response['team'];
-            } else {
-                alert('Error fetching team event IDs.');
+        Auth.get('/api/games').then(res => {
+            if (res.success) {
+                this.setState({
+                    games:res.games
+                })
             }
-        }).then((json) => {
-
-            var gameIds = json['games'];
-
-            // Iterate through game IDs.
-            for (var i = 0; i < gameIds.length; i++) {
-
-                let gameID = gameIds[i];
-
-                if (gameID === null) { continue; }
-
-                // Fetch data for each game.
-                Auth.get('/api/games/' + gameID).then((response) => {
-                    if (response.success) {
-
-                        return response['game'];
-                    } else {
-                        alert('Error fetch event data for game ID : ' + gameID);
-                    }
-                }).then((json) => {
-                    // Update state with team's events.
-                    var games = this.state.games;
-                    games.push(json);
-                    this.setState({
-                        games: games
-                    });
-                });
-            }
-
         });
-
     }
 
     handleChange(index, e) {
