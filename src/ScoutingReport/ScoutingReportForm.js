@@ -140,8 +140,8 @@ export default class ScoutingReportFrom extends Component{
           return;
         }
       }
-        console.log(newValue);
-        metricData[index] = {...metricData[index], ...newValue};
+      console.log(newValue);
+      metricData[index] = {...metricData[index], ...newValue};
       this.setState({
           metricData
       });
