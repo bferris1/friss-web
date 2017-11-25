@@ -45,9 +45,9 @@ export default class Matches extends React.Component {
                 alert('Unable to fetch match data form TheBlueAlliance API.');
             }
         }).then((json) => {
-            var teams = this.state.teams;
-
-            json.forEach((matchItem) =>  {
+            let teams = [];
+            // todo: there are still potential issues if these callbacks are still running when the selection is changed
+            json.forEach((matchItem, index) =>  {
                 let teamKey = matchItem['alliances'][this.state.alliance]['team_keys'][this.state.position - 1];
                 let TEAM_API_URL = 'https://www.thebluealliance.com/api/v3/team/' + teamKey;
                 fetch(TEAM_API_URL, requestOptions).then((response) => {
@@ -56,11 +56,9 @@ export default class Matches extends React.Component {
                     } else {
                         alert('Unable to fetch match data from TheBlueAlliance API.');
                     }
-                }).then((team_json) => {
-                    teams.push(team_json);
-                    this.setState({
-                        teams: teams
-                    });
+                }).then((team) => {
+                    teams[index] = team;
+                    this.setState({teams});
                 });
             });
         });
@@ -89,7 +87,7 @@ export default class Matches extends React.Component {
             </FormGroup>
         );
 
-        var matchRows = this.state.teams.map((teamItem, index) => {
+        const matchRows = this.state.teams.map((teamItem, index) => {
             return (
                 <tr key = {index}>
                     <td><Link to={"/test-sr/" + (index+1)} >{index + 1}</Link></td>
