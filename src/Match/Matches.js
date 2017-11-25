@@ -1,6 +1,7 @@
 import React from 'react';
-import {Form, FormGroup, Input, Label, Table} from 'reactstrap';
+import {Form, FormGroup, Input, Label} from 'reactstrap';
 import {Link} from 'react-router-dom';
+import {LabeledInput} from "../form";
 
 export default class Matches extends React.Component {
 
@@ -10,12 +11,17 @@ export default class Matches extends React.Component {
         this.state = {
             alliance: 'red',
             position: 1,
+            matchNumber: 1,
             matches: [],
-            teams: []
-        };
+            teams: [],
+            team: null
+        }
+        ;
 
         this.handleChange = this.handleChange.bind(this);
         this.updateData = this.updateData.bind(this);
+        this.updateMatch = this.updateMatch.bind(this);
+
     }
 
     componentDidMount(){
@@ -23,10 +29,42 @@ export default class Matches extends React.Component {
     }
 
     handleChange(e) {
+        if (e.target.id === "matchNumber") {
+            let newNumber = e.target.value;
+            if (newNumber < 1 || newNumber > this.state.matches.length){
+                return;
+            }
+        }
         this.setState({[e.target.id]: e.target.value});
         this.setState({teams:[]});
-        this.updateData();
+        // this.updateData();
+        this.updateMatch(e.target.value);
+    }
 
+    updateMatch() {
+        this.setState({team:{}});
+
+        if (!this.state.matchNumber) {
+            this.setState({team:null});
+            return;
+        }
+        let teamKey = this.state.matches[this.state.matchNumber - 1]['alliances'][this.state.alliance]['team_keys'][this.state.position - 1];
+        let API_URL = 'https://www.thebluealliance.com/api/v3/team/' + teamKey; // TODO: Get selected event.
+        let requestHeaders = new Headers();
+        requestHeaders.append('X-TBA-Auth-Key', 'KRMfzG8uBUXabV2xdBE2NqyB5ntwAjUvr8RVL47fIdDWh2zKRr0vQjNNQfciVkm3'); // TODO: Use a secure file to store the key.
+        let requestOptions = {
+            method: 'GET',
+            headers: requestHeaders
+        };
+        fetch (API_URL, requestOptions).then(res => {
+            if (res.ok){
+                return res.json();
+            } else {
+                //handle error
+            }
+        }).then(team => {
+            this.setState({team});
+        })
     }
 
     updateData(){
@@ -45,22 +83,9 @@ export default class Matches extends React.Component {
                 alert('Unable to fetch match data form TheBlueAlliance API.');
             }
         }).then((json) => {
-            let teams = [];
-            // todo: there are still potential issues if these callbacks are still running when the selection is changed
-            json.forEach((matchItem, index) =>  {
-                let teamKey = matchItem['alliances'][this.state.alliance]['team_keys'][this.state.position - 1];
-                let TEAM_API_URL = 'https://www.thebluealliance.com/api/v3/team/' + teamKey;
-                fetch(TEAM_API_URL, requestOptions).then((response) => {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        alert('Unable to fetch match data from TheBlueAlliance API.');
-                    }
-                }).then((team) => {
-                    teams[index] = team;
-                    this.setState({teams});
-                });
-            });
+            this.setState({matches:json});
+            console.log(json);
+            this.updateMatch();
         });
     }
 
@@ -87,6 +112,10 @@ export default class Matches extends React.Component {
             </FormGroup>
         );
 
+        const MatchNumberForm = (
+            <LabeledInput id={"matchNumber"} type={"number"} onChange={this.handleChange} value={this.state.matchNumber} label={"Match Number"} />
+        );
+
         const matchRows = this.state.teams.map((teamItem, index) => {
             return (
                 <tr key = {index}>
@@ -102,19 +131,9 @@ export default class Matches extends React.Component {
                 <Form>
                     {allianceForm}
                     {positionForm}
+                    {MatchNumberForm}
                 </Form>
-                <Table>
-                    <thead>
-                    <tr>
-                        <th>Match #</th>
-                        <th>Team #</th>
-                        <th>Team Nickname</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {matchRows}
-                    </tbody>
-                </Table>
+                {this.state.team != undefined ? `You are scouting Team ${this.state.team.team_number}, ${this.state.team.nickname}`: `Loading...`}
             </div>
         );
     }
