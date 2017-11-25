@@ -30,7 +30,7 @@ export default class EventCardGrid extends Component{
         }).then((json) => {
 
             var gameIds = json['games'];
-
+            console.log(gameIds);
             // Iterate through game IDs.
             for (var i = 0; i < gameIds.length; i++) {
 
