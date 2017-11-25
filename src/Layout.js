@@ -13,6 +13,7 @@ import AuthCtrl from './AuthCtrl';
 import Home from './Home';
 import Matches from './Match/Matches';
 import ScoutingReport from './ScoutingReport/ScoutingReportForm';
+import MetricWeights from './DataAnalysis/MetricWeightingForm';
 
 
 export default class Layout extends Component{
@@ -62,6 +63,7 @@ export default class Layout extends Component{
                             <Route exact path={'/events'} component={Events}/>
                             <Route path={'/event/:eventId'} component={Matches}/>
                             <Route path={"/test-sr/:matchNum"} component={ScoutingReport}/>
+                            <Route path={"/test-mw"} component={MetricWeights}/>
 
                         </Col>
                     </Row>
