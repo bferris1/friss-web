@@ -78,7 +78,8 @@ export default class Events extends React.Component {
         let event = {
             name: eventObj["name"],
             location: eventObj["city"],
-            date: eventObj["start_date"]
+            date: eventObj["start_date"],
+            eventKey: eventObj['key']
         };
 
         // Add event to event database.
