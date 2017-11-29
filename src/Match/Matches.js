@@ -1,6 +1,7 @@
 import React from 'react';
 import {Form, FormGroup, Input, Label} from 'reactstrap';
 import {LabeledInput} from "../form";
+import Auth from '../AuthCtrl';
 
 export default class Matches extends React.Component {
 
@@ -13,18 +14,20 @@ export default class Matches extends React.Component {
             matchNumber: 1,
             matches: [],
             teams: [],
-            team: null
+            team: null,
+            event: null
         }
         ;
 
         this.handleChange = this.handleChange.bind(this);
         this.updateData = this.updateData.bind(this);
         this.updateMatch = this.updateMatch.bind(this);
+        this.updateEvent = this.updateEvent.bind(this);
 
     }
 
     componentDidMount(){
-        this.updateData();
+        this.updateEvent();
     }
 
     handleChange(e) {
@@ -38,11 +41,24 @@ export default class Matches extends React.Component {
         this.setState({team:undefined}, this.updateMatch);
     }
 
+    updateEvent(){
+        Auth.get(`/api/event/${this.props.match.params.eventId}`).then(res => {
+            console.log(res);
+            if (res.success){
+                this.setState({event: res.event}, this.updateData);
+            }
+        })
+    }
+
     updateMatch() {
-        this.setState({team:{}});
+        this.setState({team: null});
 
         if (!this.state.matchNumber) {
             this.setState({team:null});
+            return;
+        }
+        if (!this.state.matches || this.state.matches.length < this.state.matchNumber) {
+            alert("There are no matches!");
             return;
         }
         let teamKey = this.state.matches[this.state.matchNumber - 1]['alliances'][this.state.alliance]['team_keys'][this.state.position - 1];
@@ -65,7 +81,7 @@ export default class Matches extends React.Component {
     }
 
     updateData(){
-        let API_URL = 'https://www.thebluealliance.com/api/v3/event/2017carv/matches'; // TODO: Get selected event.
+        let API_URL = `https://www.thebluealliance.com/api/v3/event/${this.state.event.eventKey}/matches`; // TODO: Get selected event.
         let requestHeaders = new Headers();
         requestHeaders.append('X-TBA-Auth-Key', 'KRMfzG8uBUXabV2xdBE2NqyB5ntwAjUvr8RVL47fIdDWh2zKRr0vQjNNQfciVkm3'); // TODO: Use a secure file to store the key.
         let requestOptions = {
@@ -80,9 +96,8 @@ export default class Matches extends React.Component {
                 alert('Unable to fetch match data form TheBlueAlliance API.');
             }
         }).then((json) => {
-            this.setState({matches:json});
             console.log(json);
-            this.updateMatch();
+            this.setState({matches:json}, this.updateMatch);
         });
     }
 
@@ -115,6 +130,7 @@ export default class Matches extends React.Component {
 
         return (
             <div>
+                <h1>{!this.state.event || this.state.event.name}</h1>
                 <Form>
                     {allianceForm}
                     {positionForm}
