@@ -93,7 +93,7 @@ export default class ScoutingReportFrom extends Component{
                                         max={reportMetric.metric.maximumValue || Number.MAX_SAFE_INTEGER}
                                         step={reportMetric.metric.incrementStep || 1}
                                         value={this.state.metricData[index].metricValue || 0}
-                                        onChange={e => {this.handleChange(index, {metricValue:e})}}
+                                        onChange={newVal => {this.handleChange(index, newVal)}}
                         />
                     </div>
 
