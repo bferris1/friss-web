@@ -19,7 +19,7 @@ export const NumericStepper = (props) => {
         if (props.step){
             newVal -= props.step;
         }
-        if (props.min && newVal >= props.max)
+        if (props.min && newVal >= props.min)
             props.onChange(newVal);
     };
 

@@ -85,13 +85,13 @@ export default class ScoutingReportFrom extends Component{
             let nextMetric;
             if(reportMetric.metric.type === 'Integer'){
                 nextMetric = (
-                    <div>
+                    <div key={reportMetric.metric._id}>
                         {newSection}
                         <NumericStepper name={reportMetric.metric.name}
-                                        min={reportMetric.metric.minimumValue || Number.MIN_VALUE}
-                                        max={reportMetric.metric.maximumValue || Number.MAX_VALUE}
+                                        min={reportMetric.metric.minimumValue || Number.MIN_SAFE_INTEGER}
+                                        max={reportMetric.metric.maximumValue || Number.MAX_SAFE_INTEGER}
                                         step={reportMetric.metric.incrementStep || 1}
-                                        value={this.state.metricData[index].metricValue}
+                                        value={this.state.metricData[index].metricValue || 0}
                                         onChange={e => {this.handleChange(index, {metricValue:e})}}
                         />
                     </div>
@@ -100,7 +100,7 @@ export default class ScoutingReportFrom extends Component{
             }
             else if(reportMetric.metric.type === 'Time'){
                 nextMetric = (
-                    <div>
+                    <div key={reportMetric.metric._id}>
                         {newSection}
                         <StopwatchMetric label={reportMetric.metric.name} onStop={e => {this.handleChange(index, {metricValue:e})}}/>
                     </div>
@@ -109,7 +109,7 @@ export default class ScoutingReportFrom extends Component{
             }
             else if(reportMetric.metric.type === 'Boolean'){
                 nextMetric = (
-                    <div>
+                    <div key={reportMetric.metric._id}>
                         {newSection}
                         <CheckboxMetric name={reportMetric.metric.name}
                                         value={this.state.metricData[index].metricValue}
@@ -122,12 +122,12 @@ export default class ScoutingReportFrom extends Component{
             else if(reportMetric.metric.type === 'Radio'){
                 let radioOptions = reportMetric.metric.radioOptions.map((radioOption, index) => {
                     return(
-                        <RadioOptionMetric name={reportMetric.metric.name} option={radioOption} />
+                        <RadioOptionMetric key={index} name={reportMetric.metric.name} option={radioOption} />
                     );
                 });
 
                 nextMetric = (
-                    <div style={{marginTop:'15px'}}>
+                    <div key={reportMetric.metric._id} style={{marginTop:'15px'}}>
                         {newSection}
                         <label style={{marginBottom:'5px',marginRight:'5px'}}>{reportMetric.metric.name}</label>
                         {radioOptions}
@@ -136,7 +136,7 @@ export default class ScoutingReportFrom extends Component{
             }
             else if(reportMetric.metric.type === 'text'){
                 nextMetric = (
-                    <div style={{marginTop:'15px'}}>
+                    <div key={reportMetric.metric._id} style={{marginTop:'15px'}}>
                         {newSection}
                         <TextboxMetric name={reportMetric.metric.name}
                                        value={this.state.metricData[index].metricValue}
@@ -146,7 +146,7 @@ export default class ScoutingReportFrom extends Component{
                 );
             }
             else{
-                nextMetric = <p>Error: Unknown metric type.</p>;
+                nextMetric = <p key={index}>Error: Unknown metric type.</p>;
                 console.log('Error: unknown metric type was found');
             }
 
