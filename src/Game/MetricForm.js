@@ -99,7 +99,7 @@ export default class MetricForm extends Component {
                 <LabeledInput type={"select"} name={"type"} label={"Metric Type"} value={this.state.type} onChange={this.handleChange}>
                     <option>Integer</option>
                     <option>Double</option>
-                    <option>String</option>
+                    {/*<option>String</option>*/}
                     <option>Time</option>
                     <option>Radio</option>
                 </LabeledInput>

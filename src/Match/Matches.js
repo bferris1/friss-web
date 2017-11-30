@@ -2,6 +2,7 @@ import React from 'react';
 import {Form, FormGroup, Input, Label} from 'reactstrap';
 import {LabeledInput} from "../form";
 import Auth from '../AuthCtrl';
+import ScoutingReportFrom from '../ScoutingReport/ScoutingReportForm';
 
 export default class Matches extends React.Component {
 
@@ -15,7 +16,8 @@ export default class Matches extends React.Component {
             matches: [],
             teams: [],
             team: null,
-            event: null
+            event: null,
+            metrics: null
         }
         ;
 
@@ -23,6 +25,7 @@ export default class Matches extends React.Component {
         this.updateData = this.updateData.bind(this);
         this.updateMatch = this.updateMatch.bind(this);
         this.updateEvent = this.updateEvent.bind(this);
+        this.getMetrics = this.getMetrics.bind(this);
 
     }
 
@@ -45,7 +48,16 @@ export default class Matches extends React.Component {
         Auth.get(`/api/event/${this.props.match.params.eventId}`).then(res => {
             console.log(res);
             if (res.success){
-                this.setState({event: res.event}, this.updateData);
+                this.setState({event: res.event}, this.getMetrics);
+            }
+        })
+    }
+
+    getMetrics(){
+        Auth.get(`/api/games/${this.state.event.game}`).then(res => {
+            console.log(res);
+            if (res.success){
+                this.setState({metrics: res.game.metrics}, this.updateData);
             }
         })
     }
@@ -135,8 +147,9 @@ export default class Matches extends React.Component {
                     {allianceForm}
                     {positionForm}
                     {MatchNumberForm}
+                    {this.state.team ? `You are scouting Team ${this.state.team.team_number}, ${this.state.team.nickname} for match ${this.state.matchNumber}`: `Loading...`}
                 </Form>
-                {this.state.team ? `You are scouting Team ${this.state.team.team_number}, ${this.state.team.nickname} for match ${this.state.matchNumber}`: `Loading...`}
+                {!this.state.metrics || <ScoutingReportFrom metrics={this.state.metrics}/>}
             </div>
         );
     }
