@@ -47,6 +47,7 @@ export default class ScoutingReportFrom extends Component{
     handleSubmit(e){
         e.preventDefault();
         console.log("submit");
+        console.log(this.state);
     }
 
     handleChange(index, newValue){
@@ -62,7 +63,7 @@ export default class ScoutingReportFrom extends Component{
         //     }
         // }
         console.log(newValue);
-        metricData[index] = {...metricData[index], ...newValue};
+        metricData[index] = {...metricData[index], metricValue: newValue};
         this.setState({
             metricData
         });
@@ -120,9 +121,13 @@ export default class ScoutingReportFrom extends Component{
                 );
             }
             else if(reportMetric.metric.type === 'Radio'){
-                let radioOptions = reportMetric.metric.radioOptions.map((radioOption, index) => {
+                let radioOptions = reportMetric.metric.radioOptions.map((radioOption, radioIndex) => {
                     return(
-                        <RadioOptionMetric key={index} name={reportMetric.metric.name} option={radioOption} />
+                        <RadioOptionMetric key={radioIndex}
+                                           checked={this.state.metricData[index].metricValue === radioOption}
+                                           onChange={e => {this.handleChange(index, e.target.value)}}
+                                           name={reportMetric.metric.name}
+                                           option={radioOption} />
                     );
                 });
 

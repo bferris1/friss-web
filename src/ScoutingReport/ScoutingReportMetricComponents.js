@@ -50,7 +50,7 @@ export const RadioOptionMetric = (props) => {
         <div>
             <FormGroup check>
                 <Label check>
-                    <Input type="radio" name={props.name} />{' '}
+                    <Input type="radio" value={props.option} checked={props.checked} onChange={props.onChange} name={props.name} />{' '}
                     {props.option}
                 </Label>
             </FormGroup>
