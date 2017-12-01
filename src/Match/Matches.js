@@ -26,6 +26,7 @@ export default class Matches extends React.Component {
         this.updateMatch = this.updateMatch.bind(this);
         this.updateEvent = this.updateEvent.bind(this);
         this.getMetrics = this.getMetrics.bind(this);
+        this.handleSubmitScoutingReport = this.handleSubmitScoutingReport.bind(this);
 
     }
 
@@ -113,6 +114,30 @@ export default class Matches extends React.Component {
         });
     }
 
+    handleSubmitScoutingReport(metricData){
+        console.log(metricData);
+        console.log(this.state);
+        let toSubmit = {
+            matchKey: this.state.matches[this.state.matchNumber].key,
+            eventID: this.state.event._id,
+            matchNumber: this.state.matchNumber,
+            metricData: [{
+                metric: '',
+                metricValue: ''
+            }],
+            robotPos: this.state.alliance + this.state.position
+        };
+
+        toSubmit.metricData = metricData.map(currentData => ({metric:currentData.metric._id, metricValue: currentData.metricValue}))
+        console.log(toSubmit);
+        Auth.post('/api/report/scouting', toSubmit).then(res => {
+            console.log(res);
+            if (res.success){
+                // notify
+            }
+        })
+    }
+
     render() {
 
         const allianceForm = (
@@ -149,7 +174,9 @@ export default class Matches extends React.Component {
                     {MatchNumberForm}
                     {this.state.team ? `You are scouting Team ${this.state.team.team_number}, ${this.state.team.nickname} for match ${this.state.matchNumber}`: `Loading...`}
                 </Form>
-                {!this.state.metrics || <ScoutingReportFrom metrics={this.state.metrics}/>}
+                {!this.state.metrics || <ScoutingReportFrom
+                    onSubmit={this.handleSubmitScoutingReport}
+                    metrics={this.state.metrics}/>}
             </div>
         );
     }

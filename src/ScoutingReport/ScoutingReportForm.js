@@ -19,35 +19,13 @@ export default class ScoutingReportFrom extends Component{
             robotPos: '',
             metrics: [],
             metricData: metricData,
-            oldMetricData:[{
-                metricID: '',
-                metric: {
-                    name: '',
-                    section: '',
-                    description: '',
-                    type: '',
-                    defaultValue: '',
-                    maximumValue: '',
-                    minimumValue: '',
-                    incrementStep: '', // determines numeric increment/decrement step for frontend UI
-                    radioOptions: []
-                },  // metric info instead of metricID
-                metricValue: ''
-            }],
             submittedBy: ''
         };
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount(){
 
-    }
-
-    handleSubmit(e){
-        e.preventDefault();
-        console.log("submit");
-        console.log(this.state);
     }
 
     handleChange(index, newValue){
@@ -165,7 +143,9 @@ export default class ScoutingReportFrom extends Component{
                 <h1>Scouting Report</h1>
                 {/*<h3>Team #{this.props.teamNumber} -- {this.props.teamNickName}</h3>*/}
                 <hr />
-                <Form style={{marginBottom:'30px'}} onSubmit={this.handleSubmit}>
+                <Form style={{marginBottom:'30px'}}
+                      onSubmit={e => {e.preventDefault();
+                      this.props.onSubmit(this.state.metricData)}}>
                     {reportMetrics}
                     <Button color="primary" type="submit">Submit</Button>
                 </Form>
