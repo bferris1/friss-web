@@ -33,6 +33,9 @@ export default class Events extends React.Component {
                 alert('Error fetching team event IDs.');
             }
         }).then((json) => {
+            console.log(json);
+
+            console.log(json['_id']);
 
             // Set current team ID.
             this.setState({
@@ -54,6 +57,7 @@ export default class Events extends React.Component {
                 // Fetch data for each event.
                 Auth.get('/api/event/' + eventID).then((response) => {
                     if (response.success) {
+                        console.log(response);
                         return response;
                     } else {
                         alert('Error fetch event data for event ID : ' + eventID);
