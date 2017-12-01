@@ -14,41 +14,35 @@ export default class DataList extends React.Component {
 
     componentDidMount() {
 
-        let selectedTeam = this.props.selectedTeam;
+        let selectedTeamKey = this.props.selectedTeamKey;
+        let selectedMetricKey = this.props.selectedMetricKey;
         let selectedEvent = this.props.selectedEvent;
-        let selectedMetric = this.props.selectedMetric;
 
-        let matchesData = [];
-        let metricData = [];
+        let matchNumbers = [];
+        let metricValues = [];
 
-        // Get all report IDs for event.
-        let reportIDs = selectedEvent.scoutingReports;
-
-        // Get all reports from event.
-        reportIDs.forEach(function(reportID) {
-            // Fetch report data.
-            Auth.get('/api/scouting/' + reportID).then((reportResponse) => {
-                if (reportResponse.success) {
-                    return reportResponse;
-                } else {
-                    alert('Unable to fetch scouting report data.')
-                }
-            }).then((reportJson) => {
-                // Get match number.
-                matchesData.push(reportJson.matchNumber);
-                // Get metric value for match number.
-                for (let i = 0; i < reportJson.metricData.length; i++) {
-                    if (reportJson.metricData[i].metric) {
-                        metricData.push(reportJson.metricData[i].metricValue);
+        Auth.get('/api/event/' + this.props.selectedEvent['_id'] +'/scoutingReports').then((reportsResponse) => {
+            return reportsResponse.reports;
+        }).then((reports) => {
+            console.log(reports);
+            reports.forEach((report) => {
+                if (report.teamKey === selectedTeamKey) {
+                    matchNumbers.push(report.matchNumber);
+                    for (var i = 0; i < report.metricData.length; i++) {
+                        if (report.metricData.metric === selectedMetricKey) {
+                            metricValues.push(report.metricData.metricValue);
+                        }
                     }
                 }
-                // Update state.
-                this.setState({
-                    matches: matchesData,
-                    metricValues: metricData
-                });
             });
         });
+
+        this.setState({
+            matches: matchNumbers,
+            metricValues: metricValues
+        });
+
+
     }
 
     render() {

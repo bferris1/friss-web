@@ -14,9 +14,9 @@ export default class Analysis extends React.Component {
             // Get event ID from URL.
             eventID: this.props.match.params.eventId,
             eventObj: null,
-            selectedMetric: null,
-            selectedTeam: null
-        }
+            selectedMetricKey: null,
+            selectedTeamKey: null,
+        };
 
         this.teamSelected = this.teamSelected.bind(this);
         this.metricSelected = this.metricSelected.bind(this);
@@ -38,17 +38,18 @@ export default class Analysis extends React.Component {
         });
     }
 
-    teamSelected(team) {
+    teamSelected(teamKey) {
         this.setState({
-            selectedTeam: team
+            selectedTeamKey: teamKey
         });
     }
 
-    metricSelected(metric) {
+    metricSelected(metricKey) {
         this.setState({
-            selectedMetric: metric
+            selectedMetricKey: metricKey
         });
     }
+
 
     render() {
         let teamList, metricList, dataList = null;
@@ -59,7 +60,7 @@ export default class Analysis extends React.Component {
         }
 
         if (this.state.selectedTeam && this.state.selectedMetric) {
-            dataList = (<DataList selectedEvent={this.state.eventObj} selectedTeam={this.state.selectedTeam} selectedMetric={this.state.selectedMetric}/>);
+            dataList = (<DataList selectedEvent={this.state.eventObj} selectedTeamKey={this.state.selectedTeam} selectedMetriKey={this.state.selectedMetric['_id']}/>);
         }
 
         return (
