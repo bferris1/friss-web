@@ -107,7 +107,7 @@ export default class Matches extends React.Component {
             if (response.ok) {
                 return response.json();
             } else {
-                alert('Unable to fetch match data form TheBlueAlliance API.');
+                alert('Unable to fetch match data from TheBlueAlliance API.');
             }
         }).then((json) => {
             console.log(json);
