@@ -126,7 +126,8 @@ export default class Matches extends React.Component {
                 metric: '',
                 metricValue: ''
             }],
-            robotPos: this.state.alliance + this.state.position
+            robotPos: this.state.alliance + this.state.position,
+            teamKey: this.state.matches[this.state.matchNumber - 1]['alliances'][this.state.alliance]['team_keys'][this.state.position - 1]
         };
 
         toSubmit.metricData = metricData.map(currentData => ({metric:currentData.metric._id, metricValue: currentData.metricValue}))

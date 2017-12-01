@@ -25,8 +25,6 @@ export default class TeamList extends React.Component {
         }).then((json) => {
             json.forEach((report) => {
 
-                console.log(report);
-
                 if (this.state.teamKeys.indexOf(report.teamKey) > 0) {
                     return;
                 }
