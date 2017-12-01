@@ -14,6 +14,7 @@ import Home from './Home';
 import Matches from './Match/Matches';
 import ScoutingReport from './ScoutingReport/ScoutingReportForm';
 import MetricWeights from './DataAnalysis/MetricWeightingForm';
+import AllianceReports from './DataAnalysis/AllianceSelectionReports';
 
 
 export default class Layout extends Component{
@@ -64,6 +65,7 @@ export default class Layout extends Component{
                             <Route path={'/event/:eventId'} component={Matches}/>
                             <Route path={"/test-sr/:matchNum"} component={ScoutingReport}/>
                             <Route path={"/test-mw"} component={MetricWeights}/>
+                            <Route path={"/alliance"} component={AllianceReports}/>
 
                         </Col>
                     </Row>

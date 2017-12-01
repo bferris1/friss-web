@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import {Form, Button, Row} from 'reactstrap';
 
-import {LabeledInput} from '../form';
 
 export default class ScoutingReportFrom extends Component {
 
   constructor(props){
       super(props);
+
+      /*let metricData = this.props.metrics.map((metric, index) => {
+            return {metric:metric, metricID: metric._id, metricWeight: '',
+                    boolCheckedScore: '', boolUncheckedScore: '', radioOptions: []}
+        });*/
+
 
       this.state = {
         eventID: '',
@@ -31,6 +36,7 @@ export default class ScoutingReportFrom extends Component {
         }]
       }
       this.handleChange = this.handleChange.bind(this);
+      this.handleRadioWeightChange = this.handleRadioWeightChange.bind(this);
   }
 
   componentDidMount(){
@@ -53,7 +59,8 @@ export default class ScoutingReportFrom extends Component {
           type: 'radio',
           radioOptions: ["red", "white", "blue"]
         },
-        metricValue: 0
+        radioWeights: []
+
       },
       {
         metricID: "randomUUID2",
@@ -89,7 +96,7 @@ export default class ScoutingReportFrom extends Component {
           type: 'radio',
           radioOptions: ["north", "south", "east", "west"]
         },
-        metricValue: 0
+        radioWeights: []
       },
       {
         metricID: "randomUUID1",
@@ -130,6 +137,18 @@ export default class ScoutingReportFrom extends Component {
     });
   }
 
+  handleRadioWeightChange(index, ro_index, newValue){
+    console.log("radioWeights[" + ro_index + "]: " + newValue);
+
+    let metricData = this.state.metricData.slice();
+    let radioWeight = metricData[index].radioWeights.slice();
+    radioWeight[ro_index] = {newValue};
+    //metricData[index] = {...metricData[index], radioWeights[ro_index]: newValue};
+    this.setState({
+        metricData
+    });
+  }
+
   render(){
 
     let reportMetrics;
@@ -148,7 +167,7 @@ export default class ScoutingReportFrom extends Component {
             {newSection}
             <p style={{marginBottom:'5px'}}>{reportMetric.metric.name} (numeric)</p>
             <span>Weight: </span>
-            <input type="number" onchange={e => {this.handleChange(index, {metricWeight:e.target.value})}}/>
+            <input type="number" onChange={e => {this.handleChange(index, {metricWeight:e.target.value})}}/>
           </div>
 
         );
@@ -159,7 +178,7 @@ export default class ScoutingReportFrom extends Component {
             {newSection}
             <p style={{marginBottom:'5px'}}>{reportMetric.metric.name} (timer)</p>
             <span>Weight: </span>
-            <input type="number" onChange={e => {this.handleChange(index, {metricWeight:e})}}/>
+            <input type="number" onChange={e => {this.handleChange(index, {metricWeight:e.target.value})}}/>
           </div>
 
         )
@@ -171,11 +190,11 @@ export default class ScoutingReportFrom extends Component {
             <h5 style={{marginBottom:'5px'}}>{reportMetric.metric.name} (timer)</h5>
             <span>Checked Score: </span>
             <input className="form-control" type="number" style={{marginBottom:'5px'}}
-              onChange={e => {this.handleChange(index, {boolCheckedScore:e})}}/>
+              onChange={e => {this.handleChange(index, {boolCheckedScore:e.target.value})}}/>
             <br/>
             <span>Unchecked Score: </span>
             <input className="form-control" type="number" style={{marginBottom:'5px'}}
-              onChange={e => {this.handleChange(index, {boolUncheckedScore:e})}}/>
+              onChange={e => {this.handleChange(index, {boolUncheckedScore:e.target.value})}}/>
           </div>
 
         );
@@ -186,7 +205,7 @@ export default class ScoutingReportFrom extends Component {
 
               <span>"{radioOption}" Score:
                 <input className="form-control" type="number"
-                  />
+                  onChange={e => {this.handleRadioWeightChange(index, ro_index, e.target.value)}}/>
                 <br/>
               </span>
             );
@@ -212,7 +231,15 @@ export default class ScoutingReportFrom extends Component {
       <div>
         <h1>Alliance Selection Weighting</h1>
         <hr/>
-        {reportMetrics}
+        <Form style={{marginBottom:'30px'}}
+                      onSubmit={e => {e.preventDefault();
+                      this.props.onSubmit(this.state.metricData)}}>
+
+          {reportMetrics}
+          <Button color="primary" type="submit">Submit</Button>
+          <Button className={"ml-2"} color={"secondary"}>Clear</Button>
+        </Form>
+
       </div>
     );
   }

@@ -42,3 +42,28 @@ export const EventCard = (props) => {
         </Col>
     );
 };
+
+
+export const AllianceReportCard = (props) => {
+
+    let events = props.events.map((event, index) => {
+        return (<option key = {index + 1} value = {event['_id']}>{event['name']}</option>);
+    });
+    events.unshift(<option key = {0}></option>);
+
+    return (
+        <Col sm={props.col_sm} style={{marginTop:'15px'}}>
+            <Card>
+                <CardBlock>
+                    <CardTitle>{props.title}</CardTitle>
+                    <CardText>{props.description}</CardText>
+
+                    <LabeledInput type={"select"} label={"Set Event"} value = {props.eventId} id={props.eventId} onChange={props.onChange}>
+                        {events}
+                    </LabeledInput>
+                    <Link className={"btn btn-block btn-primary"} to={props.link}>{props.buttonText}</Link>
+                </CardBlock>
+            </Card>
+        </Col>
+    );
+};
