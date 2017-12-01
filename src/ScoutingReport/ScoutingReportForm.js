@@ -81,7 +81,7 @@ export default class ScoutingReportFrom extends Component{
                 nextMetric = (
                     <div key={reportMetric.metric._id}>
                         {newSection}
-                        <StopwatchMetric label={reportMetric.metric.name} onStop={e => {this.handleChange(index, {metricValue:e})}}/>
+                        <StopwatchMetric label={reportMetric.metric.name} onStop={e => {this.handleChange(index, e)}}/>
                     </div>
 
                 )
