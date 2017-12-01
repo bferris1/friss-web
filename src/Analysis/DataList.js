@@ -14,7 +14,7 @@ export default class DataList extends React.Component {
     componentDidMount() {
 
         // TODO: Get correct event, team, metric.
-        
+
         let selectedEvent;
         let selectedTeam;
         let selectedMetricId;
