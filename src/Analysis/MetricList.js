@@ -8,7 +8,8 @@ export default class MetricList extends React.Component {
         super(props);
 
         this.state = {
-            metrics: []
+            metrics: [],
+            sorted: false
         }
     }
 
@@ -26,6 +27,22 @@ export default class MetricList extends React.Component {
                 metrics: gameJson.metrics
             });
         });
+
+        this.sortData = this.sortData.bind(this);
+    }
+
+    compareMetrics(a, b) {
+        return a.name > b.name;
+    }
+
+    sortData() {
+       let metricsCopy = this.state.metrics;
+       metricsCopy.sort(this.compareMetrics);
+       this.setState({
+           metrics: metricsCopy,
+           sorted: true
+       });
+
     }
 
     render() {
@@ -45,7 +62,7 @@ export default class MetricList extends React.Component {
             <table>
                 <thead>
                     <tr>
-                        <th>Metric Name</th>
+                        <th><Button color={"link"} onClick={this.sortData}>Metric Name</Button></th>
                         <th>Metric Type</th>
                     </tr>
                 </thead>
