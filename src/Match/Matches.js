@@ -3,6 +3,7 @@ import {Form, FormGroup, Input, Label} from 'reactstrap';
 import {LabeledInput} from "../form";
 import Auth from '../AuthCtrl';
 import ScoutingReportFrom from '../ScoutingReport/ScoutingReportForm';
+import Alerts from "../Alerts";
 
 export default class Matches extends React.Component {
 
@@ -133,8 +134,11 @@ export default class Matches extends React.Component {
         Auth.post('/api/report/scouting', toSubmit).then(res => {
             console.log(res);
             if (res.success){
-                // notify
+                this.setState({alerts:{success:'Submitted Successfully'}})
+            } else {
+                this.setState({alerts:{danger:res.error}});
             }
+            setTimeout(()=>{this.setState({alerts:{}})}, 5000);
         })
     }
 
@@ -168,6 +172,7 @@ export default class Matches extends React.Component {
         return (
             <div>
                 <h1>{!this.state.event || this.state.event.name}</h1>
+                <Alerts alerts={this.state.alerts}/>
                 <Form>
                     {allianceForm}
                     {positionForm}
