@@ -14,6 +14,10 @@ export default class Events extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleAddEvent = this.handleAddEvent.bind(this);
         this.updateEvent = this.updateEvent.bind(this);
+        this.updateEvents = this.updateEvents.bind(this);
+        this.handleDeleteEvent = this.handleDeleteEvent.bind(this);
+
+
 
         this.state = {
             teamId: null,
@@ -26,54 +30,23 @@ export default class Events extends React.Component {
     componentDidMount() {
 
         // Fetch event IDs from the current team's attended events.
-        Auth.get('/api/team').then((response) => {
-            if (response.success) {
-                return response['team'];
+
+        Auth.get('/api/event').then(res => {
+            if (res.success){
+                this.setState({events:res.events});
             } else {
-                alert('Error fetching team event IDs.');
+                //notify
             }
-        }).then((json) => {
-            console.log(json);
+        });
+    }
 
-            console.log(json['_id']);
-
-            // Set current team ID.
-            this.setState({
-                teamId: json['_id']
-            });
-
-            // Iterate through event IDs..
-            let events_array = json['attendedEvents'];
-
-            // Set game IDs.
-            this.setState({
-                gameIds: json['games']
-            });
-
-
-            for (let i = 0; i < events_array.length; i++) {
-                let eventID = events_array[i];
-
-                // Fetch data for each event.
-                Auth.get('/api/event/' + eventID).then((response) => {
-                    if (response.success) {
-                        console.log(response);
-                        return response;
-                    } else {
-                        alert('Error fetch event data for event ID : ' + eventID);
-                    }
-                }).then((json) => {
-
-                    // Update state with team's events.
-                    var events = this.state.events;
-                    events.push(json.event);
-                    this.setState({
-                        events: events
-                    });
-
-                });
+    updateEvents(){
+        Auth.get('/api/event').then(res => {
+            if (res.success){
+                this.setState({events:res.events});
+            } else {
+                //notify
             }
-
         });
     }
 
@@ -82,31 +55,16 @@ export default class Events extends React.Component {
         let event = {
             name: eventObj["name"],
             location: eventObj["city"],
-            date: eventObj["start_date"]
+            date: eventObj["start_date"],
+            eventKey: eventObj['key']
         };
 
         // Add event to event database.
         Auth.post('/api/event', event).then((res) => {
 
             if (res.success) {
-                // Add event to team by passing in event ID.
-                const eventId = res.event['_id'];
-                let eventIdJson = {
-                    eventId: eventId
-                };
-
-                // Add event to current team's attended events.
-                Auth.post('/api/team/event', eventIdJson).then((response) => {
-                    if (response.success) {
-                        this.setState({
-                            alerts: {success: "Event Created Successfully!"},
-                            events: [...this.state.events, res.event]
-                        });
-                    }
-                    else {
-                        this.setState({alerts: {danger: response.error}});
-                        console.log(response);
-                    }
+                this.setState({
+                    events: [...this.state.events, res.event]
                 });
             } else
                 this.setState({alerts: {danger: res.error}});
@@ -118,6 +76,16 @@ export default class Events extends React.Component {
         this.setState({
             showAddEventForm: false
         });
+    }
+
+    handleDeleteEvent(eventId){
+        Auth.delete(`/api/event/${eventId}`).then(res => {
+            console.log(res);
+            if (res.success) {
+                //notify
+            }
+            this.updateEvents();
+        })
     }
 
     updateEvent(updatedEvent) {
@@ -158,7 +126,7 @@ export default class Events extends React.Component {
                     {addEventLink}
                     {eventListView}
 
-                    <EventCardGrid updateEvent = {this.updateEvent} events={this.state.events} gameIds={this.state.gameIds}/>
+                    <EventCardGrid onDelete={this.handleDeleteEvent} updateEvent = {this.updateEvent} events={this.state.events} gameIds={this.state.gameIds}/>
                 </div>
             </div>
         );

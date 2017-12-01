@@ -39,12 +39,12 @@ export default class RadioOptionForm extends Component {
                 <FormGroup key={index} >
                     <Label>{`Option ${index+1}`}</Label>
                     <div className={"d-flex justify-content-start"}>
-                    <Input type={"text"}
-                           className={"mr-2"}
-                           value={this.props.options[index]}
-                           onChange={e => {this.handleChange(index, e.target.value)}}
-                            >
-                    </Input>
+                        <Input type={"text"}
+                               className={"mr-2"}
+                               value={this.props.options[index]}
+                               onChange={e => {this.handleChange(index, e.target.value)}}
+                        >
+                        </Input>
                         <button onClick={e => {e.preventDefault(); this.handleDeleteOption(index)}} className={"align-self-center btn btn-danger"}><span className="oi oi-trash"/></button>
 
                     </div>

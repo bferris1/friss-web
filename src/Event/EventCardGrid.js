@@ -46,7 +46,6 @@ export default class EventCardGrid extends Component{
                 alert('Unable to update event with new game.');
             }
         });
-
     }
 
     render() {
@@ -70,7 +69,10 @@ export default class EventCardGrid extends Component{
                 return (
                     <EventCard title={eventItem["name"]} description={eventItem["city"]}
                                buttonText={"Scout"} col_sm={6}
-                               key={index} link={"/event/" + eventItem._id} games={this.state.games} gameId={gameName} onChange = {(e) => {this.handleChange(index, e)}}/>
+                               key={index} link={"/event/" + eventItem._id}
+                               games={this.state.games} gameId={gameName}
+                               onDelete={()=>{this.props.onDelete(eventItem._id)}}
+                               onChange = {(e) => {this.handleChange(index, e)}}/>
                 );
             });
         }
