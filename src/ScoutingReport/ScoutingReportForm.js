@@ -62,13 +62,13 @@ export default class ScoutingReportFrom extends Component{
 
             // return the appropriate metric Component
             let nextMetric;
-            if(reportMetric.metric.type === 'Integer'){
+            if(reportMetric.metric.type === 'Integer' || reportMetric.metric.type === 'Double'){
                 nextMetric = (
                     <div key={reportMetric.metric._id}>
                         {newSection}
                         <NumericStepper name={reportMetric.metric.name}
-                                        min={reportMetric.metric.minimumValue || Number.MIN_SAFE_INTEGER}
-                                        max={reportMetric.metric.maximumValue || Number.MAX_SAFE_INTEGER}
+                                        min={reportMetric.metric.minimumValue == null ? Number.MIN_SAFE_INTEGER : reportMetric.metric.minimumValue}
+                                        max={reportMetric.metric.maximumValue == null? Number.MAX_SAFE_INTEGER :reportMetric.metric.maximumValue}
                                         step={reportMetric.metric.incrementStep || 1}
                                         value={this.state.metricData[index].metricValue || 0}
                                         onChange={newVal => {this.handleChange(index, newVal)}}
@@ -148,6 +148,7 @@ export default class ScoutingReportFrom extends Component{
                       this.props.onSubmit(this.state.metricData)}}>
                     {reportMetrics}
                     <Button color="primary" type="submit">Submit</Button>
+                    <Button className={"ml-2"} color={"secondary"}>Clear</Button>
                 </Form>
 
 
