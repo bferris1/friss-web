@@ -119,6 +119,7 @@ export default class Matches extends React.Component {
         console.log(metricData);
         console.log(this.state);
         let toSubmit = {
+            teamKey: this.state.team.key,
             matchKey: this.state.matches[this.state.matchNumber].key,
             eventID: this.state.event._id,
             matchNumber: this.state.matchNumber,
