@@ -1,34 +1,27 @@
 import React from 'react';
+import { Button } from 'reactstrap';
 import Auth from '../AuthCtrl';
 
-export default class TeamReportList extends React.Component {
+export default class TeamList extends React.Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            event:null,
+            eventObj:props.eventObj,
             teamIDs: [],
             teams: []
         };
     }
 
-    /*
-     * UX Flow:
-     * Event Page ---select event--> Teams --select team--> Metrics --select Metric--> View Raw Data.
-     */
     componentDidMount() {
-        // Get report IDs from the reports.
-        let x = ['5a19b9e615ae0cc6f9b3656a'];
-        //TODO: for (let i = 0; i < this.state.event.scoutingReports.length(); i++) {
-        for (let i = 0; i < x.length; i++) {
+
+        for (let i = 0; i < this.props.eventObj.scoutingReports.length; i++) {
             // Get current report ID.
-            const reportId = x[i];
+            const reportId = this.props.eventObj.scoutingReports[i];
             // Get team ID from the report.
             Auth.get('/api/scouting/' + reportId).then((response) => {
                 if (response.success) {
-                    console.log('Scouting Report Response: ');
-                    console.log(response);
                     return response;
                 }
             }).then((json) => {
@@ -45,8 +38,6 @@ export default class TeamReportList extends React.Component {
                     // Fetch team data from ID.
                     Auth.get('/api/team/' + json.teamId).then((teamResponse) => {
                         if (teamResponse.success) {
-                            console.log('Team Response: ');
-                            console.log(teamResponse);
                             return teamResponse;
                         }
                     }).then((teamJson) => {
@@ -65,8 +56,26 @@ export default class TeamReportList extends React.Component {
     }
 
     render() {
+
+        const teamList = this.state.teams.map((team, index) => {
+            return (
+                <tr key={index}>
+                    <td><Button onClick={() => this.props.teamSelected(this.state.teams[index])}>{team.name}</Button></td>
+                </tr>
+            );
+        });
+
         return (
-            <p>Hee</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Team Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {teamList}
+                </tbody>
+            </table>
         );
 
 

@@ -3,8 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import {Row, Col} from 'reactstrap';
 import {Route, NavLink, Redirect} from 'react-router-dom';
 import Account from './Account'
-import TeamReportList from './Analysis/TeamReportList';
+import TeamList from './Analysis/TeamList';
 import MetricList from './Analysis/MetricList';
+import Analysis from './Analysis/Analysis';
 import Team from './Team/Team'
 import TeamManagement from './Team/TeamManagement';
 import TeamDetails from './TeamDetails';
@@ -56,7 +57,7 @@ export default class Layout extends Component{
                             <p className={"text-right"}>{this.state.user ? this.state.user.firstName + " " + this.state.user.lastName: "Not Logged In"}</p>
                             <Route exact path={"/"} component={Home} />
                             <Route path={"/account"} component={Account}/>
-                            <Route path={"/analysis"} component={MetricList}/>
+                            <Route path={"/analysis/:eventId"} component={Analysis}/>
                             <Route path={"/team-management"} component={TeamManagement}/>
                             <Route exact path={"/team"} component={Team}/>
                             <Route path={"/team/:teamId"} component={TeamDetails}/>

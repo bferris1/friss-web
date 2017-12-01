@@ -37,6 +37,7 @@ export const EventCard = (props) => {
                         {games}
                     </LabeledInput>
                     <Link className={"btn btn-block btn-primary"} to={props.link}>{props.buttonText}</Link>
+                    <Link className={"btn btn-block btn-primary"} to={props.dataLink}>Analyze Data</Link>
                     <button className={'btn btn-danger btn-block'} onClick={props.onDelete}>Delete</button>
                 </CardBlock>
             </Card>

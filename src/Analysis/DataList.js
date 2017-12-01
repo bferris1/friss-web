@@ -1,4 +1,5 @@
 import React from 'react';
+import Auth from '../AuthCtrl';
 
 export default class DataList extends React.Component {
 
@@ -13,12 +14,9 @@ export default class DataList extends React.Component {
 
     componentDidMount() {
 
-        // TODO: Get correct event, team, metric.
-
-        let selectedEvent;
-        let selectedTeam;
-        let selectedMetricId;
-        let selectedMetricName;
+        let selectedTeam = this.props.selectedTeam;
+        let selectedEvent = this.props.selectedEvent;
+        let selectedMetric = this.props.selectedMetric;
 
         let matchesData = [];
         let metricData = [];
@@ -40,7 +38,7 @@ export default class DataList extends React.Component {
                 matchesData.push(reportJson.matchNumber);
                 // Get metric value for match number.
                 for (let i = 0; i < reportJson.metricData.length; i++) {
-                    if (reportJson.metricData[i].metric === selectedMetricId) {
+                    if (reportJson.metricData[i].metric) {
                         metricData.push(reportJson.metricData[i].metricValue);
                     }
                 }

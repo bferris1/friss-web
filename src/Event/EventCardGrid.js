@@ -70,6 +70,7 @@ export default class EventCardGrid extends Component{
                     <EventCard title={eventItem["name"]} description={eventItem["city"]}
                                buttonText={"Scout"} col_sm={6}
                                key={index} link={"/event/" + eventItem._id}
+                               dataLink={"/analysis/" + eventItem._id}
                                games={this.state.games} gameId={gameName}
                                onDelete={()=>{this.props.onDelete(eventItem._id)}}
                                onChange = {(e) => {this.handleChange(index, e)}}/>

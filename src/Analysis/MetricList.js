@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'reactstrap';
 import Auth from '../AuthCtrl';
 
 export default class MetricList extends React.Component {
@@ -7,42 +8,47 @@ export default class MetricList extends React.Component {
         super(props);
 
         this.state = {
-            event: null,
             metrics: []
         }
     }
 
     componentDidMount() {
         // Get game ID from event.
-        //TODO: Auth.get('/api/game/' + this.state.event.game).then((gameResponse) => {
-        Auth.get('/api/games/5a19b9f115ae0cc6f9b3656b').then((gameResponse) => {
-            console.log(gameResponse);
+        Auth.get('/api/games/' + this.props.eventObj.game).then((gameResponse) => {
             if (gameResponse.success) {
-                return gameResponse;
+                return gameResponse.game;
             } else {
                 alert('Failed to get game data.')
             }
         }).then((gameJson) => {
             // Get metrics from game.
             this.setState({
-                metrics: gameJson.game.metrics
+                metrics: gameJson.metrics
             });
         });
     }
 
     render() {
-        let metricList = [];
+        let metricList = null;
         if (this.state.metrics) {
-            metricList = this.state.metrics.map((index, metric) => {
-                console.log(metric);
+            metricList = this.state.metrics.map((metric, index) => {
                 return(
-                    <tr key={index}>{metric.name}</tr>
+                    <tr key={index}>
+                        <td><Button onClick={() => this.props.metricSelected(this.state.metrics[index])}>{metric.name}</Button></td>
+                        <td>{metric.type}</td>
+                    </tr>
                 );
             });
         }
 
         return (
             <table>
+                <thead>
+                    <tr>
+                        <th>Metric Name</th>
+                        <th>Metric Type</th>
+                    </tr>
+                </thead>
                 <tbody>
                     {metricList}
                 </tbody>
