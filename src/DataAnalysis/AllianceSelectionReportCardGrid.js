@@ -34,14 +34,14 @@ export default class AllianceSelectionReportCardGrid extends Component{
     handleChange(index, e) {
 
       // Get report
-      var modified_report = this.props.allianceSelectionReports[index];
-      var modified_event_id = modified_report['_id'];
+      var modified_report = this.props.reports[index];
+      var modified_report_id = modified_report['_id'];
 
-      var modified_event_json = {
+      var modified_report_json = {
           event: e.target.value
       };
 
-      Auth.post('/api/alliance' + modified_event_id, modified_event_json).then((res) => {
+      Auth.post('/api/report/alliance/' + modified_report_id, modified_report_json).then((res) => {
             if (res.success) {
                 this.props.updateReport(res.report);
             } else {
@@ -56,7 +56,7 @@ export default class AllianceSelectionReportCardGrid extends Component{
       if(this.props.reports){
           reportCards = this.props.reports.map((reportItem, index) => {
               var eventName = "";
-              if (reportItem['event']) {
+              if (reportItem && reportItem['event']) {
                   // Find the game object in this.state.games that has the same _id as eventItem['game']
                   // Set gameName to gameObject['name']
 
@@ -66,16 +66,17 @@ export default class AllianceSelectionReportCardGrid extends Component{
                       }
                   })
               }
+              if(reportItem){
 
-
-              return (
-                  <AllianceReportCard title={reportItem["name"]} description={reportItem["city"]}
-                             buttonText={"Scout"} col_sm={6}
-                             key={index} link={"/alliance/" + reportItem._id}
-                             events={this.state.events} eventId={eventName}
-                             onDelete={()=>{this.props.onDelete(reportItem._id)}}
-                             onChange = {(e) => {this.handleChange(index, e)}}/>
-              );
+                return (
+                    <AllianceReportCard title={reportItem["name"]} description={reportItem["city"]}
+                               buttonText={"Set Metric Weights"} col_sm={6}
+                               key={index} link={"/test-mw/"}
+                               events={this.state.events}
+                               onDelete={()=>{this.props.onDelete(reportItem._id)}}
+                               onChange = {(e) => {this.handleChange(index, e)}}/>
+                );
+              }
           });
       }
 

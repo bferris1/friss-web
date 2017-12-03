@@ -44,12 +44,14 @@ export default class AllianceSelectionReports extends Component{
       description: reportObj["description"],
       // more needs to be added when bryan gets here
     }
+
+    let reports = this.state.allianceSelectionReports.slice();
     // Add event to event database.
     Auth.post('/api/report/alliance', report).then((res) => {
 
         if (res.success) {
             this.setState({
-                allianceSelectionReports: [...this.state.allianceSelectionReports, res.report] // res.report needs confirmed
+                allianceSelectionReports: [...this.state.allianceSelectionReports, report] // res.report needs confirmed
             });
         } else
             this.setState({alerts: {danger: res.error}});

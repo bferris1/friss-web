@@ -63,6 +63,7 @@ export const AllianceReportCard = (props) => {
                         {events}
                     </LabeledInput>
                     <Link className={"btn btn-block btn-primary"} to={props.link}>{props.buttonText}</Link>
+                    <button className={'btn btn-danger btn-block'} onClick={props.onDelete}>Delete</button>
                 </CardBlock>
             </Card>
         </Col>
