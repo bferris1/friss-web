@@ -14,7 +14,7 @@ export default class Analysis extends React.Component {
             // Get event ID from URL.
             eventID: this.props.match.params.eventId,
             eventObj: null,
-            selectedMetricKey: null,
+            selectedMetric: null,
             selectedTeamKey: null,
         };
 
@@ -44,29 +44,37 @@ export default class Analysis extends React.Component {
         });
     }
 
-    metricSelected(metricKey) {
+    metricSelected(metric) {
         this.setState({
-            selectedMetricKey: metricKey
+            selectedMetric: metric
         });
     }
 
-
     render() {
-        let teamList, metricList, dataList = null;
+
+        let teamList, metricList, dataList, selectedView = null;
 
         if (this.state.eventObj) {
             teamList = (<TeamList eventObj={this.state.eventObj} teamSelected={this.teamSelected}/>);
             metricList = (<MetricList eventObj={this.state.eventObj} metricSelected={this.metricSelected}/>);
         }
 
-        if (this.state.selectedTeam && this.state.selectedMetric) {
-            dataList = (<DataList selectedEvent={this.state.eventObj} selectedTeamKey={this.state.selectedTeam} selectedMetriKey={this.state.selectedMetric['_id']}/>);
+        if (this.state.selectedTeamKey && this.state.selectedMetric) {
+            selectedView = (
+                <div>
+                    Selected Team: {this.state.selectedTeamKey}
+                    <br />
+                    Selected Metric: {this.state.selectedMetric.name}
+                </div>
+            );
+            dataList = (<DataList selectedEvent={this.state.eventObj} selectedTeamKey={this.state.selectedTeamKey} selectedMetric={this.state.selectedMetric}/>);
         }
 
         return (
             <div>
                 {teamList}
                 {metricList}
+                {selectedView}
                 {dataList}
             </div>
         );

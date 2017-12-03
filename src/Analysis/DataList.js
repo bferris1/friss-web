@@ -14,44 +14,48 @@ export default class DataList extends React.Component {
 
     componentDidMount() {
 
-        let selectedTeamKey = this.props.selectedTeamKey;
-        let selectedMetricKey = this.props.selectedMetricKey;
-        let selectedEvent = this.props.selectedEvent;
+        const selectedTeamKey = this.props.selectedTeamKey;
+        const selectedMetric = this.props.selectedMetric;
+        const selectedEvent = this.props.selectedEvent;
 
         let matchNumbers = [];
         let metricValues = [];
 
-        Auth.get('/api/event/' + this.props.selectedEvent['_id'] +'/scoutingReports').then((reportsResponse) => {
+        // Get all reports for selected event.
+        Auth.get('/api/event/' + selectedEvent['_id'] +'/scoutingReports').then((reportsResponse) => {
             return reportsResponse.reports;
         }).then((reports) => {
-            console.log(reports);
+            // Filter reports by selected team.
             reports.forEach((report) => {
                 if (report.teamKey === selectedTeamKey) {
                     matchNumbers.push(report.matchNumber);
+                    // Filter metrics by selected metric.
                     for (var i = 0; i < report.metricData.length; i++) {
-                        if (report.metricData.metric === selectedMetricKey) {
-                            metricValues.push(report.metricData.metricValue);
+                        if (report.metricData[i].metric === selectedMetric['_id']) {
+                            metricValues.push(report.metricData[i].metricValue);
                         }
                     }
                 }
             });
         });
 
+        // Update with data.
         this.setState({
             matches: matchNumbers,
             metricValues: metricValues
         });
-
-
     }
 
     render() {
 
         let metricValuesList = [];
-        if (this.state.metricValues) {
+
+        if (this.state.metricValues.length > 0) {
+
             for (let i = 0; i < this.state.metricValues.length; i++) {
+
                 metricValuesList[i] = (
-                    <tr>
+                    <tr key={i}>
                         <td>{this.state.matches[i]}</td>
                         <td>{this.state.metricValues[i]}</td>
                     </tr>
