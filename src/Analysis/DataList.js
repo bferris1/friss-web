@@ -37,13 +37,14 @@ export default class DataList extends React.Component {
                     }
                 }
             });
+            // Update with data.
+            this.setState({
+                matches: matchNumbers,
+                metricValues: metricValues
+            });
         });
 
-        // Update with data.
-        this.setState({
-            matches: matchNumbers,
-            metricValues: metricValues
-        });
+
     }
 
     render() {
