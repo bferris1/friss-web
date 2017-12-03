@@ -12,6 +12,8 @@ export default class TeamList extends React.Component {
             teamKeys: [],
             teams: []
         };
+
+        this.sortData = this.sortData.bind(this);
     }
 
     componentDidMount() {
@@ -40,6 +42,14 @@ export default class TeamList extends React.Component {
         });
     }
 
+    sortData() {
+        let teamKeysCopy = this.state.teamKeys;
+        teamKeysCopy.sort();
+        this.setState({
+            teamKeys: teamKeysCopy
+        });
+    }
+
     render() {
 
         const teamList = this.state.teamKeys.map((teamKey, index) => {
@@ -54,7 +64,7 @@ export default class TeamList extends React.Component {
             <table>
                 <thead>
                     <tr>
-                        <th>Team Key</th>
+                        <th><Button color={"link"} onClick={this.sortData}>Team Key</Button></th>
                     </tr>
                 </thead>
                 <tbody>
