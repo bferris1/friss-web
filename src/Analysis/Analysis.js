@@ -60,13 +60,6 @@ export default class Analysis extends React.Component {
         }
 
         if (this.state.selectedTeamKey && this.state.selectedMetric) {
-            selectedView = (
-                <div>
-                    Selected Team: {this.state.selectedTeamKey}
-                    <br />
-                    Selected Metric: {this.state.selectedMetric.name}
-                </div>
-            );
             dataList = (<DataList selectedEvent={this.state.eventObj} selectedTeamKey={this.state.selectedTeamKey} selectedMetric={this.state.selectedMetric}/>);
         }
 

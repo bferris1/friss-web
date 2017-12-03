@@ -10,7 +10,8 @@ export default class TeamList extends React.Component {
         this.state = {
             eventObj:props.eventObj,
             teamKeys: [],
-            teams: []
+            teams: [],
+            selectedTeam: null
         };
 
         this.sortData = this.sortData.bind(this);
@@ -53,9 +54,12 @@ export default class TeamList extends React.Component {
     render() {
 
         const teamList = this.state.teamKeys.map((teamKey, index) => {
+
+            const buttonColor = teamKey === this.state.selectedTeam ? "primary" : "secondary";
+
             return (
                 <tr key={index}>
-                    <td><Button onClick={() => this.props.teamSelected(this.state.teamKeys[index])}>{teamKey}</Button></td>
+                    <td><Button color={buttonColor} onClick={() => {this.state.selectedTeam = this.state.teamKeys[index]; this.props.teamSelected(this.state.teamKeys[index])}}>{teamKey}</Button></td>
                 </tr>
             );
         });

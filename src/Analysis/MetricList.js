@@ -9,8 +9,11 @@ export default class MetricList extends React.Component {
 
         this.state = {
             metrics: [],
-            sorted: false
+            sorted: false,
+            selectedMetric: null
         }
+
+        this.sortData = this.sortData.bind(this);
     }
 
     componentDidMount() {
@@ -27,8 +30,6 @@ export default class MetricList extends React.Component {
                 metrics: gameJson.metrics
             });
         });
-
-        this.sortData = this.sortData.bind(this);
     }
 
     compareMetrics(a, b) {
@@ -49,9 +50,12 @@ export default class MetricList extends React.Component {
         let metricList = null;
         if (this.state.metrics) {
             metricList = this.state.metrics.map((metric, index) => {
+
+                const buttonColor = metric == this.state.selectedMetric ? "primary" : "secondary";
+
                 return(
                     <tr key={index}>
-                        <td><Button onClick={() => this.props.metricSelected(this.state.metrics[index])}>{metric.name}</Button></td>
+                        <td><Button color={buttonColor} onClick={() => { this.state.selectedMetric = metric; this.props.metricSelected(this.state.metrics[index])}}>{metric.name}</Button></td>
                         <td>{metric.type}</td>
                     </tr>
                 );
