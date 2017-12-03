@@ -3,8 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import {Row, Col} from 'reactstrap';
 import {Route, NavLink, Redirect} from 'react-router-dom';
 import Account from './Account'
-import TeamList from './Analysis/TeamList';
-import MetricList from './Analysis/MetricList';
 import Analysis from './Analysis/Analysis';
 import Team from './Team/Team'
 import TeamManagement from './Team/TeamManagement';
