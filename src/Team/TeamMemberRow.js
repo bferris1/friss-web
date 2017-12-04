@@ -3,7 +3,7 @@ import React from 'react';
 export const TeamMemberRow = (props)=>{
         return (
             <tr>
-                <td>{props.member.name}</td>
+                <td>{props.member.profile.firstName} {props.member.profile.lastName}</td>
                 <td>{props.member.email}</td>
                 <td>
                     <input type='checkbox' name="scouter"

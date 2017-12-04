@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import uuid from 'uuid';
+import Auth from '../AuthCtrl';
+import Alerts from '../Alerts';
 
 import TeamMembers from './TeamMemberTable'
 import AddMemberForm from './AddMemberForm';
@@ -9,17 +11,19 @@ export default class TeamManagement extends Component{
         super();
         this.state = {
             addForm: false,
-            members: []
+            team: '',
+            memberInfo: []
         };
         this.addNewForm = this.addNewForm.bind(this);
         this.handleAddMember = this.handleAddMember.bind(this);
         this.handleDeleteMember = this.handleDeleteMember.bind(this);
         this.handlePermissionChange = this.handlePermissionChange.bind(this);
+        this.updateTeam = this.updateTeam.bind(this);
     }
 
     componentDidMount(){
         // this is where we will call API for team member population
-        this.setState({members: [
+        /*this.setState({members: [
             {
                 id: uuid.v4(),
                 name: 'John Doe',
@@ -34,16 +38,42 @@ export default class TeamManagement extends Component{
                 scouter: true,
                 dataAnalyzer: true
             }
-        ]});
+        ]});*/
+
+        Auth.get('/api/team').then(res => {
+            if (res.success){
+                this.setState({team:res.team});
+            } else {
+                alert(res.error);
+            }
+        });
+
+    }
+
+    updateTeam(){
+      Auth.get('/api/team').then(res => {
+          if (res.success){
+              this.setState({team:res.team});
+          } else {
+              alert(res.error);
+          }
+      });
     }
 
     handleAddMember(member){
+
+      let members = this.state.team.members.slice();
+        Auth.post('/api/team/member', {email: member.email}).then(res => {
+          if(res.success){
+            // sucess do nothing
+          }
+          else{
+            alert(res.error);
+          }
+        });
         // adding new member to state.
         // take a newMember from AddMemberForm component
-        let members = this.state.members;
-        member.id = uuid.v4();
-        members.push(member);
-        this.setState({members:members});
+        this.updateTeam();
 
         // remove the add member form
         this.setState({addForm: false});
@@ -64,7 +94,7 @@ export default class TeamManagement extends Component{
 
 
     handlePermissionChange(index, e){
-        let members = this.state.members;
+        let members = this.state.team.members.slice();
         members[index][e.target.name] = e.target.checked;
         this.setState({members:members})
     }
@@ -90,7 +120,7 @@ export default class TeamManagement extends Component{
                 <h1>Scouting Team Member Management</h1>
                 {newFormLink}
                 {newForm}
-                <TeamMembers members={this.state.members}
+                <TeamMembers members={this.state.team.members}
                              onDelete={this.handleDeleteMember}
                              onChange={this.handlePermissionChange}
                 />

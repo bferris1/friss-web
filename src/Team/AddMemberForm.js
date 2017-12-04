@@ -37,10 +37,10 @@ export default class AddMember extends Component{
           <div style={{marginTop:'30px'}}>
             <h3>Add Member to Team</h3>
              <form onSubmit={this.handleSubmit.bind(this)}>
-              <div className='form-group'>
+              {/*<div className='form-group'>
                 <label htmlFor='name'>Name</label>
                 <input type='text' className='form-control' id='name' ref='name' />
-              </div>
+              </div>*/}
               <div className='form-group'>
                 <label htmlFor='email'>Email</label>
                 <input type='text' className='form-control' id='email' ref='email' />
