@@ -28,7 +28,7 @@ export const NumericStepper = (props) => {
             <p className={"mb-2"}>{props.name}</p>
             <div className={"d-flex justify-content-start"}>
                 <button className={"btn btn-danger"} onClick={e => {e.preventDefault(); dec()}}>-</button>
-                <Input className="num-step mx-2" type="number" min={props.min} max={props.max}
+                <Input className="form-control num-step mx-2" type="number" min={props.min} max={props.max}
                        step={props.step} value={props.value}/>
                 <button className={"btn btn-success"} onClick={e => {e.preventDefault(); inc()}}>+</button>
             </div>

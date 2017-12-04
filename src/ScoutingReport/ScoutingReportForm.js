@@ -22,10 +22,27 @@ export default class ScoutingReportFrom extends Component{
             submittedBy: ''
         };
         this.handleChange = this.handleChange.bind(this);
+        this.reset = this.reset.bind(this);
     }
 
     componentDidMount(){
 
+    }
+
+    reset(){
+        let metricData = this.props.metrics.map((metric, index) => {
+            return {metric:metric, metricID: metric._id, metricValue: ''}
+        });
+        // un init state
+        this.setState({
+            matchID: '',
+            eventID: '',
+            teamID: '',
+            robotPos: '',
+            metrics: [],
+            metricData: metricData,
+            submittedBy: ''
+        });
     }
 
     handleChange(index, newValue){
@@ -145,10 +162,10 @@ export default class ScoutingReportFrom extends Component{
                 <hr />
                 <Form style={{marginBottom:'30px'}}
                       onSubmit={e => {e.preventDefault();
-                      this.props.onSubmit(this.state.metricData)}}>
+                          this.props.onSubmit(this.state.metricData); this.reset()}}>
                     {reportMetrics}
                     <Button color="primary" type="submit">Submit</Button>
-                    <Button className={"ml-2"} color={"secondary"}>Clear</Button>
+                    <Button className={"ml-2"} onClick={e => {e.preventDefault(); this.reset()}} color={"secondary"}>Clear</Button>
                 </Form>
 
 
