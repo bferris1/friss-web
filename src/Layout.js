@@ -42,7 +42,7 @@ export default class Layout extends Component{
                             <ul className="nav flex-column nav-fill nav-pills">
                                 <NavLink className="nav-link" exact to="/" activeClassName="active">Home</NavLink>
                                 <NavLink className="nav-link" to="/team" activeClassName="active">Team</NavLink>
-                                {/*<NavLink className="nav-link" to="/team-management" activeClassName="active">Team Management</NavLink>*/}
+                                <NavLink className="nav-link" to="/team-management" activeClassName="active">Team Management</NavLink>
                                 {!(this.state.user && this.state.user.teamID) ||
                                 <NavLink className="nav-link" to="/events" activeClassName="active">Events</NavLink>
                                 }
