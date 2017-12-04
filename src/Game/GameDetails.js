@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import {Table, Button} from 'reactstrap';
+import {Button, Modal, ModalBody, ModalHeader, Table} from 'reactstrap';
 import MetricForm from './MetricForm';
-import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import Auth from '../AuthCtrl';
 
 export default class GameDetails extends Component {
@@ -20,6 +19,7 @@ export default class GameDetails extends Component {
         this.handleAddMetric = this.handleAddMetric.bind(this);
         this.handleDeleteMetric = this.handleDeleteMetric.bind(this);
         this.toggle = this.toggle.bind(this);
+        this.fetchGames = this.fetchGames.bind(this)
     }
 
     toggle() {
@@ -29,8 +29,11 @@ export default class GameDetails extends Component {
     }
 
     componentDidMount(){
-        console.log(this.props.match.params.gameId);
-        Auth.get('/api/game/'+this.props.match.params.gameId).then(res => {
+        this.fetchGames();
+    }
+
+    fetchGames(){
+        Auth.get('/api/games/'+this.props.match.params.gameId).then(res => {
             if (res.success){
                 this.setState(res.game);
             }
@@ -40,41 +43,55 @@ export default class GameDetails extends Component {
     handleAddMetric(metric) {
         // Handle Add.
         if (this.state.selectedIndex === -1) {
-            let metrics = this.state.metrics;
-            metrics.push(metric);
-            this.setState({
-                metrics: metrics
+            console.log(metric);
+            Auth.post(`/api/games/${this.props.match.params.gameId}/metrics`, metric).then(res => {
+                if (res.success){
+                    this.setState({metrics:res.metrics});
+                }
             });
+
         }
         // Handle Edit.
         else {
-            let metrics = this.state.metrics;
-            metrics[this.state.selectedIndex] = metric;
-            this.setState({
-                metrics: metrics,
-                selectedIndex: -1
+            Auth.put(`/api/games/${this.props.match.params.gameId}/metrics/${metric._id}`, metric).then(res => {
+                if (res.success){
+                    let metrics = this.state.metrics.slice();
+                    metrics[this.state.selectedIndex] = res.metric;
+                    this.setState({metrics});
+                    this.setState({
+                        selectedIndex: -1
+                    });
+                } else {
+                    this.setState({
+                        selectedIndex: -1
+                    });
+                }
             });
+
         }
         this.toggle();
     }
 
     handleDeleteMetric(metric) {
         // eslint-disable-next-line
-        let del = confirm("Are you sure you want to remove the metric \"" + metric.name + "\" from the game?");
+        let del = confirm(`Are you sure you want to remove "${metric.name}" from the game?`);
         if(!del){
             return;
         }
-        let metrics = this.state.metrics.filter(function (candidate) {
-            return candidate !== metric;
+        Auth.delete(`/api/games/${this.props.match.params.gameId}/metrics/${metric._id}`).then(res => {
+            if (res.success){
+                let metrics = this.state.metrics.filter(function (candidate) {
+                    return candidate !== metric;
+                });
+                this.setState({metrics:metrics});
+            }
         });
-        this.setState({metrics:metrics});
     }
 
     handleClick(e) {
         e.preventDefault();
         this.setState({
             metric:null
-            // metric: {name: "", category: "Autonomous Mode", type: "Integer"}
         });
         this.toggle();
     }
@@ -96,13 +113,13 @@ export default class GameDetails extends Component {
                     {metric.name}
                 </td>
                 <td>
-                    {metric.category}
+                    {metric.section}
                 </td>
                 <td>
                     {metric.type}
                 </td>
                 <td>
-                    <Button onClick={()=>{this.toggle(); this.setState({metric:this.state.metrics[index], selectedIndex: index})}}>Edit</Button>
+                    <Button className={"mr-2"} onClick={()=>{this.toggle(); this.setState({metric:this.state.metrics[index], selectedIndex: index})}}>Edit</Button>
                     <Button color="danger" onClick={()=>{this.handleDeleteMetric(metric)}}>Delete</Button>
                 </td>
             </tr>
@@ -115,15 +132,15 @@ export default class GameDetails extends Component {
                 {addMetricButton}
                 <Table>
                     <thead>
-                        <tr>
-                            <th>Metric Name</th>
-                            <th>Metric Category</th>
-                            <th>Metric Type</th>
-                            <th>Actions</th>
-                        </tr>
+                    <tr>
+                        <th>Metric Name</th>
+                        <th>Metric Category</th>
+                        <th>Metric Type</th>
+                        <th>Actions</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        {metricRows}
+                    {metricRows}
                     </tbody>
                 </Table>
             </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Col, Card, CardBlock, CardTitle, CardText} from 'reactstrap'
+import {Card, CardBlock, CardText, CardTitle, Col} from 'reactstrap'
 import {Link} from 'react-router-dom';
 import {LabeledInput} from "./form";
 
@@ -11,6 +11,7 @@ export const LabeledCard = (props) => {
           <CardTitle>{props.title}</CardTitle>
           <CardText>{props.description}</CardText>
             <Link className={"btn btn-block btn-primary"} to={props.link}>{props.buttonText}</Link>
+            {props.children}
           {/*<Button color="primary" onClick={props.onClick}>{props.buttonText}</Button>*/}
         </CardBlock>
       </Card>
@@ -36,6 +37,8 @@ export const EventCard = (props) => {
                         {games}
                     </LabeledInput>
                     <Link className={"btn btn-block btn-primary"} to={props.link}>{props.buttonText}</Link>
+                    <Link className={"btn btn-block btn-primary"} to={props.dataLink}>Analyze Data</Link>
+                    <button className={'btn btn-danger btn-block'} onClick={props.onDelete}>Delete</button>
                 </CardBlock>
             </Card>
         </Col>

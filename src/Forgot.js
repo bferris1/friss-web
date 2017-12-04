@@ -1,13 +1,16 @@
 import React, {Component} from 'react';
 import './Forgot.css';
-import {Row, Col, Button} from 'reactstrap';
+import {Button, Col, Row} from 'reactstrap';
 import {EmailInput} from './form';
 import {AvForm} from 'availity-reactstrap-validation';
+
 export default class Forgot extends Component {
 
     constructor(props){
         super (props);
         this.state = {};
+        this.handleChange = this.handleChange.bind(this);
+        this.handleReset = this.handleReset.bind(this);
     }
 
     handleReset() {
