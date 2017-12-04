@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'reactstrap';
+import {Button} from 'reactstrap';
 import Auth from '../AuthCtrl';
 
 export default class TeamList extends React.Component {
@@ -26,19 +26,17 @@ export default class TeamList extends React.Component {
                 alert('Unable to fetch scouting reports for event.')
             }
         }).then((json) => {
+            let teamKeys = [];
             json.forEach((report) => {
 
-                if (this.state.teamKeys.indexOf(report.teamKey) > 0) {
-                    return;
+                if (teamKeys.indexOf(report.teamKey) === -1) {
+                    teamKeys.push(report.teamKey);
                 }
 
-                // Update state team keys.
-                let teamKeys = this.state.teamKeys;
-                teamKeys.push(report.teamKey);
-                this.setState({
-                    teamKeys: teamKeys
-                });
-
+            });
+            // Update state team keys.
+            this.setState({
+                teamKeys: teamKeys
             });
         });
     }
