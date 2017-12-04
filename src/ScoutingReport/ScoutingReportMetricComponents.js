@@ -9,8 +9,12 @@ export const NumericStepper = (props) => {
         if (props.step){
             newVal += props.step;
         }
-        if (props.max && newVal <= props.max)
+        if (props.max != null) {
+            if (newVal <= props.max)
+                props.onChange(newVal);
+        } else {
             props.onChange(newVal);
+        }
 
     };
 
@@ -19,8 +23,12 @@ export const NumericStepper = (props) => {
         if (props.step){
             newVal -= props.step;
         }
-        if (props.min && newVal >= props.min)
+        if (props.min != null) {
+            if (newVal >= props.min)
+                props.onChange(newVal);
+        } else {
             props.onChange(newVal);
+        }
     };
 
     return (
