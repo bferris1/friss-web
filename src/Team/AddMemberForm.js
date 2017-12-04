@@ -10,18 +10,13 @@ export default class AddMember extends Component{
 
   handleSubmit(e){
     // input validation
-    if(this.refs.name.value === ''){
-      alert('Name is required');
-    }
-    else if (this.refs.email.value === ''){
+    e.preventDefault();
+    if (this.refs.email.value === ''){
       alert('Email is required');
     }
     else {
       this.setState({newMember:{
-        name: this.refs.name.value,
-        email: this.refs.email.value,
-        scouter: this.refs.scouter.checked,
-        dataAnalyzer: this.refs.dataAnalyzer.checked
+        email: this.refs.email.value
       }}, function(){
         //console.log(this.state);
         // pass state to TeamManagement Component
@@ -45,7 +40,7 @@ export default class AddMember extends Component{
                 <label htmlFor='email'>Email</label>
                 <input type='text' className='form-control' id='email' ref='email' />
               </div>
-              <div>
+              {/*<div>
                 <label>Permissions</label>
               </div>
               <div className='checkbox'>
@@ -57,7 +52,7 @@ export default class AddMember extends Component{
                 <label>
                   <input type='checkbox' value='true' ref='dataAnalyzer' /> Data Analyzer
                 </label>
-              </div>
+              </div>*/}
               <input type='submit' className='btn btn-info' value='Submit' />
             </form>
           </div>

@@ -12,7 +12,7 @@ export default class TeamManagement extends Component{
         this.state = {
             addForm: false,
             team: '',
-            memberInfo: []
+            user: '',
         };
         this.addNewForm = this.addNewForm.bind(this);
         this.handleAddMember = this.handleAddMember.bind(this);
@@ -48,6 +48,13 @@ export default class TeamManagement extends Component{
             }
         });
 
+        if (Auth.isLoggedIn())
+            Auth.get('/api/account').then((res)=>{
+                if (res.success)
+                    this.setState({user:res.user});
+                //console.log(res);
+            })
+
     }
 
     updateTeam(){
@@ -65,7 +72,7 @@ export default class TeamManagement extends Component{
       let members = this.state.team.members.slice();
         Auth.post('/api/team/member', {email: member.email}).then(res => {
           if(res.success){
-            // sucess do nothing
+              this.updateTeam();
           }
           else{
             alert(res.error);
@@ -73,7 +80,6 @@ export default class TeamManagement extends Component{
         });
         // adding new member to state.
         // take a newMember from AddMemberForm component
-        this.updateTeam();
 
         // remove the add member form
         this.setState({addForm: false});
@@ -82,21 +88,55 @@ export default class TeamManagement extends Component{
 
     handleDeleteMember(member){
         // eslint-disable-next-line
-        let del = confirm("Are you sure you want to remove " + member.name + " from the team?");
+        let del = confirm("Are you sure you want to remove " + member.profile.firstName + member.profile.lastName + " from the team?");
         if(!del){
             return;
         }
-        let members = this.state.members.filter(function (candidate) {
+
+        let removeInfo = {
+          user: this.state.user,
+          memberid: member._id
+        };
+
+        Auth.post('/api/team/member', {memberid: member._id}).then(res => {
+          if(res.success){
+              this.updateTeam();
+          }
+          else{
+            alert(res.error);
+          }
+        });
+
+        /*let members = this.state.members.filter(function (candidate) {
             return candidate !== member;
         });
-        this.setState({members:members});
+        this.setState({members:members});*/
     }
 
 
     handlePermissionChange(index, e){
         let members = this.state.team.members.slice();
         members[index][e.target.name] = e.target.checked;
-        this.setState({members:members})
+
+        let memberInfo = {
+          memberid: members[index]["_id"],
+          canScout: members[index]["canScout"],
+          canAnalyze: members[index]["canAnalyze"]
+        };
+
+        console.log(memberInfo);
+
+        Auth.post('/api/team/perm', memberInfo).then(res => {
+          if(res.success){
+              console.log("team updated after perm change.");
+              this.updateTeam();
+          }
+          else{
+            alert(res.error);
+          }
+        });
+
+        //this.setState({members:members})
     }
 
     addNewForm(){

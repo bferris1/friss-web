@@ -6,14 +6,14 @@ export const TeamMemberRow = (props)=>{
                 <td>{props.member.profile.firstName} {props.member.profile.lastName}</td>
                 <td>{props.member.email}</td>
                 <td>
-                    <input type='checkbox' name="scouter"
-                           checked={props.member.scouter}
+                    <input type='checkbox' name="canScout"
+                           checked={props.member.canScout}
                            onChange={props.onChange}
                     />
                 </td>
                 <td>
-                    <input type='checkbox' name="dataAnalyzer"
-                           checked={props.member.dataAnalyzer}
+                    <input type='checkbox' name="canAnalyze"
+                           checked={props.member.canAnalyze}
                            onChange={props.onChange}
                     />
                 </td>
