@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import {Row, Col} from 'reactstrap';
-import {Route, NavLink, Redirect} from 'react-router-dom';
+import {Col, Row} from 'reactstrap';
+import {NavLink, Redirect, Route} from 'react-router-dom';
 import Account from './Account'
 import Analysis from './Analysis/Analysis';
 import Team from './Team/Team'
@@ -53,6 +53,7 @@ export default class Layout extends Component{
 
                         <Col sm={8}>
                             <p className={"text-right"}>{this.state.user ? this.state.user.firstName + " " + this.state.user.lastName: "Not Logged In"}</p>
+                            <p className="text-right"><a onClick={e => {e.preventDefault(); AuthCtrl.logout(); this.props.history.push('/login')}} href={""}>Logout</a></p>
                             <Route exact path={"/"} component={Home} />
                             <Route path={"/account"} component={Account}/>
                             <Route path={"/analysis/:eventId"} component={Analysis}/>
